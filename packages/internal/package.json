@@ -1,0 +1,27 @@
+{
+  "name": "@vta/internal",
+  "version": "1.0.0",
+  "description": "internal",
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vta-js/vta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vta-js/vta/issues"
+  },
+  "homepage": "https://github.com/vta-js/vta/blob/master/packages/internal#readme",
+  "keywords": [],
+  "author": "vta@yhbit.net",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^3.0.0",
+    "fs-extra": "^8.0.0"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "access": "private"
+  }
+}

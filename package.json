@@ -1,0 +1,83 @@
+{
+  "name": "vta",
+  "version": "1.0.0",
+  "description": "a Typescript/Javascript development framework",
+  "engines": {
+    "node": ">= 12.13.0"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vta-js/vta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vta-js/vta/issues"
+  },
+  "homepage": "https://github.com/vta-js/vta#readme",
+  "keywords": [
+    "vta",
+    "Typescript",
+    "Javascript",
+    "Babel",
+    "Webpack"
+  ],
+  "author": "vta@yhbit.net",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-angular": "^8.2.0",
+    "@commitlint/travis-cli": "^8.2.0",
+    "@types/fs-extra": "^8.0.0",
+    "@types/jest": "^24.0.0",
+    "@types/node": "^12.12.0",
+    "@vta/eslint-config-typescript": "^1.0.0",
+    "@vta/format-npm-yarn-lock": "^1.0.0",
+    "eslint": "^6.6.0",
+    "husky": "^3.0.0",
+    "lint-staged": "^9.4.0",
+    "jest": "^24.8.0",
+    "prettier": "^1.18.0",
+    "rimraf": "^3.0.0",
+    "ts-jest": "^24.0.0",
+    "typescript": "^3.6.0"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .js,.ts",
+    "test": "jest",
+    "test:u": "jest --updateSnapshot",
+    "pre-commit": "yarn lint-staged",
+    "prepack": "node packages/internal/scripts/prepack",
+    "postpack": "node packages/internal/scripts/postpack",
+    "npm-publish": "lerna publish --conventional-commits --registry https://registry.npmjs.org",
+    "install": "vta-format-npm-yarn-lock",
+    "bootstrap": "lerna bootstrap --force-local",
+    "dep-upgrade": "rimraf yarn.lock && lerna bootstrap --force-local",
+    "format": "prettier --write \"**/*.*\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn pre-commit",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write",
+      "eslint",
+      "git add"
+    ],
+    "*.{json,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-angular"
+    ]
+  }
+}

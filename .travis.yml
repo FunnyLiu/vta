@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - 12.13.0
+
+branches:
+  except:
+    - dev
+    - /^dev-.+$/
+    - /^dependabot.+$/
+
+before_install:
+  - yarn global add lerna
+
+install:
+  - lerna add codecov --dev
+
+script:
+  - commitlint-travis
+  - yarn run lint
+  - yarn run test
+
+after_success:
+  - codecov
