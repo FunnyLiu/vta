@@ -1,0 +1,30 @@
+{
+  "name": "@vta/helpers",
+  "version": "1.0.0",
+  "description": "some helpers to use",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "engines": {
+    "node": ">= 10.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vta-js/vta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vta-js/vta/issues"
+  },
+  "homepage": "https://github.com/vta-js/vta/blob/master/packages/helpers#readme",
+  "keywords": [],
+  "author": "vta@yhbit.net",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.7.0",
+    "core-js": "^3.0.0",
+    "fs-extra": "^8.0.0"
+  },
+  "devDependencies": {},
+  "publishConfig": {
+    "access": "public"
+  }
+}
