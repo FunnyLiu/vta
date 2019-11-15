@@ -1,9 +1,9 @@
 {
-  "name": "vta",
+  "name": "@vta/vta",
   "version": "1.0.0",
   "description": "a Typescript/Javascript development framework",
   "engines": {
-    "node": ">= 12.13.0"
+    "node": ">= 10.16.0"
   },
   "private": true,
   "workspaces": [

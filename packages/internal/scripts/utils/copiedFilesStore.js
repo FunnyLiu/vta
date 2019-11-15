@@ -6,7 +6,7 @@ const cwd = process.cwd();
 
 const savePath = path.resolve(
   cwd,
-  "./.cache/80a2e8bd-db98-4190-afbe-0509f8e06f89/copied-files.json",
+  "./node_modules/.cache/@vta/internal/80a2e8bd-db98-4190-afbe-0509f8e06f89/copied-files.json",
 );
 const needCopiedFiles = [];
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "internal",
   "engines": {
-    "node": ">= 12.13.0"
+    "node": ">= 10.16.0"
   },
   "repository": {
     "type": "git",
@@ -17,11 +17,15 @@
   "author": "vta@yhbit.net",
   "license": "MIT",
   "dependencies": {
+    "@vta/tsc": "^1.1.0",
     "chalk": "^3.0.0",
     "fs-extra": "^8.0.0"
   },
-  "devDependencies": {},
-  "publishConfig": {
-    "access": "private"
-  }
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.7.0"
+  },
+  "private": true
 }

@@ -1,8 +1,8 @@
 **/node_modules/
 **/dist/
 **/coverage/
-**/.cache/
 **/__snapshots__/
 *.lock
 *ignore
-*rc
+.*rc
+*.txt
