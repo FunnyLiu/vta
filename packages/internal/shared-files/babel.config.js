@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable import/no-extraneous-dependencies */
-const runtimePackageJson = require("@babel/runtime/package.json");
+const { resolveBabelRuntime } = require("@vta/internal");
+
+const runtime = resolveBabelRuntime(__dirname);
 
 module.exports = {
   presets: [
@@ -9,7 +11,7 @@ module.exports = {
       {
         modules: "commonjs",
         useBuiltIns: "usage",
-        corejs: 3,
+        corejs: runtime.installedCoreJs,
         targets: {
           node: "10.16.0",
         },
@@ -17,6 +19,6 @@ module.exports = {
     ],
   ],
   plugins: [
-    ["@babel/plugin-transform-runtime", { corejs: false, version: runtimePackageJson.version }],
+    ["@babel/plugin-transform-runtime", { corejs: runtime.corejs, version: runtime.version }],
   ],
 };

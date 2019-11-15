@@ -2,6 +2,7 @@
   "name": "@vta/internal",
   "version": "1.0.0",
   "description": "internal",
+  "main": "lib/index.js",
   "engines": {
     "node": ">= 10.16.0"
   },
