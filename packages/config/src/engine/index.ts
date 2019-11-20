@@ -22,14 +22,22 @@ export function registHelper<T>(type: symbol, helper: Helper<T>) {
 }
 
 /**
+ * regist config dir. baseMode=false is always last one. with baseModel=true
+ * @param dir config dir
+ * @param category config category
+ */
+export function registDir(dir: string, category?: string);
+/**
  * regist config dir. baseMode=false is always last one
  * @param dir config dir
  * @param baseMode user's config please set false. default true
  * @param category config category
  */
-export function registDir(dir: string, baseMode = true, category?: string) {
-  const store = getStore(category);
-  store.registDir(dir, baseMode);
+export function registDir(dir: string, baseMode?: boolean, category?: string);
+
+export function registDir(dir: string, baseMode?: string | boolean, category?: string) {
+  const store = getStore(typeof baseMode === "string" ? baseMode : category);
+  store.registDir(dir, typeof baseMode === "string" ? true : baseMode);
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`config hooks 1`] = `
+"[
+  \\"env-base-start\\",
+  \\"app-base-start\\",
+  \\"app-base-done\\",
+  \\"app-user-start\\",
+  \\"app-user-getted\\",
+  \\"app-user-done\\",
+  \\"env-base-done\\",
+  \\"env-user-start\\",
+  \\"env-user-getted\\",
+  \\"env-user-done\\",
+  \\"webpack-base-start\\",
+  \\"webpack-base-done\\",
+  \\"webpack-user-start\\",
+  \\"webpack-server-base-start\\",
+  \\"webpack-server-base-done\\",
+  \\"webpack-server-user-start\\",
+  \\"webpack-server-user-getted\\",
+  \\"webpack-server-user-done\\",
+  \\"webpack-user-getted\\",
+  \\"webpack-user-done\\"
+]"
+`;
