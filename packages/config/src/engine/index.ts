@@ -102,7 +102,7 @@ export const hooks = {
  * set the config's ext. default is js. only use for jest
  * @param ext
  */
-export function setStoreExt(ext = "js", category?: string) {
+export function setStoreExt(ext: string, category?: string) {
   const store: ConfigStore = getStore(category) as ConfigStore;
   store.ext = ext;
 }

@@ -10,9 +10,7 @@ export default class ConfigHelpers implements Helpers {
   }
 
   public regist<T>(type: symbol, creator: Helper<T>) {
-    if (!this.helpers.has(type)) {
-      this.helpers.set(type, creator);
-    }
+    this.helpers.set(type, creator);
   }
 
   public resolve(store: Store, key: string, type: symbol, payload) {

@@ -62,11 +62,14 @@ describe("config", () => {
     clearStore();
     registDir(dir1);
     registDir(dir2);
-    registDir(dir3, false);
+    registDir(dir3);
 
     const appConfig = resolveConfig("app");
     expect(appConfig.appid).toBe("project-3");
     expect(appConfig.version).toBe("20191118-1-2-3");
+    expect(appConfig.nonHelper.payload).toBe("non-helper");
+    const pathsConfig = resolveConfig("paths");
+    expect(pathsConfig.entry).toBe("./src/index.js");
   });
 
   it("use-base-udir-2", () => {
