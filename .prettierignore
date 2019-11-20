@@ -5,4 +5,5 @@
 *.lock
 *ignore
 .*rc
+!**/.eslintrc
 *.txt
