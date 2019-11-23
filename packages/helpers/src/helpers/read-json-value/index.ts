@@ -4,13 +4,13 @@ function readValueByJsonPath(obj, jsonPath: JSONPath) {
   if (jsonPath) {
     if (jsonPath.type === "key") {
       if (Object.prototype.toString.call(obj) === "[object Object]") {
-        return readValueByJsonPath(obj[jsonPath.value], jsonPath.children);
+        return readValueByJsonPath(obj[jsonPath.value as string], jsonPath.children);
       }
       return undefined;
     }
     if (jsonPath.type === "index") {
       if (Array.isArray(obj)) {
-        return readValueByJsonPath(obj[jsonPath.value], jsonPath.children);
+        return readValueByJsonPath(obj[jsonPath.value as number], jsonPath.children);
       }
       return undefined;
     }
