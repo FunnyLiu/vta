@@ -4,18 +4,18 @@ import parseJsonPath, { JSONPath } from "../parse-json-path";
 
 function getValueByJsonPathWithDefault(obj, jsonPath: JSONPath) {
   if (jsonPath.children.type === "key") {
-    if (Object.prototype.toString.call(obj[jsonPath.value]) !== "[object Object]") {
-      obj[jsonPath.value] = {};
+    if (Object.prototype.toString.call(obj[jsonPath.value as string]) !== "[object Object]") {
+      obj[jsonPath.value as string] = {};
     }
-    return obj[jsonPath.value];
+    return obj[jsonPath.value as string];
   }
   if (jsonPath.children.type === "index") {
-    if (!Array.isArray(obj[jsonPath.value])) {
-      obj[jsonPath.value] = [];
+    if (!Array.isArray(obj[jsonPath.value as number])) {
+      obj[jsonPath.value as number] = [];
     }
-    return obj[jsonPath.value];
+    return obj[jsonPath.value as number];
   }
-  return obj[jsonPath.value];
+  return undefined;
 }
 
 function setValueByJsonPath(obj, jsonPath: JSONPath, value) {
@@ -23,7 +23,7 @@ function setValueByJsonPath(obj, jsonPath: JSONPath, value) {
     if (jsonPath.type === "key") {
       if (Object.prototype.toString.call(obj) === "[object Object]") {
         if (!jsonPath.children) {
-          obj[jsonPath.value] = value;
+          obj[jsonPath.value as string] = value;
         } else {
           setValueByJsonPath(
             getValueByJsonPathWithDefault(obj, jsonPath),
@@ -39,7 +39,7 @@ function setValueByJsonPath(obj, jsonPath: JSONPath, value) {
           if (jsonPath.value === -1) {
             obj.push(value);
           } else {
-            obj[jsonPath.value] = value;
+            obj[jsonPath.value as number] = value;
           }
         } else {
           setValueByJsonPath(
