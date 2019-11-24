@@ -60,6 +60,7 @@ export function parseFilter(filter: string): Filter {
   for (let i = 0, len = operators.length; i < len; i += 1) {
     const matches = new RegExp(
       `${operators[i]}((?:-?\\d+\\.?\\d*)|(?:true|false|undefined|null))?$`,
+      "i",
     ).exec(filterWrapLastQuote);
     if (matches) {
       const idx = matches.index;
