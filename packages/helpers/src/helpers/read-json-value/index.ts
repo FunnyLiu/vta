@@ -52,7 +52,7 @@ function matchFilters(obj, filters: Filter[]): boolean {
   return matched;
 }
 
-export function getFiltedItems(items, jsonPath: JSONPath) {
+export function getFiltedItems(items, jsonPath: JSONPath, indexes?: number[]) {
   if (jsonPath && jsonPath.type === "filter") {
     const filters = jsonPath.value as Filter[];
     const filtedItems = [];
@@ -60,6 +60,9 @@ export function getFiltedItems(items, jsonPath: JSONPath) {
       const item = items[i];
       if (matchFilters(item, filters)) {
         filtedItems.push(item);
+        if (Array.isArray(indexes)) {
+          indexes.push(i);
+        }
       }
     }
     return filtedItems;

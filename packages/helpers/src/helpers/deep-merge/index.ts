@@ -23,8 +23,5 @@ function merge(source, target) {
  * @param target the object that need to merged from
  */
 export default function deepMerge<S extends object, T extends object>(source: S, target: T): S & T {
-  if (!target || (Object.keys(target).length === 0 && Reflect.ownKeys(target).length === 0)) {
-    return source as S & T;
-  }
-  return merge(source, target);
+  return merge(source || {}, target || {});
 }
