@@ -114,4 +114,18 @@ describe("config", () => {
     expect(babel.plugins.length).toBe(1);
     expect(babel.plugins[0][0]).toBe("transform-runtime");
   });
+
+  it("use-value", () => {
+    const category = "use-value";
+    setStoreExt("ts", category);
+    registDir(dir1, category);
+    registDir(dir2, category);
+    registDir(dir3, false, category);
+
+    const useValue = resolveConfig("use-value", category);
+
+    expect(useValue.baseDate).toBe("20191126");
+    expect(useValue.version).toBe("20191118-1-2-3");
+    expect(useValue.pluginName).toBe("transform-runtime");
+  });
 });
