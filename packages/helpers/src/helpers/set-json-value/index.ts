@@ -25,6 +25,7 @@ export declare type Mode =
   | "merge"
   | "merge-deep"
   | "push"
+  | "unshift"
   | "insert-before"
   | "insert-after"
   | "delete";
@@ -60,6 +61,13 @@ function setValue(obj, key: string | number, value, mode: Mode) {
       obj[key] = [];
     }
     obj[key].push(value);
+    return;
+  }
+  if (mode === "unshift") {
+    if (!Array.isArray(obj[key])) {
+      obj[key] = [];
+    }
+    obj[key].unshift(value);
     return;
   }
 

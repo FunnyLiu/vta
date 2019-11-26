@@ -93,6 +93,7 @@ it("set-json-value-mode", () => {
       names: { js: "[name].js", css: "[name].css" },
     },
     push: ["7"],
+    unshift: ["7"],
     insertBefore: [
       { id: "1", name: "1", type: "01" },
       { id: "2", name: "2", type: "01" },
@@ -127,6 +128,8 @@ it("set-json-value-mode", () => {
   );
   setJsonValue(jsonMode, "push", "8", "push");
   setJsonValue(jsonMode, "push-unknown", "8", "push");
+  setJsonValue(jsonMode, "unshift", "8", "unshift");
+  setJsonValue(jsonMode, "unshift-unknown", "8", "unshift");
   setJsonValue(jsonMode, "insertBefore[3]", { id: "added-over", name: "added" }, "insert-before");
   setJsonValue(jsonMode, "insertBefore[1]", { id: "added", name: "added" }, "insert-before");
   setJsonValue(jsonMode, "insertAfter[3]", { id: "added-over", name: "added" }, "insert-after");
@@ -145,6 +148,8 @@ it("set-json-value-mode", () => {
   expect(jsonMode["merge-deep-unknown"].env).toBe("production");
   expect(jsonMode.push[1]).toBe("8");
   expect(jsonMode["push-unknown"][0]).toBe("8");
+  expect(jsonMode.unshift[0]).toBe("8");
+  expect(jsonMode["unshift-unknown"][0]).toBe("8");
   expect(jsonMode.insertBefore.length).toBe(6);
   expect(jsonMode.insertBefore[1].id).toBe("added");
   expect(jsonMode.insertBefore[4].id).toBe("added-over");
