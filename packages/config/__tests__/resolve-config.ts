@@ -98,4 +98,20 @@ describe("config", () => {
     expect(webpack.remoteDev).toBe(true);
     expect(webpack.server.hot).toBe(true);
   });
+
+  it("mutate", () => {
+    const category = "mutate";
+    setStoreExt("ts", category);
+    registDir(dir1, category);
+    registDir(dir2, category);
+    registDir(dir3, false, category);
+
+    const babel = resolveConfig("babel", category);
+
+    expect(babel.presets.length).toBe(3);
+    expect(babel.presets[1][0]).toBe("typescript");
+    expect(babel.presetsLength).toBe(3);
+    expect(babel.plugins.length).toBe(1);
+    expect(babel.plugins[0][0]).toBe("transform-runtime");
+  });
 });

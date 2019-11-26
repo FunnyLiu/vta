@@ -158,6 +158,7 @@ function setValueByJsonPath(obj, jsonPath: JSONPath, value, mode: Mode) {
  * @param json the json object that set to
  * @param path path need to set
  * @param value value need to set
+ * @param mode replace/merge/push and so on, default is replace
  */
 export default function setJsonValue(
   json: object,

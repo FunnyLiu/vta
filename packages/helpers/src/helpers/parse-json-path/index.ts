@@ -79,7 +79,7 @@ export function parseFilter(filter: string): Filter {
 }
 
 /**
- * parse a string path like names[3][8].entry to a JSON object
+ * parse a string path like names[3].plugins[id="runtime"][8].entry to a JSON object
  * @param path path need to parse
  */
 function parseJsonPath(path: string): JSONPath {
