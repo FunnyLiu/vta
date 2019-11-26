@@ -4,7 +4,10 @@ const { default: tsc } = require("@vta/tsc");
 function tscBuildOneByOne([item, ...items]) {
   if (!item) return Promise.resolve();
   console.log(`\ntsc building ${chalk.yellow(`packages/${item.pkg}`)}`);
-  return tsc(item.options).then(() => {
+  return tsc(item.options).then(err => {
+    if (err) {
+      process.exit(1);
+    }
     return tscBuildOneByOne(items);
   });
 }
