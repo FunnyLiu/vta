@@ -22,11 +22,13 @@ export default class ConfigStore implements Store {
   public helpers: Helpers;
 
   public registDir(dir: string, baseMode = true) {
-    const lastDir = this.dirs[this.dirs.length - 1];
-    if (!lastDir || lastDir.baseMode) {
-      this.dirs.push({ dir, baseMode });
-    } else {
-      this.dirs.splice(this.dirs.length - 1, 0, { dir, baseMode });
+    if (this.dirs.filter(({ dir: tempDir }) => tempDir === dir).length === 0) {
+      const lastDir = this.dirs[this.dirs.length - 1];
+      if (!lastDir || lastDir.baseMode) {
+        this.dirs.push({ dir, baseMode });
+      } else {
+        this.dirs.splice(this.dirs.length - 1, 0, { dir, baseMode });
+      }
     }
   }
 
@@ -72,7 +74,13 @@ export default class ConfigStore implements Store {
     if (userModeDir.baseMode) userModeDir = undefined;
     const baseModelDirs = userModeDir ? this.dirs.slice(0, this.dirs.length - 1) : this.dirs;
 
-    this.events.emit(`config-${key}-base-start`);
+    const mergeConfig = (config: Config) => {
+      if (config) {
+        this.setItem(key, deepMerge(this.getItem(key), this.resolveValue(key, config)));
+      }
+    };
+
+    this.events.emit(`config-${key}-base-start`, mergeConfig);
     baseModelDirs.forEach(({ dir }) => {
       const config = deepMerge(
         this.getItem(key),
@@ -83,21 +91,21 @@ export default class ConfigStore implements Store {
       );
       this.setItem(key, config);
     });
-    this.events.emit(`config-${key}-base-done`, this.getItem(key));
-    this.events.emit(`config-${key}-user-start`);
+    this.events.emit(`config-${key}-base-done`, this.getItem(key), mergeConfig);
+    this.events.emit(`config-${key}-user-start`, mergeConfig);
     if (userModeDir) {
       const { dir } = userModeDir;
-      const config = this.resolveValue(
-        key,
-        loadModule<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
+      const config = deepMerge(
+        this.getItem(key),
+        this.resolveValue(
+          key,
+          loadModule<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
+        ),
       );
-      const mergedConfig = deepMerge(this.getItem(key), config);
-      this.events.emit(`config-${key}-user-getted`, mergedConfig, config);
-      this.setItem(key, mergedConfig);
-    } else {
-      this.events.emit(`config-${key}-user-getted`, this.getItem(key), {});
+      this.setItem(key, config);
     }
-    this.events.emit(`config-${key}-user-done`, this.getItem(key));
+    this.events.emit(`config-${key}-user-getted`, this.getItem(key), mergeConfig);
+    this.events.emit(`config-${key}-user-done`, this.getItem(key), mergeConfig);
     return this.getItem(key);
   }
 }

@@ -1,5 +1,5 @@
 import path from "path";
-import { resolveConfig, registDir, clearStore } from "../src";
+import { resolveConfig, registDir, clearStore, mutate } from "../src";
 import { setStoreExt, hooks } from "../src/engine";
 
 setStoreExt("ts");
@@ -127,5 +127,62 @@ describe("config", () => {
     expect(useValue.baseDate).toBe("20191126");
     expect(useValue.version).toBe("20191118-1-2-3");
     expect(useValue.pluginName).toBe("transform-runtime");
+  });
+
+  it("hooks-merge-config", () => {
+    const category = "hooks-merge-config";
+    setStoreExt("ts", category);
+    registDir(dir1, category);
+    registDir(dir2, category);
+    registDir(dir3, false, category);
+    registDir(dir2, category);
+
+    hooks.onConfigUserStart(
+      "hooks",
+      store => {
+        expect(store.getItem("hooks").enableHooks.length).toBe(3);
+        return mutate({ path: "enableHooks", value: "user-start", mode: "push" });
+      },
+      category,
+    );
+    hooks.onConfigUserGetted(
+      "hooks",
+      c => {
+        expect(c.enableHooks.length).toBe(5);
+        return mutate({ path: "enableHooks", value: "user-getted", mode: "push" });
+      },
+      category,
+    );
+    hooks.onConfigUserDone(
+      "hooks",
+      c => {
+        expect(c.enableHooks.length).toBe(6);
+        c.enableHooks.push("user-done");
+      },
+      category,
+    );
+    hooks.onConfigBaseStart(
+      "hooks",
+      store => {
+        expect(store.getItem("hooks").enableHooks).toBe(undefined);
+        return { enableHooks: ["base-start"] };
+      },
+      category,
+    );
+    hooks.onConfigBaseDone(
+      "hooks",
+      c => {
+        expect(c.enableHooks.length).toBe(2);
+        return { enableHooks: c.enableHooks.concat(["base-done"]) };
+      },
+      category,
+    );
+
+    const config = resolveConfig("hooks", category);
+
+    expect(config.enableHooks.length).toBe(7);
+    expect(JSON.stringify(config.enableHooks)).toBe(
+      '["base-start","project-1","base-done","user-start","project-3","user-getted","user-done"]',
+    );
   });
 });

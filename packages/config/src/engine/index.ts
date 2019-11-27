@@ -62,38 +62,46 @@ export function clearStore(category?: string) {
 }
 
 export const hooks = {
-  onConfigBaseStart(key: string, cb: (store: Store) => void, category?: string) {
+  onConfigBaseStart(key: string, cb: (store: Store) => void | Config, category?: string) {
     const store = getStore(category);
-    store.events.on(`config-${key}-base-start`, () => {
-      cb(store);
+    store.events.on(`config-${key}-base-start`, mergeConfig => {
+      mergeConfig(cb(store));
     });
   },
-  onConfigBaseDone(key: string, cb: (config: Config, store: Store) => void, category?: string) {
+  onConfigBaseDone(
+    key: string,
+    cb: (config: Config, store: Store) => void | Config,
+    category?: string,
+  ) {
     const store = getStore(category);
-    store.events.on(`config-${key}-base-done`, config => {
-      cb(config, store);
+    store.events.on(`config-${key}-base-done`, (config, mergeConfig) => {
+      mergeConfig(cb(store.getItem(key), store));
     });
   },
-  onConfigUserStart(key: string, cb: (store: Store) => void, category?: string) {
+  onConfigUserStart(key: string, cb: (store: Store) => void | Config, category?: string) {
     const store = getStore(category);
-    store.events.on(`config-${key}-user-start`, () => {
-      cb(store);
+    store.events.on(`config-${key}-user-start`, mergeConfig => {
+      mergeConfig(cb(store));
     });
   },
   onConfigUserGetted(
     key: string,
-    cb: (mergedConfig: Config, config: Config, store: Store) => void,
+    cb: (config: Config, store: Store) => void | Config,
     category?: string,
   ) {
     const store = getStore(category);
-    store.events.on(`config-${key}-user-getted`, (mergedConfig, config) => {
-      cb(mergedConfig, config, store);
+    store.events.on(`config-${key}-user-getted`, (config, mergeConfig) => {
+      mergeConfig(cb(store.getItem(key), store));
     });
   },
-  onConfigUserDone(key: string, cb: (config: Config, store: Store) => void, category?: string) {
+  onConfigUserDone(
+    key: string,
+    cb: (config: Config, store: Store) => void | Config,
+    category?: string,
+  ) {
     const store = getStore(category);
-    store.events.on(`config-${key}-user-done`, config => {
-      cb(config, store);
+    store.events.on(`config-${key}-user-done`, (config, mergeConfig) => {
+      mergeConfig(cb(store.getItem(key), store));
     });
   },
 };
