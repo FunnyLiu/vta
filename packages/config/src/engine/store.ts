@@ -36,11 +36,11 @@ export default class ConfigStore implements Store {
     return this.config[key] || {};
   }
 
-  public setItem(key: string, config: Config) {
+  private setItem(key: string, config: Config) {
     this.config[key] = config || {};
   }
 
-  public resolveValue(key: string, value) {
+  private resolveValue(key: string, value) {
     if (Object.prototype.toString.call(value) === "[object Object]") {
       if (typeof value.type === "symbol" && this.helpers.has(value.type)) {
         return this.resolveValue(key, this.helpers.resolve(this, key, value.type, value.payload));
@@ -57,13 +57,6 @@ export default class ConfigStore implements Store {
       return value.map(v => this.resolveValue(key, v));
     }
     return value;
-  }
-
-  clear() {
-    this.config = {};
-    this.loadingKeys = new Set();
-    this.dirs = [];
-    this.events = new ConfigEvents();
   }
 
   public load(key: string): Config {

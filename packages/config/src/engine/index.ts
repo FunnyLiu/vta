@@ -52,15 +52,6 @@ export function resolveConfig<T = Config>(key: string, category?: string): T {
   return store.load(key) as any;
 }
 
-/**
- * clear store
- * @param category config category
- */
-export function clearStore(category?: string) {
-  const store = getStore(category);
-  store.clear();
-}
-
 export const hooks = {
   onConfigBaseStart(key: string, cb: (store: Store) => void | Config, category?: string) {
     const store = getStore(category);

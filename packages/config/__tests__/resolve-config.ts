@@ -1,5 +1,5 @@
 import path from "path";
-import { resolveConfig, registDir, clearStore, mutate } from "../src";
+import { resolveConfig, registDir, mutate } from "../src";
 import { setStoreExt, hooks } from "../src/engine";
 
 setStoreExt("ts");
@@ -59,26 +59,28 @@ describe("config", () => {
   });
 
   it("use-base-udir-3", () => {
-    clearStore();
-    registDir(dir1);
-    registDir(dir2);
-    registDir(dir3);
+    const category = "use-base-udir-3";
+    setStoreExt("ts", category);
+    registDir(dir1, category);
+    registDir(dir2, category);
+    registDir(dir3, category);
 
-    const appConfig = resolveConfig("app");
+    const appConfig = resolveConfig("app", category);
     expect(appConfig.appid).toBe("project-3");
     expect(appConfig.version).toBe("20191118-1-2-3");
     expect(appConfig.nonHelper.payload).toBe("non-helper");
-    const pathsConfig = resolveConfig("paths");
+    const pathsConfig = resolveConfig("paths", category);
     expect(pathsConfig.entry).toBe("./src/index.js");
   });
 
   it("use-base-udir-2", () => {
-    clearStore();
-    registDir(dir1);
-    registDir(dir2, false);
-    registDir(dir3);
+    const category = "use-base-udir-2";
+    setStoreExt("ts", category);
+    registDir(dir1, category);
+    registDir(dir2, false, category);
+    registDir(dir3, category);
 
-    const appConfig = resolveConfig("app");
+    const appConfig = resolveConfig("app", category);
     expect(appConfig.appid).toBe("project-2");
     expect(appConfig.version).toBe("20191118-1-3-2");
   });
@@ -135,7 +137,7 @@ describe("config", () => {
     registDir(dir1, category);
     registDir(dir2, category);
     registDir(dir3, false, category);
-    registDir(dir2, category);
+    registDir(dir1, category);
 
     hooks.onConfigUserStart(
       "hooks",

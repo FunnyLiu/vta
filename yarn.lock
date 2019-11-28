@@ -2006,9 +2006,9 @@ copy-descriptor@^0.1.0:
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
 core-js-compat@^3.1.1:
-  version "3.4.3"
-  resolved "https://registry.npm.taobao.org/core-js-compat/download/core-js-compat-3.4.3.tgz#54f2c5cd77b8b5acc5048904cc795722c9d590d1"
-  integrity sha1-VPLFzXe4tazFBIkEzHlXIsnVkNE=
+  version "3.4.5"
+  resolved "https://registry.npm.taobao.org/core-js-compat/download/core-js-compat-3.4.5.tgz#f072059c0b98ad490eacac082296cfe241af1b58"
+  integrity sha1-8HIFnAuYrUkOrKwIIpbP4kGvG1g=
   dependencies:
     browserslist "^4.7.3"
     semver "^6.3.0"
@@ -2019,9 +2019,9 @@ core-js@^2.4.0, core-js@^2.5.0:
   integrity sha1-iluDkfjMcBPacDQRzltYVwYwDX8=
 
 core-js@^3.0.0:
-  version "3.4.3"
-  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.4.3.tgz#09ea102412a368d5f73d24f082e41ac90c633a49"
-  integrity sha1-CeoQJBKjaNX3PSTwguQayQxjOkk=
+  version "3.4.5"
+  resolved "https://registry.npm.taobao.org/core-js/download/core-js-3.4.5.tgz#3dda65611d95699b5eb7742ea451ea052d37aa65"
+  integrity sha1-PdplYR2VaZtet3QupFHqBS03qmU=
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"

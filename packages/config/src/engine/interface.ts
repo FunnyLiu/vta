@@ -30,10 +30,7 @@ export declare interface Store {
    */
   registDir(dir: string, baseMode?: boolean): void;
   getItem(key: string): Config;
-  setItem(key: string, config: Config): void;
-  resolveValue(key: string, value: any): any;
   load(key: string): Config;
-  clear(): void;
   events: Events;
   helpers: Helpers;
 }
