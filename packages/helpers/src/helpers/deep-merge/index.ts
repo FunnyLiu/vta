@@ -22,6 +22,16 @@ function merge(source, target) {
  * @param source the object that need to merged to
  * @param target the object that need to merged from
  */
-export default function deepMerge<S extends object, T extends object>(source: S, target: T): S & T {
-  return merge(source || {}, target || {});
+export default function deepMerge<S extends object, T extends object>(
+  source: S,
+  target: T,
+  ...others: object[]
+): S & T {
+  let result = merge(source || {}, target || {});
+  others.forEach(other => {
+    if (other) {
+      result = merge(result, other);
+    }
+  });
+  return result;
 }

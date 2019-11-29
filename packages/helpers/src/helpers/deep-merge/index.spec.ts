@@ -48,4 +48,14 @@ describe("deep-merge", () => {
     expect(config[symNames][symJs]).toBe("[hash].js");
     expect(config[symNames].css).toBe("[name].css");
   });
+  it("merge-others", () => {
+    const config = deepMerge(
+      { names: { js: "[name].js", css: "[name].css" } },
+      { names: { js: "[hash].js" } },
+      { names: { css: "[hash].css" } },
+    );
+
+    expect(config.names.js).toBe("[hash].js");
+    expect(config.names.css).toBe("[hash].css");
+  });
 });
