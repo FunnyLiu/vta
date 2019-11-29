@@ -132,6 +132,7 @@ describe("config", () => {
   });
 
   it("hooks-merge-config", () => {
+    process.env.NODE_ENV = "development";
     const category = "hooks-merge-config";
     setStoreExt("ts", category);
     registDir(dir1, category);
@@ -167,7 +168,12 @@ describe("config", () => {
       "hooks",
       store => {
         expect(store.getItem("hooks").enableHooks).toBe(undefined);
-        return { enableHooks: ["base-start"] };
+        return {
+          env: {
+            development: { enableHooks: ["base-start"] },
+            production: { enableHooks: ["base-start-prod"] },
+          },
+        };
       },
       category,
     );
@@ -186,5 +192,25 @@ describe("config", () => {
     expect(JSON.stringify(config.enableHooks)).toBe(
       '["base-start","project-1","base-done","user-start","project-3","user-getted","user-done"]',
     );
+  });
+
+  it("use-env", () => {
+    process.env.VTA_ENV = "production";
+    const category = "use-env";
+    setStoreExt("ts", category);
+    registDir(dir1, category);
+    registDir(dir2, category);
+    registDir(dir3, false, category);
+
+    const useEnv = resolveConfig("use-env", category);
+    // console.log(useEnv);
+    expect(useEnv.baseDate).toBe("20191126");
+    expect(useEnv.version).toBe("20191118-1-2-3");
+    expect(useEnv.pluginName).toBe("transform-runtime");
+    expect(useEnv.mode).toBe("env-test-production");
+    expect(useEnv.devMode).toBe(undefined);
+    expect(useEnv.envBaseDate).toBe("20191126-prod");
+    expect(useEnv.plugins.length).toBe(1);
+    expect(useEnv.plugins[0]).toBe("react");
   });
 });

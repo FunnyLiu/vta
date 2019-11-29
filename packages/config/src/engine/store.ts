@@ -40,17 +40,31 @@ export default class ConfigStore implements Store {
     this.config[key] = config || {};
   }
 
-  private resolveValue(key: string, value) {
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  private resolveValue(key: string, value, envContainer?: any[], matchEnv = false) {
     if (Object.prototype.toString.call(value) === "[object Object]") {
       if (typeof value.type === "symbol" && this.helpers.has(value.type)) {
-        return this.resolveValue(key, this.helpers.resolve(this, key, value.type, value.payload));
+        return this.resolveValue(
+          key,
+          this.helpers.resolve(this, key, value.type, value.payload),
+          envContainer,
+          matchEnv,
+        );
       }
+
       /* eslint-disable no-param-reassign */
-      Object.keys(value).forEach(prop => {
-        value[prop] = this.resolveValue(key, value[prop]);
-      });
       Reflect.ownKeys(value).forEach(prop => {
-        value[prop] = this.resolveValue(key, value[prop]);
+        if (matchEnv) {
+          if (prop === (process.env.VTA_ENV || process.env.NODE_ENV)) {
+            envContainer.push(this.resolveValue(key, value[prop]));
+          }
+        } else if (prop === "env" && Array.isArray(envContainer) && envContainer.length === 0) {
+          const envs = value[prop];
+          Reflect.deleteProperty(value, prop);
+          envContainer.push(envs);
+        } else {
+          value[prop] = this.resolveValue(key, value[prop]);
+        }
       });
     }
     if (Array.isArray(value)) {
@@ -69,33 +83,53 @@ export default class ConfigStore implements Store {
 
     const mergeConfig = (config: Config) => {
       if (config) {
-        this.setItem(key, deepMerge(this.getItem(key), this.resolveValue(key, config)));
+        const envContainer = [];
+        this.setItem(
+          key,
+          deepMerge(this.getItem(key), this.resolveValue(key, config, envContainer)),
+        );
+        if (envContainer.length > 0) {
+          this.resolveValue(key, envContainer[0], envContainer, true);
+          this.setItem(key, deepMerge(this.getItem(key), envContainer[1]));
+        }
       }
     };
 
     this.events.emit(`config-${key}-base-start`, mergeConfig);
     baseModelDirs.forEach(({ dir }) => {
+      const envContainer = [];
       const config = deepMerge(
         this.getItem(key),
         this.resolveValue(
           key,
           loadModule<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
+          envContainer,
         ),
       );
       this.setItem(key, config);
+      if (envContainer.length > 0) {
+        this.resolveValue(key, envContainer[0], envContainer, true);
+        this.setItem(key, deepMerge(this.getItem(key), envContainer[1]));
+      }
     });
     this.events.emit(`config-${key}-base-done`, this.getItem(key), mergeConfig);
     this.events.emit(`config-${key}-user-start`, mergeConfig);
     if (userModeDir) {
       const { dir } = userModeDir;
+      const envContainer = [];
       const config = deepMerge(
         this.getItem(key),
         this.resolveValue(
           key,
           loadModule<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
+          envContainer,
         ),
       );
       this.setItem(key, config);
+      if (envContainer.length > 0) {
+        this.resolveValue(key, envContainer[0], envContainer, true);
+        this.setItem(key, deepMerge(this.getItem(key), envContainer[1]));
+      }
     }
     this.events.emit(`config-${key}-user-getted`, this.getItem(key), mergeConfig);
     this.events.emit(`config-${key}-user-done`, this.getItem(key), mergeConfig);
