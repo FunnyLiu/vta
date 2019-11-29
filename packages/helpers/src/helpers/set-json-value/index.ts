@@ -40,9 +40,6 @@ function setValue(obj, key: string | number, value, mode: Mode) {
       obj[key] = {};
     }
     if (Object.prototype.toString.call(value) === "[object Object]") {
-      Object.keys(value).forEach(k => {
-        obj[key][k] = value[k];
-      });
       Reflect.ownKeys(value).forEach(k => {
         obj[key][k] = value[k];
       });

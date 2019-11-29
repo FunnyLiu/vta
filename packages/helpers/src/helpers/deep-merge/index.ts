@@ -6,9 +6,6 @@ function merge(source, target) {
     Object.prototype.toString.call(source) === "[object Object]"
   ) {
     const dest = deepClone(source);
-    Object.keys(target).forEach(prop => {
-      dest[prop] = merge(source[prop], deepClone(target[prop]));
-    });
     Reflect.ownKeys(target).forEach(prop => {
       dest[prop] = merge(source[prop], deepClone(target[prop]));
     });
