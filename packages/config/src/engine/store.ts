@@ -113,7 +113,7 @@ export default class ConfigStore implements Store {
       }
     });
     this.events.emit(`config-${key}-base-done`, this.getItem(key), mergeConfig);
-    this.events.emit(`config-${key}-user-start`, mergeConfig);
+    this.events.emit(`config-${key}-user-start`, this.getItem(key), mergeConfig);
     if (userModeDir) {
       const { dir } = userModeDir;
       const envContainer = [];
@@ -131,8 +131,8 @@ export default class ConfigStore implements Store {
         this.setItem(key, deepMerge(this.getItem(key), envContainer[1]));
       }
     }
-    this.events.emit(`config-${key}-user-getted`, this.getItem(key), mergeConfig);
     this.events.emit(`config-${key}-user-done`, this.getItem(key), mergeConfig);
+    this.events.emit(`config-${key}-done`, this.getItem(key));
     return this.getItem(key);
   }
 }

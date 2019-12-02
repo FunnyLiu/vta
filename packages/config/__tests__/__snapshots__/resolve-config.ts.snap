@@ -6,21 +6,21 @@ exports[`config hooks 1`] = `
   \\"app-base-start\\",
   \\"app-base-done\\",
   \\"app-user-start\\",
-  \\"app-user-getted\\",
   \\"app-user-done\\",
+  \\"app-done\\",
   \\"env-base-done\\",
   \\"env-user-start\\",
-  \\"env-user-getted\\",
   \\"env-user-done\\",
+  \\"env-done\\",
   \\"webpack-base-start\\",
   \\"webpack-base-done\\",
   \\"webpack-user-start\\",
   \\"webpack-server-base-start\\",
   \\"webpack-server-base-done\\",
   \\"webpack-server-user-start\\",
-  \\"webpack-server-user-getted\\",
   \\"webpack-server-user-done\\",
-  \\"webpack-user-getted\\",
-  \\"webpack-user-done\\"
+  \\"webpack-server-done\\",
+  \\"webpack-user-done\\",
+  \\"webpack-done\\"
 ]"
 `;

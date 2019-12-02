@@ -9,7 +9,6 @@ export declare interface UseDepsPayload {
 
 registHelper<UseDepsPayload>(TYPE, (store, key, payload) => {
   payload.deps.forEach(dep => {
-    store.events.on(`config-${dep}-user-done`, () => {});
     store.load(dep);
   });
   return payload.cb(payload.deps.map(dep => store.getItem(dep)));

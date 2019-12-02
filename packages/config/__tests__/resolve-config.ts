@@ -38,17 +38,17 @@ describe("config", () => {
         },
         key === "app" ? category : undefined,
       );
-      hooks.onConfigUserGetted(
-        key,
-        () => {
-          processRecords.push(`${key}-user-getted`);
-        },
-        key === "app" ? category : undefined,
-      );
       hooks.onConfigUserDone(
         key,
         () => {
           processRecords.push(`${key}-user-done`);
+        },
+        key === "app" ? category : undefined,
+      );
+      hooks.onConfigDone(
+        key,
+        () => {
+          processRecords.push(`${key}-done`);
         },
         key === "app" ? category : undefined,
       );
@@ -142,25 +142,26 @@ describe("config", () => {
 
     hooks.onConfigUserStart(
       "hooks",
-      store => {
+      (c, store) => {
         expect(store.getItem("hooks").enableHooks.length).toBe(3);
         return mutate({ path: "enableHooks", value: "user-start", mode: "push" });
-      },
-      category,
-    );
-    hooks.onConfigUserGetted(
-      "hooks",
-      c => {
-        expect(c.enableHooks.length).toBe(5);
-        return mutate({ path: "enableHooks", value: "user-getted", mode: "push" });
       },
       category,
     );
     hooks.onConfigUserDone(
       "hooks",
       c => {
+        expect(c.enableHooks.length).toBe(5);
+        return mutate({ path: "enableHooks", value: "user-done", mode: "push" });
+      },
+      category,
+    );
+    hooks.onConfigDone(
+      "hooks",
+      c => {
         expect(c.enableHooks.length).toBe(6);
-        c.enableHooks.push("user-done");
+        c.enableHooks.push("done");
+        return mutate({ path: "enableHooks", value: "done", mode: "push" });
       },
       category,
     );
@@ -181,7 +182,7 @@ describe("config", () => {
       "hooks",
       c => {
         expect(c.enableHooks.length).toBe(2);
-        return { enableHooks: c.enableHooks.concat(["base-done"]) };
+        c.enableHooks.push("base-done");
       },
       category,
     );
@@ -190,7 +191,7 @@ describe("config", () => {
 
     expect(config.enableHooks.length).toBe(7);
     expect(JSON.stringify(config.enableHooks)).toBe(
-      '["base-start","project-1","base-done","user-start","project-3","user-getted","user-done"]',
+      '["base-start","project-1","base-done","user-start","project-3","user-done","done"]',
     );
   });
 
