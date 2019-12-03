@@ -94,7 +94,6 @@ module.exports = {
     return fse
       .readFile(savePath, { encoding: "utf8" })
       .then(content => JSON.parse(content))
-      .then(files => Promise.all(files.map(dest => fse.remove(dest))))
-      .then(() => {});
+      .then(files => Promise.all(files.map(dest => fse.remove(dest))));
   },
 };

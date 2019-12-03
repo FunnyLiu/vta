@@ -19,7 +19,6 @@ registHelper<UseValuePayload>(TYPE, (store, key, payload) => {
       values.push(readJsonValue(store.getItem(key), path));
     } else {
       const { key: dep } = path;
-      store.events.on(`config-${dep}-user-done`, () => {});
       store.load(dep);
       values.push(readJsonValue(store.getItem(dep), path.path));
     }
