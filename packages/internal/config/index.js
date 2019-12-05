@@ -1,19 +1,28 @@
 const path = require("path");
 const fse = require("fs-extra");
+const packagesSortByDependencies = require("../scripts/utils/packages-sort-by-dependencies");
 
 const cwd = process.cwd();
 
 const ignorePackages = ["internal"];
-const packages = [];
+const packagesWithDependencies = [];
 const pkgs = fse.readdirSync(path.resolve(cwd, "packages"));
 for (let i = 0, len = pkgs.length; i < len; i += 1) {
   const pkg = pkgs[i];
   if (fse.statSync(path.resolve(cwd, "packages", pkg)).isDirectory()) {
     if (ignorePackages.filter(p => p === pkg).length === 0) {
-      packages.push(pkg);
+      /* eslint-disable global-require,import/no-dynamic-require */
+      const packageJson = require(path.resolve(cwd, "packages", pkg, "package.json"));
+      packagesWithDependencies.push({
+        pkg,
+        name: packageJson.name,
+        dependencies: packageJson.dependencies,
+        devDependencies: packageJson.devDependencies,
+      });
     }
   }
 }
+const packages = packagesSortByDependencies(packagesWithDependencies).map(({ pkg }) => pkg);
 
 module.exports = {
   packages,
