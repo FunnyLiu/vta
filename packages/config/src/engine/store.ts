@@ -1,8 +1,7 @@
 import path from "path";
-import { deepMerge } from "@vta/helpers";
+import { deepMerge, loadModuleSync } from "@vta/helpers";
 import { Config, Store, Events, Helpers } from "./interface";
 import ConfigEvents from "./events";
-import loadModule from "./utils/load-module";
 
 export default class ConfigStore implements Store {
   constructor(helpers: Helpers) {
@@ -55,7 +54,7 @@ export default class ConfigStore implements Store {
       /* eslint-disable no-param-reassign */
       Reflect.ownKeys(value).forEach(prop => {
         if (matchEnv) {
-          if (prop === (process.env.VTA_ENV || process.env.NODE_ENV)) {
+          if (prop === (process.env.VTA_ENV || process.env.NODE_ENV || "development")) {
             envContainer.push(this.resolveValue(key, value[prop]));
           }
         } else if (prop === "env" && Array.isArray(envContainer) && envContainer.length === 0) {
@@ -102,7 +101,7 @@ export default class ConfigStore implements Store {
         this.getItem(key),
         this.resolveValue(
           key,
-          loadModule<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
+          loadModuleSync<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
           envContainer,
         ),
       );
@@ -121,7 +120,7 @@ export default class ConfigStore implements Store {
         this.getItem(key),
         this.resolveValue(
           key,
-          loadModule<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
+          loadModuleSync<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
           envContainer,
         ),
       );
