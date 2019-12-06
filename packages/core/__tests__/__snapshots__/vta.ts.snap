@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`vta-engine project-1: config_record_plugin 1`] = `
+"{
+  \\"processOrder\\": [
+    \\"hooks.init\\",
+    \\"hooks.config.init\\",
+    \\"hooks.ready\\",
+    \\"hooks.config.app-base-start\\",
+    \\"hooks.config.app-base-done\\",
+    \\"hooks.config.app-user-start\\",
+    \\"hooks.config.app-user-done\\",
+    \\"hooks.config.app-done\\",
+    \\"hooks.run\\",
+    \\"hooks.done\\"
+  ],
+  \\"appConfig\\": {
+    \\"baseValue\\": {
+      \\"dirs\\": {
+        \\"config\\": \\"config-1\\",
+        \\"src\\": \\"src\\",
+        \\"build\\": \\"build\\"
+      },
+      \\"name\\": \\"project-1-base\\",
+      \\"version\\": \\"1.0.0\\"
+    },
+    \\"value\\": {
+      \\"dirs\\": {
+        \\"config\\": \\"config-1\\",
+        \\"src\\": \\"src\\",
+        \\"build\\": \\"build\\"
+      },
+      \\"name\\": \\"project-1\\",
+      \\"version\\": \\"1.0.0\\",
+      \\"guid\\": \\"905365f0-e49b-49bc-afe7-7550e46297bb\\"
+    },
+    \\"userGuid\\": \\"fa68896c-9eac-4aa0-8ac2-063a5aa3e3b1\\",
+    \\"runGuid\\": \\"905365f0-e49b-49bc-afe7-7550e46297bb\\",
+    \\"doneGuid\\": \\"905365f0-e49b-49bc-afe7-7550e46297bb\\"
+  }
+}"
+`;

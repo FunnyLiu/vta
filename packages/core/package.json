@@ -1,0 +1,39 @@
+{
+  "name": "vta",
+  "version": "1.0.0",
+  "description": "a Typescript/Javascript development framework",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "bin": {
+    "vta": "./dist/bin/vta.js"
+  },
+  "engines": {
+    "node": ">= 10.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vta-js/vta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vta-js/vta/issues"
+  },
+  "homepage": "https://github.com/vta-js/vta#readme",
+  "keywords": [],
+  "author": "vta@yhbit.net",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.7.0",
+    "@vta/config": "^1.0.0",
+    "@vta/helpers": "^1.0.0",
+    "chalk": "^3.0.0",
+    "commander": "^4.0.0",
+    "core-js": "^3.0.0",
+    "tapable": "^2.0.0-0"
+  },
+  "devDependencies": {
+    "@vta/internal": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
