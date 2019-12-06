@@ -77,7 +77,7 @@ export default class ConfigStore implements Store {
     this.loadingKeys.add(key);
 
     let userModeDir = this.dirs[this.dirs.length - 1];
-    if (userModeDir.baseMode) userModeDir = undefined;
+    if (userModeDir && userModeDir.baseMode) userModeDir = undefined;
     const baseModelDirs = userModeDir ? this.dirs.slice(0, this.dirs.length - 1) : this.dirs;
 
     const mergeConfig = (config: Config) => {
