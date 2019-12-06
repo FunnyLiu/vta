@@ -2,6 +2,7 @@
   "extends": "./tsconfig.build.json",
   "inclue": ["packages/**/*.ts"],
   "compilerOptions": {
+    "target": "ES2020",
     "baseUrl": "./packages",
     "paths": {
       "@vta/*": ["*/src"]
