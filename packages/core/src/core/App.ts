@@ -11,18 +11,20 @@ import ConfigPlugin from "./ConfigPlugin";
 
 interface VtaAppOptions {
   cwd?: string;
+  dontRun?: boolean;
 }
 
 let idx = 0;
 
 export default class VtaApp implements App {
-  constructor({ cwd = process.cwd() }: VtaAppOptions = {}) {
+  constructor({ cwd = process.cwd(), dontRun = false }: VtaAppOptions = {}) {
     const initHook = new SyncHook<[InitHelpers]>(["helpers"]);
     const configInitHook = new SyncHook<[]>();
     let initHelpers;
     const configCategory = `vta-${(idx += 1)}`;
     this.configCategory = configCategory;
     this.cwd = cwd;
+    this.dontRun = dontRun;
     this.privateHooks = { initHook, configInitHook };
     this.hooks = Object.freeze<Hooks>({
       init(cb: (helpers: InitHelpers) => void): void {
@@ -69,6 +71,8 @@ export default class VtaApp implements App {
 
   private cwd: string;
 
+  private dontRun: boolean;
+
   private privateHooks: { initHook: SyncHook<[InitHelpers]>; configInitHook: SyncHook<[]> };
 
   public hooks: Readonly<Hooks>;
@@ -86,7 +90,7 @@ export default class VtaApp implements App {
     return this.plugins.filter(plugin => plugin.name === name)[0] as P;
   }
 
-  public run(cb: (err: Error) => void) {
+  public run(cb: (err: Error, resolveConfig?: <T = Config>(key: string) => T) => void) {
     try {
       const { configCategory } = this;
       this.registPlugin(
@@ -107,15 +111,19 @@ export default class VtaApp implements App {
         },
       });
       this.hooks.ready.call(worker);
-      this.hooks.run
-        .promise(worker)
-        .then(() => this.hooks.done.promise(worker))
-        .then(() => {
-          cb(undefined);
-        })
-        .catch(err => {
-          cb(err);
-        });
+      if (this.dontRun) {
+        cb(undefined, worker.resolveConfig);
+      } else {
+        this.hooks.run
+          .promise(worker)
+          .then(() => this.hooks.done.promise(worker))
+          .then(() => {
+            cb(undefined, worker.resolveConfig);
+          })
+          .catch(err => {
+            cb(err);
+          });
+      }
     } catch (err) {
       cb(err);
     }

@@ -1,5 +1,6 @@
 import path from "path";
 import appRun, { appRunSync } from "../src/core";
+import resolveConfig from "../src/core/resolveConfig";
 
 /* eslint-disable */
 describe("vta-engine", () => {
@@ -39,4 +40,16 @@ describe("vta-engine", () => {
       expect(!!err).toBe(true);
       expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
     }));
+});
+
+describe("resolve-config", () => {
+  it("project-1", () => {
+    process.chdir(path.resolve(__dirname, "data/project-1"));
+    const appConfig = resolveConfig("app");
+    expect(appConfig.dirs.config).toBe("config-1");
+    expect(appConfig.dirs.src).toBe("src");
+    expect(appConfig.name).toBe("project-1");
+    expect(appConfig.version).toBe("1.0.0");
+    expect(appConfig.guid).toBe("905365f0-e49b-49bc-afe7-7550e46297bb");
+  });
 });
