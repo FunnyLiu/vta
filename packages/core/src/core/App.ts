@@ -9,17 +9,19 @@ import {
 import { App, Hooks, InitHelpers, Worker, Plugin } from "./interface";
 import ConfigPlugin from "./ConfigPlugin";
 
-const configCategory = "vta";
-
 interface VtaAppOptions {
   cwd?: string;
 }
+
+let idx = 0;
 
 export default class VtaApp implements App {
   constructor({ cwd = process.cwd() }: VtaAppOptions = {}) {
     const initHook = new SyncHook<[InitHelpers]>(["helpers"]);
     const configInitHook = new SyncHook<[]>();
     let initHelpers;
+    const configCategory = `vta-${(idx += 1)}`;
+    this.configCategory = configCategory;
     this.cwd = cwd;
     this.privateHooks = { initHook, configInitHook };
     this.hooks = Object.freeze<Hooks>({
@@ -63,6 +65,8 @@ export default class VtaApp implements App {
     });
   }
 
+  private configCategory: string;
+
   private cwd: string;
 
   private privateHooks: { initHook: SyncHook<[InitHelpers]>; configInitHook: SyncHook<[]> };
@@ -84,6 +88,7 @@ export default class VtaApp implements App {
 
   public run(cb: (err: Error) => void) {
     try {
+      const { configCategory } = this;
       this.registPlugin(
         new ConfigPlugin({ cwd: this.cwd }, dir => {
           configRegistDir(dir, false, configCategory);

@@ -6,7 +6,7 @@ module.exports = class ExceptionPlugin {
   /* eslint-disable class-methods-use-this */
   apply(app) {
     app.hooks.run.tap("exception", () => {
-      throw new Error("Promise Exception");
+      throw new Error("Plugin Promise Exception");
     });
   }
 };
