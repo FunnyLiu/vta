@@ -12,5 +12,5 @@ export default function run(argv): Promise<Error> {
     .option("--env <env>", "vta environment, default development")
     .parse(argv);
 
-  return appRun();
+  return appRun().then(({ error }) => error);
 }

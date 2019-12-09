@@ -82,26 +82,37 @@ export default class VtaApp implements App {
     return this.plugins.filter(plugin => plugin.name === name)[0] as P;
   }
 
-  public async run() {
-    this.registPlugin(
-      new ConfigPlugin({ cwd: this.cwd }, dir => {
-        configRegistDir(dir, false, configCategory);
-      }),
-    );
-    this.privateHooks.initHook.call(
-      Object.freeze({
-        registPlugin: this.registPlugin.bind(this),
-        getPlugin: this.getPlugin.bind(this),
-      }),
-    );
-    this.privateHooks.configInitHook.call();
-    const worker = Object.freeze({
-      resolveConfig<T = Config>(key: string): T {
-        return configResolveConfig<T>(key, configCategory);
-      },
-    });
-    this.hooks.ready.call(worker);
-    await this.hooks.run.promise(worker);
-    await this.hooks.done.promise(worker);
+  public run(cb: (err: Error) => void) {
+    try {
+      this.registPlugin(
+        new ConfigPlugin({ cwd: this.cwd }, dir => {
+          configRegistDir(dir, false, configCategory);
+        }),
+      );
+      this.privateHooks.initHook.call(
+        Object.freeze({
+          registPlugin: this.registPlugin.bind(this),
+          getPlugin: this.getPlugin.bind(this),
+        }),
+      );
+      this.privateHooks.configInitHook.call();
+      const worker = Object.freeze({
+        resolveConfig<T = Config>(key: string): T {
+          return configResolveConfig<T>(key, configCategory);
+        },
+      });
+      this.hooks.ready.call(worker);
+      this.hooks.run
+        .promise(worker)
+        .then(() => this.hooks.done.promise(worker))
+        .then(() => {
+          cb(undefined);
+        })
+        .catch(err => {
+          cb(err);
+        });
+    } catch (err) {
+      cb(err);
+    }
   }
 }

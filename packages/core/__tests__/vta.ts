@@ -1,10 +1,11 @@
 import path from "path";
-import appRun from "../src/core";
+import appRun, { appRunSync } from "../src/core";
 
 /* eslint-disable */
 describe("vta-engine", () => {
-  it("project-1", () =>
-    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-1") }).then(err => {
+  it("project-1", () => {
+    process.chdir(path.resolve(__dirname, "data/project-1"));
+    appRun().then(({ error: err }) => {
       expect(err).toBe(undefined);
       expect(
         JSON.stringify(JSON.parse(process.env.VTA_CONFIG_RECORD_PLUGIN_STORE), null, 2),
@@ -13,22 +14,29 @@ describe("vta-engine", () => {
       expect(process.env.VTA_ADDITIONAL_PLUGIN_RECORD_GUID).toBe(
         "905365f0-e49b-49bc-afe7-7550e46297bb",
       );
-    }));
+    });
+  });
 
   it("project-2-invalid-vta-config", () =>
-    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-2") }).then(err => {
+    appRunSync({ silent: true, cwd: path.resolve(__dirname, "data/project-2") }, err => {
       expect(!!err).toBe(true);
       expect(err.message.indexOf("cannot load vta config file") >= 0).toBe(true);
     }));
 
   it("project-3-invalid-plugin", () =>
-    appRun({ silent: false, cwd: path.resolve(__dirname, "data/project-3") }).then(err => {
+    appRunSync({ silent: false, cwd: path.resolve(__dirname, "data/project-3") }, err => {
       expect(!!err).toBe(true);
       expect(err.message.indexOf("cannot load plugin") >= 0).toBe(true);
     }));
 
   it("project-4-empty-plugins", () =>
-    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-4") }).then(err => {
+    appRunSync({ silent: true, cwd: path.resolve(__dirname, "data/project-4") }, err => {
       expect(err).toBe(undefined);
+    }));
+
+  it("project-5-plugin-exception", () =>
+    appRunSync({ silent: false, cwd: path.resolve(__dirname, "data/project-5") }, err => {
+      expect(!!err).toBe(true);
+      expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
     }));
 });

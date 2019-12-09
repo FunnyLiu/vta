@@ -6,18 +6,24 @@ declare interface Options {
   silent?: boolean;
 }
 
-export default function appRun({ cwd = process.cwd(), silent = false }: Options = {}): Promise<
-  Error
-> {
-  return new App({ cwd })
-    .run()
-    .then(() => {
-      return undefined;
-    })
-    .catch(err => {
-      if (!silent) {
+export function appRunSync(
+  { cwd = process.cwd(), silent = false }: Options = {},
+  cb: (err: Error) => void,
+): void {
+  new App({ cwd }).run(err => {
+    try {
+      if (err && !silent) {
         printError(err);
       }
-      return err;
+      cb(err);
+    } catch {} // eslint-disable-line
+  });
+}
+
+export default function appRun(options?: Options): Promise<{ error: Error }> {
+  return new Promise(resolve => {
+    appRunSync(options, err => {
+      resolve({ error: err });
     });
+  });
 }
