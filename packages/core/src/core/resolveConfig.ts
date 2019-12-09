@@ -3,7 +3,7 @@ import { appRunSync } from "./index";
 
 export default function resolveConfig<T = Config>(key: string, cwd = process.cwd()): T {
   let resolve;
-  appRunSync({ cwd, dontRun: true }, (err, appResolveConfig) => {
+  appRunSync({ cwd, dontRun: true, silent: true }, (err, appResolveConfig) => {
     resolve = appResolveConfig;
   });
   if (typeof resolve === "function") {

@@ -5,10 +5,8 @@ module.exports = class ConfigRecordPlugin {
   constructor(options) {
     this.options = options;
     this.name = "config-record";
-  }
 
-  apply(app) {
-    const STORE = {
+    this.STORE = {
       processOrder: [],
       appConfig: {
         baseValue: null,
@@ -18,10 +16,17 @@ module.exports = class ConfigRecordPlugin {
         doneGuid: "",
       },
     };
-    app.hooks.init(({ registPlugin }) => {
-      STORE.processOrder.push("hooks.init");
-      registPlugin(new AdditionalPlugin({ guid: "31131534-5e68-4b8d-96fa-757fbc2cc9b1" }));
-    });
+  }
+
+  prepare(helpers) {
+    this.STORE.processOrder.push("prepare");
+    helpers.registPlugin(new AdditionalPlugin({ guid: "31131534-5e68-4b8d-96fa-757fbc2cc9b1" }));
+    helpers.registConfigDir(path.resolve(__dirname, "../config-base"));
+  }
+
+  apply(app) {
+    const { STORE } = this;
+    STORE.processOrder.push("apply");
     app.hooks.config.itemUserStart("app", () => {
       STORE.processOrder.push("hooks.config.app-user-start");
     });
@@ -29,10 +34,6 @@ module.exports = class ConfigRecordPlugin {
       STORE.processOrder.push("hooks.config.app-user-done");
       STORE.appConfig.userGuid = appConfig.guid;
       return { guid: this.options.guid };
-    });
-    app.hooks.config.init(registDir => {
-      STORE.processOrder.push("hooks.config.init");
-      registDir(path.resolve(__dirname, "../config-base"));
     });
     app.hooks.config.itemBaseStart("app", () => {
       STORE.processOrder.push("hooks.config.app-base-start");

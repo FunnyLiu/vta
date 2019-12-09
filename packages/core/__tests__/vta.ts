@@ -25,7 +25,7 @@ describe("vta-engine", () => {
     }));
 
   it("project-3-invalid-plugin", () =>
-    appRunSync({ silent: false, cwd: path.resolve(__dirname, "data/project-3") }, err => {
+    appRunSync({ silent: true, cwd: path.resolve(__dirname, "data/project-3") }, err => {
       expect(!!err).toBe(true);
       expect(err.message.indexOf("cannot load plugin") >= 0).toBe(true);
     }));
@@ -36,7 +36,7 @@ describe("vta-engine", () => {
     }));
 
   it("project-5-plugin-exception", () =>
-    appRunSync({ silent: false, cwd: path.resolve(__dirname, "data/project-5") }, err => {
+    appRunSync({ silent: true, cwd: path.resolve(__dirname, "data/project-5") }, err => {
       expect(!!err).toBe(true);
       expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
     }));
@@ -51,5 +51,11 @@ describe("resolve-config", () => {
     expect(appConfig.name).toBe("project-1");
     expect(appConfig.version).toBe("1.0.0");
     expect(appConfig.guid).toBe("905365f0-e49b-49bc-afe7-7550e46297bb");
+  });
+
+  it("project-3", () => {
+    process.chdir(path.resolve(__dirname, "data/project-3"));
+    const appConfig = resolveConfig("app");
+    expect(appConfig).toBe(undefined);
   });
 });

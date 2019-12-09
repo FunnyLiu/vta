@@ -3,8 +3,8 @@
 exports[`vta-engine project-1: config_record_plugin 1`] = `
 "{
   \\"processOrder\\": [
-    \\"hooks.init\\",
-    \\"hooks.config.init\\",
+    \\"prepare\\",
+    \\"apply\\",
     \\"hooks.ready\\",
     \\"hooks.config.app-base-start\\",
     \\"hooks.config.app-base-done\\",

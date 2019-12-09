@@ -6,7 +6,7 @@ import {
   Config,
   Store,
 } from "@vta/config";
-import { App, Hooks, InitHelpers, Worker, Plugin } from "./interface";
+import { App, Hooks, PrepareHelpers, Worker, Plugin } from "./interface";
 import ConfigPlugin from "./ConfigPlugin";
 
 interface VtaAppOptions {
@@ -17,34 +17,45 @@ interface VtaAppOptions {
 let idx = 0;
 
 export default class VtaApp implements App {
-  constructor({ cwd = process.cwd(), dontRun = false }: VtaAppOptions = {}) {
-    const initHook = new SyncHook<[InitHelpers]>(["helpers"]);
-    const configInitHook = new SyncHook<[]>();
-    let initHelpers;
-    const configCategory = `vta-${(idx += 1)}`;
-    this.configCategory = configCategory;
-    this.cwd = cwd;
-    this.dontRun = dontRun;
-    this.privateHooks = { initHook, configInitHook };
-    this.hooks = Object.freeze<Hooks>({
-      init(cb: (helpers: InitHelpers) => void): void {
-        if (initHelpers) {
-          cb(initHelpers);
-        } else {
-          initHook.tap("init", helpers => {
-            initHelpers = helpers;
-            cb(initHelpers);
-          });
-        }
+  constructor(options: VtaAppOptions) {
+    this.options = options;
+  }
+
+  private options: VtaAppOptions;
+
+  private plugins: Plugin[] = [];
+
+  private registPlugin(plugin: Plugin): void {
+    if (plugin && !this.getPlugin(plugin.name)) {
+      if (typeof plugin.prepare === "function") {
+        plugin.prepare(this.prepareHelpers);
+      }
+      plugin.apply(this);
+      this.plugins.push(plugin);
+    }
+  }
+
+  private getPlugin<P extends Plugin>(name: string): P {
+    return this.plugins.filter(plugin => plugin.name === name)[0] as P;
+  }
+
+  private prepareHelpers: Readonly<PrepareHelpers>;
+
+  private preparePrepareHelpers(configCategory) {
+    this.prepareHelpers = Object.freeze<PrepareHelpers>({
+      registConfigDir(dir) {
+        configRegistDir(dir, true, configCategory);
       },
+      registPlugin: this.registPlugin.bind(this),
+      getPlugin: this.getPlugin.bind(this),
+    });
+  }
+
+  public hooks: Readonly<Hooks>;
+
+  private prepareHooks(configCategory) {
+    this.hooks = Object.freeze<Hooks>({
       config: {
-        init(cb: (registDir: (dir: string) => void) => void): void {
-          configInitHook.tap("regist-dir", () => {
-            cb(dir => {
-              configRegistDir(dir, true, configCategory);
-            });
-          });
-        },
         itemBaseStart(key: string, cb: (store: Store) => void | Config): void {
           configHooks.onConfigBaseStart(key, cb, configCategory);
         },
@@ -67,51 +78,36 @@ export default class VtaApp implements App {
     });
   }
 
-  private configCategory: string;
+  private worker: Readonly<Worker>;
 
-  private cwd: string;
-
-  private dontRun: boolean;
-
-  private privateHooks: { initHook: SyncHook<[InitHelpers]>; configInitHook: SyncHook<[]> };
-
-  public hooks: Readonly<Hooks>;
-
-  private plugins: Plugin[] = [];
-
-  private registPlugin(plugin: Plugin): void {
-    if (plugin && !this.getPlugin(plugin.name)) {
-      plugin.apply(this);
-      this.plugins.push(plugin);
-    }
+  private prepareWorker(configCategory) {
+    this.worker = Object.freeze<Worker>({
+      resolveConfig<T = Config>(key: string): T {
+        return configResolveConfig<T>(key, configCategory);
+      },
+    });
   }
 
-  private getPlugin<P extends Plugin>(name: string): P {
-    return this.plugins.filter(plugin => plugin.name === name)[0] as P;
+  private prepare() {
+    const configCategory = `vta-${(idx += 1)}`;
+    this.preparePrepareHelpers(configCategory);
+    this.prepareHooks(configCategory);
+    this.prepareWorker(configCategory);
+
+    this.registPlugin(
+      new ConfigPlugin({ cwd: this.options.cwd }, dir => {
+        configRegistDir(dir, false, configCategory);
+      }),
+    );
   }
 
   public run(cb: (err: Error, resolveConfig?: <T = Config>(key: string) => T) => void) {
     try {
-      const { configCategory } = this;
-      this.registPlugin(
-        new ConfigPlugin({ cwd: this.cwd }, dir => {
-          configRegistDir(dir, false, configCategory);
-        }),
-      );
-      this.privateHooks.initHook.call(
-        Object.freeze({
-          registPlugin: this.registPlugin.bind(this),
-          getPlugin: this.getPlugin.bind(this),
-        }),
-      );
-      this.privateHooks.configInitHook.call();
-      const worker = Object.freeze({
-        resolveConfig<T = Config>(key: string): T {
-          return configResolveConfig<T>(key, configCategory);
-        },
-      });
+      this.prepare();
+
+      const { worker } = this;
       this.hooks.ready.call(worker);
-      if (this.dontRun) {
+      if (this.options.dontRun) {
         cb(undefined, worker.resolveConfig);
       } else {
         this.hooks.run

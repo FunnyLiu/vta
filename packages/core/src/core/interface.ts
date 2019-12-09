@@ -22,6 +22,12 @@ export class Plugin {
   public name: string;
 
   /**
+   * plugin prepare,some processing like registPlugin or registConfigDir. receive PrepareHelpers.
+   * @param helpers
+   */
+  public prepare(helpers: PrepareHelpers): void {}
+
+  /**
    * apply this plugin for worker
    * @param worker app worker
    */
@@ -69,18 +75,9 @@ export declare interface Worker {
 
 export declare interface Hooks {
   /**
-   * app init hook. receive InitHelpers
-   */
-  init(cb: (helpers: InitHelpers) => void): void;
-  /**
    * config system using vta/config
    */
   config: {
-    /**
-     * config system init. regist the config's dir
-     * @param registDir regist config dir with baseMode = true
-     */
-    init(cb: (registDir: (dir: string) => void) => void): void;
     /**
      * start getting base config of specific key
      * @param key config key
@@ -126,7 +123,12 @@ export declare interface Hooks {
   done: AsyncParallelHook<[Worker]>;
 }
 
-export declare interface InitHelpers {
+export declare interface PrepareHelpers {
+  /**
+   * regist config dir with baseMode = true
+   * @param dir config dir
+   */
+  registConfigDir(dir: string): void;
   /**
    * regist another plugin
    * @param plugin another plugin
