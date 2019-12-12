@@ -1,6 +1,6 @@
 import path from "path";
-import { resolveConfig, registDir, mutate } from "../src";
-import { setStoreExt, hooks } from "../src/engine";
+import { resolveConfig, registDir, mutate, hooks, reset } from "../src";
+import { setStoreExt } from "../src/engine";
 
 setStoreExt("ts");
 
@@ -204,7 +204,7 @@ describe("config", () => {
     registDir(dir3, false, category);
 
     const useEnv = resolveConfig("use-env", category);
-    // console.log(useEnv);
+
     expect(useEnv.baseDate).toBe("20191126");
     expect(useEnv.version).toBe("20191118-1-2-3");
     expect(useEnv.pluginName).toBe("transform-runtime");
@@ -213,5 +213,30 @@ describe("config", () => {
     expect(useEnv.envBaseDate).toBe("20191126-prod");
     expect(useEnv.plugins.length).toBe(1);
     expect(useEnv.plugins[0]).toBe("react");
+  });
+
+  it("reset", () => {
+    const category = "reset";
+    setStoreExt("ts", category);
+    registDir(dir1, category);
+    registDir(dir2, category);
+    registDir(dir3, false, category);
+
+    hooks.onConfigBaseStart("reset", () => ({ name: "reset-test" }), category);
+
+    const config1 = resolveConfig("reset", category);
+    expect(config1.version.indexOf("20191212-1")).toBe(0);
+    expect(config1.name).toBe("reset-test");
+    reset(category);
+    return new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+      registDir(dir1, category);
+      registDir(dir2, category);
+      registDir(dir3, false, category);
+      jest.resetModules();
+      const config2 = resolveConfig("reset", category);
+      expect(config2.version.indexOf("20191212-1")).toBe(0);
+      expect(config2.version !== config1.version).toBe(true);
+      expect(config2.name).toBe(undefined);
+    });
   });
 });

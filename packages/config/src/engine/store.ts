@@ -1,5 +1,5 @@
 import path from "path";
-import { deepMerge, loadModuleSync } from "@vta/helpers";
+import { deepMerge, loadModuleSync, clearRequireCache } from "@vta/helpers";
 import { Config, Store, Events, Helpers } from "./interface";
 import ConfigEvents from "./events";
 
@@ -97,13 +97,10 @@ export default class ConfigStore implements Store {
     this.events.emit(`config-${key}-base-start`, mergeConfig);
     baseModelDirs.forEach(({ dir }) => {
       const envContainer = [];
+      const file = path.resolve(dir, `${key}.config.${this.ext}`);
       const config = deepMerge(
         this.getItem(key),
-        this.resolveValue(
-          key,
-          loadModuleSync<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
-          envContainer,
-        ),
+        this.resolveValue(key, loadModuleSync<Config>(file, {}), envContainer),
       );
       this.setItem(key, config);
       if (envContainer.length > 0) {
@@ -116,13 +113,11 @@ export default class ConfigStore implements Store {
     if (userModeDir) {
       const { dir } = userModeDir;
       const envContainer = [];
+      const file = path.resolve(dir, `${key}.config.${this.ext}`);
+      clearRequireCache(file);
       const config = deepMerge(
         this.getItem(key),
-        this.resolveValue(
-          key,
-          loadModuleSync<Config>(path.resolve(dir, `${key}.config.${this.ext}`), {}),
-          envContainer,
-        ),
+        this.resolveValue(key, loadModuleSync<Config>(file, {}), envContainer),
       );
       this.setItem(key, config);
       if (envContainer.length > 0) {
@@ -133,5 +128,12 @@ export default class ConfigStore implements Store {
     this.events.emit(`config-${key}-user-done`, this.getItem(key), mergeConfig);
     this.events.emit(`config-${key}-done`, this.getItem(key));
     return this.getItem(key);
+  }
+
+  public reset() {
+    this.config = {};
+    this.loadingKeys = new Set();
+    this.dirs = [];
+    this.events = new ConfigEvents();
   }
 }

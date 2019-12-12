@@ -31,6 +31,7 @@ export declare interface Store {
   registDir(dir: string, baseMode?: boolean): void;
   getItem(key: string): Config;
   load(key: string): Config;
+  reset(): void;
   events: Events;
   helpers: Helpers;
 }

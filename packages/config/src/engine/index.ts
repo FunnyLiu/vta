@@ -52,6 +52,15 @@ export function resolveConfig<T = Config>(key: string, category?: string): T {
   return store.load(key) as any;
 }
 
+/**
+ * reset config store,you can get the newer config
+ * @param category config category
+ */
+export function reset(category?: string): void {
+  const store = getStore(category);
+  return store.reset();
+}
+
 export const hooks = {
   /**
    * start getting base config of specific key
