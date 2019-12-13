@@ -1,6 +1,6 @@
 import path from "path";
 import chalk from "chalk";
-import { loadModuleSync } from "@vta/helpers";
+import { loadModuleSync, clearRequireCache } from "@vta/helpers";
 import { Plugin, VtaConfig } from "../interface";
 import standardizeName from "./standardize-name";
 
@@ -12,13 +12,17 @@ export default function resolveConfig(
   const plugins: Plugin[] = [];
   let config: VtaConfig;
   for (let i = 0, len = configFiles.length; i < len; i += 1) {
-    config = loadModuleSync<VtaConfig>(path.resolve(cwd, configFiles[i]));
+    const file = path.resolve(cwd, configFiles[i]);
+    clearRequireCache(file);
+    config = loadModuleSync<VtaConfig>(file);
     if (config) {
       break;
     }
   }
   if (!config) {
-    const packageJson = loadModuleSync<{ vta?: VtaConfig }>(path.resolve(cwd, "package.json"), {});
+    const file = path.resolve(cwd, "package.json");
+    clearRequireCache(file);
+    const packageJson = loadModuleSync<{ vta?: VtaConfig }>(file, {});
     config = packageJson.vta;
   }
   if (!config) {
@@ -30,9 +34,9 @@ export default function resolveConfig(
         const [name, options] = plugin;
         let LoadedPlugin;
         try {
-          LoadedPlugin = loadModuleSync<Plugin>(
-            require.resolve(standardizeName("plugin", name), { paths: [cwd] }),
-          );
+          const file = require.resolve(standardizeName("plugin", name), { paths: [cwd] });
+          clearRequireCache(file);
+          LoadedPlugin = loadModuleSync<Plugin>(file);
         } catch {} // eslint-disable-line
         if (!LoadedPlugin) {
           throw new Error(`cannot load plugin ${chalk.yellow(name)}`);

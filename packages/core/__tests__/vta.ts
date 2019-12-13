@@ -1,4 +1,5 @@
 import path from "path";
+import fs from "fs";
 import appRun, { appRunSync } from "../src/core";
 import resolveConfig from "../src/core/resolveConfig";
 
@@ -25,21 +26,49 @@ describe("vta-engine", () => {
     }));
 
   it("project-3-invalid-plugin", () =>
-    appRunSync({ silent: true, cwd: path.resolve(__dirname, "data/project-3") }, err => {
-      expect(!!err).toBe(true);
-      expect(err.message.indexOf("cannot load plugin") >= 0).toBe(true);
-    }));
+    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-3") }).then(
+      ({ error: err }) => {
+        expect(!!err).toBe(true);
+        expect(err.message.indexOf("cannot load plugin") >= 0).toBe(true);
+      },
+    ));
 
   it("project-4-empty-plugins", () =>
-    appRunSync({ silent: true, cwd: path.resolve(__dirname, "data/project-4") }, err => {
-      expect(err).toBe(undefined);
-    }));
+    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-4") }).then(
+      ({ error: err }) => {
+        expect(err).toBe(undefined);
+      },
+    ));
 
   it("project-5-plugin-exception", () =>
-    appRunSync({ silent: true, cwd: path.resolve(__dirname, "data/project-5") }, err => {
-      expect(!!err).toBe(true);
-      expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
-    }));
+    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-5") }).then(
+      ({ error: err }) => {
+        expect(!!err).toBe(true);
+        expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
+      },
+    ));
+
+  it("project-6-restart", () => {
+    process.env.NODE_ENV = "development";
+    setTimeout(() => {
+      fs.writeFileSync(
+        path.resolve(__dirname, "data/project-6/config/01.temp.js"),
+        "module.exports = {};",
+      );
+    }, 1000);
+    return appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-6") }).then(
+      ({ error: err }) => {
+        expect(err).toBe(undefined);
+        expect(
+          JSON.stringify(JSON.parse(process.env.VTA_CORE_PROJECT_6_STORE), null, 2),
+        ).toMatchSnapshot("restart");
+        const versions = JSON.parse(process.env.VTA_CORE_PROJECT_6_STORE_VERSIONS);
+        expect(versions.length).toBe(2);
+        expect(versions[0].indexOf("20191212-1")).toBe(0);
+        expect(versions[1].indexOf("20191212-1")).toBe(0);
+      },
+    );
+  });
 });
 
 describe("resolve-config", () => {

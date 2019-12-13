@@ -21,12 +21,14 @@ module.exports = class ConfigRecordPlugin {
   prepare(helpers) {
     this.STORE.processOrder.push("prepare");
     helpers.registPlugin(new AdditionalPlugin({ guid: "31131534-5e68-4b8d-96fa-757fbc2cc9b1" }));
-    helpers.registConfigDir(path.resolve(__dirname, "../config-base"));
   }
 
   apply(app) {
     const { STORE } = this;
     STORE.processOrder.push("apply");
+    app.hooks.config.init(registDir => {
+      registDir(path.resolve(__dirname, "../config-base"));
+    });
     app.hooks.config.itemUserStart("app", () => {
       STORE.processOrder.push("hooks.config.app-user-start");
     });

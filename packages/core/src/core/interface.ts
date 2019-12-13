@@ -79,6 +79,11 @@ export declare interface Hooks {
    */
   config: {
     /**
+     * config system init. regist the config's dir
+     * @param registDir regist config dir with baseMode = true
+     */
+    init(cb: (registDir: (dir: string) => void) => void): void;
+    /**
      * start getting base config of specific key
      * @param key config key
      * @param cb callback, receive store, optional return additional config
@@ -121,14 +126,22 @@ export declare interface Hooks {
    * app done hook
    */
   done: AsyncParallelHook<[Worker]>;
+  /**
+   * app restart hook
+   * you can clean some object in this hook.
+   * when processed success,app will restart and call in this order:
+   *   1. reload plugins
+   *   2. plugin.apply
+   *   3. app.config.init
+   *   4. app.ready
+   *   5. app.run
+   *   6. optional app.restart
+   *   7. app.done
+   */
+  restart: AsyncParallelHook<[Worker]>;
 }
 
 export declare interface PrepareHelpers {
-  /**
-   * regist config dir with baseMode = true
-   * @param dir config dir
-   */
-  registConfigDir(dir: string): void;
   /**
    * regist another plugin
    * @param plugin another plugin

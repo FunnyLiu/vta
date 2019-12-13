@@ -41,21 +41,35 @@ export default class VtaApp implements App {
 
   private prepareHelpers: Readonly<PrepareHelpers>;
 
-  private preparePrepareHelpers(configCategory) {
+  private preparePrepareHelpers() {
     this.prepareHelpers = Object.freeze<PrepareHelpers>({
-      registConfigDir(dir) {
-        configRegistDir(dir, true, configCategory);
-      },
       registPlugin: this.registPlugin.bind(this),
       getPlugin: this.getPlugin.bind(this),
     });
   }
 
+  private privateHooks: {
+    configInit: SyncHook<[]>;
+    needRestart: AsyncSeriesHook<[]>;
+  };
+
   public hooks: Readonly<Hooks>;
 
   private prepareHooks(configCategory) {
+    const configInit = new SyncHook<[]>();
+    this.privateHooks = {
+      configInit,
+      needRestart: new AsyncSeriesHook<[]>(),
+    };
     this.hooks = Object.freeze<Hooks>({
       config: {
+        init(cb: (registDir: (dir: string) => void) => void): void {
+          configInit.tap("regist-dir", () => {
+            cb(dir => {
+              configRegistDir(dir, true, configCategory);
+            });
+          });
+        },
         itemBaseStart(key: string, cb: (store: Store) => void | Config): void {
           configHooks.onConfigBaseStart(key, cb, configCategory);
         },
@@ -75,6 +89,7 @@ export default class VtaApp implements App {
       ready: new SyncHook<[Worker]>(["worker"]),
       run: new AsyncSeriesHook<[Worker]>(["worker"]),
       done: new AsyncParallelHook<[Worker]>(["worker"]),
+      restart: new AsyncParallelHook<[Worker]>(["worker"]),
     });
   }
 
@@ -88,33 +103,48 @@ export default class VtaApp implements App {
     });
   }
 
-  private prepare() {
-    const configCategory = `vta-${(idx += 1)}`;
-    this.preparePrepareHelpers(configCategory);
+  private prepare(configCategory: string) {
+    this.preparePrepareHelpers();
     this.prepareHooks(configCategory);
     this.prepareWorker(configCategory);
-
-    this.registPlugin(
-      new ConfigPlugin({ cwd: this.options.cwd }, dir => {
-        configRegistDir(dir, false, configCategory);
-      }),
-    );
   }
 
   public run(cb: (err: Error, resolveConfig?: <T = Config>(key: string) => T) => void) {
     try {
-      this.prepare();
+      const configCategory = `vta-${(idx += 1)}`;
+      this.prepare(configCategory);
+
+      this.registPlugin(
+        new ConfigPlugin(
+          { cwd: this.options.cwd },
+          dir => {
+            configRegistDir(dir, false, configCategory);
+          },
+          this.privateHooks.needRestart,
+        ),
+      );
+
+      this.privateHooks.configInit.call();
 
       const { worker } = this;
       this.hooks.ready.call(worker);
       if (this.options.dontRun) {
         cb(undefined, worker.resolveConfig);
       } else {
-        this.hooks.run
-          .promise(worker)
-          .then(() => this.hooks.done.promise(worker))
-          .then(() => {
-            cb(undefined, worker.resolveConfig);
+        Promise.race([
+          this.hooks.run.promise(worker).then(() => "run"),
+          this.privateHooks.needRestart.promise().then(() => "restart"),
+        ])
+          .then(mode => {
+            if (mode === "restart") {
+              return this.hooks.restart.promise(this.worker).then(() => {
+                this.plugins = [];
+                this.run(cb);
+              });
+            }
+            return this.hooks.done.promise(worker).then(() => {
+              cb(undefined, worker.resolveConfig);
+            });
           })
           .catch(err => {
             cb(err);

@@ -1,6 +1,7 @@
 **/node_modules/
 **/dist/
 **/coverage/
+*.temp.*
 !/packages/**/__snapshots__/dist/
 *-error.log
 /packages/internal/__tests__/data/copy-files-test/packages/test-*

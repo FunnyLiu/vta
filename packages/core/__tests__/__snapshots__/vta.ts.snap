@@ -40,3 +40,23 @@ exports[`vta-engine project-1: config_record_plugin 1`] = `
   }
 }"
 `;
+
+exports[`vta-engine project-6-restart: restart 1`] = `
+"{
+  \\"process\\": [
+    \\"apply\\",
+    \\"config-init\\",
+    \\"ready\\",
+    \\"config-app-done\\",
+    \\"run\\",
+    \\"restart\\",
+    \\"apply\\",
+    \\"config-init\\",
+    \\"ready\\",
+    \\"config-app-done\\",
+    \\"run\\",
+    \\"done\\"
+  ],
+  \\"versions\\": []
+}"
+`;
