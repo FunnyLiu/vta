@@ -69,6 +69,36 @@ describe("vta-engine", () => {
       },
     );
   });
+
+  it("project-7-env-locale", () => {
+    process.env.VTA_ENV = "locale";
+    return appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-7") }).then(
+      ({ error: err }) => {
+        expect(err).toBe(undefined);
+        const store = JSON.parse(process.env.VTA_CORE_PROJECT_7_STORE);
+        expect(store.pluginName).toBe("locale-build-plugin");
+        expect(store.appName).toBe("app-name-locale");
+        expect(store.srcDir).toBe("source-code");
+        expect(store.buildDir).toBe("dist-locale");
+      },
+    );
+  });
+
+  it("project-7-env-server", () => {
+    delete process.env.VTA_ENV;
+    process.env.NODE_ENV = "server";
+    jest.resetModules();
+    return appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-7") }).then(
+      ({ error: err }) => {
+        expect(err).toBe(undefined);
+        const store = JSON.parse(process.env.VTA_CORE_PROJECT_7_STORE);
+        expect(store.pluginName).toBe("server-build-plugin");
+        expect(store.appName).toBe("app-name-server");
+        expect(store.srcDir).toBe("source-code");
+        expect(store.buildDir).toBe("dist-server");
+      },
+    );
+  });
 });
 
 describe("resolve-config", () => {

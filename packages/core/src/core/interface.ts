@@ -56,6 +56,11 @@ export interface VtaConfig {
    * plugins that used
    */
   plugins?: Array<Plugin | [string, object]>;
+  /**
+   * env config. process.env.VTA_ENV || process.env.NODE_ENV
+   * deepMerge(others,envConfig);
+   */
+  env?: { [key: string]: VtaConfig };
 }
 
 export declare interface App {

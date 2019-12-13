@@ -1,0 +1,29 @@
+{
+  "vta": {
+    "dirs": {
+      "src": "source-code"
+    },
+    "env": {
+      "locale": {
+        "dirs": {
+          "build": "dist-locale"
+        },
+        "plugins": [
+          [
+            "./plugins/locale"
+          ]
+        ]
+      },
+      "server": {
+        "dirs": {
+          "build": "dist-server"
+        },
+        "plugins": [
+          [
+            "./plugins/server"
+          ]
+        ]
+      }
+    }
+  }
+}
