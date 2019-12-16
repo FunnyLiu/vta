@@ -19,7 +19,7 @@ exports[`vta-engine project-1: config_record_plugin 1`] = `
       \\"dirs\\": {
         \\"config\\": \\"config-1\\",
         \\"src\\": \\"src\\",
-        \\"build\\": \\"build\\"
+        \\"build\\": \\"dist\\"
       },
       \\"name\\": \\"project-1-base\\",
       \\"version\\": \\"1.0.0\\"
@@ -28,7 +28,7 @@ exports[`vta-engine project-1: config_record_plugin 1`] = `
       \\"dirs\\": {
         \\"config\\": \\"config-1\\",
         \\"src\\": \\"src\\",
-        \\"build\\": \\"build\\"
+        \\"build\\": \\"dist\\"
       },
       \\"name\\": \\"project-1\\",
       \\"version\\": \\"1.0.0\\",

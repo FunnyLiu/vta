@@ -55,7 +55,7 @@ export default function resolveConfig(cwd: string): AppConfig & { plugins: Plugi
     dirs: {
       config: config.dirs?.config || "config",
       src: config.dirs?.src || "src",
-      build: config.dirs?.build || "build",
+      build: config.dirs?.build || "dist",
     },
     plugins,
   };
