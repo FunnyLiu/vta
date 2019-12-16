@@ -92,6 +92,17 @@ describe("vta-engine", () => {
       },
     );
   });
+
+  it("project-8-feature", () =>
+    run({ silent: true, cwd: path.resolve(__dirname, "data/project-8") }).then(({ error: err }) => {
+      expect(err).toBe(undefined);
+      const features = JSON.parse(process.env.VTA_PROJECT_8_FEATURES);
+      expect(JSON.stringify(features.webpack)).toBe("{}");
+      expect(features.react.jsx).toBe("jsx");
+      expect(features.react.names.js).toBe("[name].js");
+      expect(features.react.names.css).toBe("[hash].js");
+      expect(features.vue).toBe(null);
+    }));
 });
 
 describe("resolve-config", () => {

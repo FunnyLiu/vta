@@ -65,6 +65,10 @@ export interface VtaConfig {
 
 export declare type AppConfig = Omit<VtaConfig, "plugins" | "env">;
 
+export interface FeatureOptions {
+  [key: string]: any;
+}
+
 export declare interface App {
   /**
    * app hooks
@@ -73,11 +77,16 @@ export declare interface App {
   /**
    * current working directory
    */
-  cwd: string;
+  cwd: Readonly<string>;
   /**
    * app config. Omit<VtaConfig, "plugins" | "env">
    */
-  config: AppConfig;
+  config: Readonly<AppConfig>;
+  /**
+   * get feature options. return null if not registed
+   * @param feature feature
+   */
+  getFeature(feature: string): FeatureOptions;
 }
 
 export declare interface Worker {
@@ -167,4 +176,10 @@ export declare interface PrepareHelpers {
    * @param name plugin name
    */
   getPlugin<P extends Plugin>(name: string): P;
+  /**
+   * regist feature
+   * @param feature feature
+   * @param options feature options,will deep merge with the registed options, default {}
+   */
+  registFeature(feature: string, options?: FeatureOptions): void;
 }

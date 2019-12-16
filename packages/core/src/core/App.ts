@@ -6,7 +6,8 @@ import {
   Config,
   Store,
 } from "@vta/config";
-import { App, AppConfig, Hooks, PrepareHelpers, Worker, Plugin } from "./interface";
+import { deepMerge } from "@vta/helpers";
+import { App, AppConfig, Hooks, PrepareHelpers, Worker, Plugin, FeatureOptions } from "./interface";
 import ConfigPlugin from "./ConfigPlugin";
 
 interface VtaAppOptions {
@@ -22,20 +23,19 @@ export default class VtaApp implements App {
     this.cwd = options.cwd;
   }
 
-  public cwd: string;
+  public cwd: Readonly<string>;
 
-  public config: AppConfig;
+  public config: Readonly<AppConfig>;
 
   private options: VtaAppOptions;
 
-  private plugins: Plugin[] = [];
+  private plugins: Plugin[];
 
   private registPlugin(plugin: Plugin): void {
     if (plugin && !this.getPlugin(plugin.name)) {
       if (typeof plugin.prepare === "function") {
         plugin.prepare(this.prepareHelpers);
       }
-      plugin.apply(this);
       this.plugins.push(plugin);
     }
   }
@@ -44,12 +44,30 @@ export default class VtaApp implements App {
     return this.plugins.filter(plugin => plugin.name === name)[0] as P;
   }
 
+  private features: Map<string, FeatureOptions>;
+
+  private registFeature(feature: string, options: FeatureOptions = {}) {
+    if (this.features.has(feature)) {
+      this.features.set(feature, deepMerge(this.features.get(feature), options));
+    } else {
+      this.features.set(feature, options);
+    }
+  }
+
+  public getFeature(feature: string): FeatureOptions {
+    if (this.features.has(feature)) {
+      return this.features.get(feature);
+    }
+    return null;
+  }
+
   private prepareHelpers: Readonly<PrepareHelpers>;
 
   private preparePrepareHelpers() {
     this.prepareHelpers = Object.freeze<PrepareHelpers>({
       registPlugin: this.registPlugin.bind(this),
       getPlugin: this.getPlugin.bind(this),
+      registFeature: this.registFeature.bind(this),
     });
   }
 
@@ -109,6 +127,8 @@ export default class VtaApp implements App {
   }
 
   private prepare(configCategory: string) {
+    this.plugins = [];
+    this.features = new Map<string, FeatureOptions>();
     this.preparePrepareHelpers();
     this.prepareHooks(configCategory);
     this.prepareWorker(configCategory);
@@ -123,7 +143,7 @@ export default class VtaApp implements App {
         new ConfigPlugin(
           { cwd: this.cwd },
           config => {
-            this.config = config;
+            this.config = Object.freeze<AppConfig>(config);
           },
           dir => {
             configRegistDir(dir, false, configCategory);
@@ -131,6 +151,9 @@ export default class VtaApp implements App {
           this.privateHooks.needRestart,
         ),
       );
+      this.plugins.forEach(plugin => {
+        plugin.apply(this);
+      });
 
       this.privateHooks.configInit.call();
 
@@ -146,7 +169,6 @@ export default class VtaApp implements App {
           .then(mode => {
             if (mode === "restart") {
               return this.hooks.restart.promise(this.worker).then(() => {
-                this.plugins = [];
                 this.run(cb);
               });
             }

@@ -23,10 +23,10 @@ export default class ConfigPlugin extends Plugin {
 
   private needRestartHook: AsyncSeriesHook<[]>;
 
-  private registPlugin: (plugin: Plugin) => void;
-
   prepare(helpers: PrepareHelpers) {
-    this.registPlugin = helpers.registPlugin;
+    this.plugins.forEach(plugin => {
+      helpers.registPlugin(plugin);
+    });
   }
 
   apply(app: App) {
@@ -52,10 +52,6 @@ export default class ConfigPlugin extends Plugin {
 
     app.hooks.done.tapPromise("done-config", () => {
       return Promise.resolve(watcher ? watcher.close() : undefined);
-    });
-
-    this.plugins.forEach(plugin => {
-      this.registPlugin(plugin);
     });
   }
 }
