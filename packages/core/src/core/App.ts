@@ -6,7 +6,7 @@ import {
   Config,
   Store,
 } from "@vta/config";
-import { App, Hooks, PrepareHelpers, Worker, Plugin } from "./interface";
+import { App, AppConfig, Hooks, PrepareHelpers, Worker, Plugin } from "./interface";
 import ConfigPlugin from "./ConfigPlugin";
 
 interface VtaAppOptions {
@@ -19,7 +19,12 @@ let idx = 0;
 export default class VtaApp implements App {
   constructor(options: VtaAppOptions) {
     this.options = options;
+    this.cwd = options.cwd;
   }
+
+  public cwd: string;
+
+  public config: AppConfig;
 
   private options: VtaAppOptions;
 
@@ -116,7 +121,10 @@ export default class VtaApp implements App {
 
       this.registPlugin(
         new ConfigPlugin(
-          { cwd: this.options.cwd },
+          { cwd: this.cwd },
+          config => {
+            this.config = config;
+          },
           dir => {
             configRegistDir(dir, false, configCategory);
           },

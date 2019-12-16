@@ -1,13 +1,12 @@
 import path from "path";
 import fs from "fs";
-import appRun, { appRunSync } from "../src/core";
-import resolveConfig from "../src/core/resolveConfig";
+import { run, runSync, resolveConfig } from "vta"; // eslint-disable-line
 
 /* eslint-disable */
 describe("vta-engine", () => {
   it("project-1", () => {
     process.chdir(path.resolve(__dirname, "data/project-1"));
-    appRun().then(({ error: err }) => {
+    run().then(({ error: err }) => {
       expect(err).toBe(undefined);
       expect(
         JSON.stringify(JSON.parse(process.env.VTA_CONFIG_RECORD_PLUGIN_STORE), null, 2),
@@ -20,33 +19,27 @@ describe("vta-engine", () => {
   });
 
   it("project-2-invalid-vta-config", () =>
-    appRunSync({ silent: true, cwd: path.resolve(__dirname, "data/project-2") }, err => {
+    runSync({ silent: true, cwd: path.resolve(__dirname, "data/project-2") }, err => {
       expect(!!err).toBe(true);
       expect(err.message.indexOf("cannot load vta config file") >= 0).toBe(true);
     }));
 
   it("project-3-invalid-plugin", () =>
-    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-3") }).then(
-      ({ error: err }) => {
-        expect(!!err).toBe(true);
-        expect(err.message.indexOf("cannot load plugin") >= 0).toBe(true);
-      },
-    ));
+    run({ silent: true, cwd: path.resolve(__dirname, "data/project-3") }).then(({ error: err }) => {
+      expect(!!err).toBe(true);
+      expect(err.message.indexOf("cannot load plugin") >= 0).toBe(true);
+    }));
 
   it("project-4-empty-plugins", () =>
-    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-4") }).then(
-      ({ error: err }) => {
-        expect(err).toBe(undefined);
-      },
-    ));
+    run({ silent: true, cwd: path.resolve(__dirname, "data/project-4") }).then(({ error: err }) => {
+      expect(err).toBe(undefined);
+    }));
 
   it("project-5-plugin-exception", () =>
-    appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-5") }).then(
-      ({ error: err }) => {
-        expect(!!err).toBe(true);
-        expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
-      },
-    ));
+    run({ silent: true, cwd: path.resolve(__dirname, "data/project-5") }).then(({ error: err }) => {
+      expect(!!err).toBe(true);
+      expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
+    }));
 
   it("project-6-restart", () => {
     process.env.NODE_ENV = "development";
@@ -56,7 +49,7 @@ describe("vta-engine", () => {
         "module.exports = {};",
       );
     }, 1000);
-    return appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-6") }).then(
+    return run({ silent: true, cwd: path.resolve(__dirname, "data/project-6") }).then(
       ({ error: err }) => {
         expect(err).toBe(undefined);
         expect(
@@ -72,7 +65,7 @@ describe("vta-engine", () => {
 
   it("project-7-env-locale", () => {
     process.env.VTA_ENV = "locale";
-    return appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-7") }).then(
+    return run({ silent: true, cwd: path.resolve(__dirname, "data/project-7") }).then(
       ({ error: err }) => {
         expect(err).toBe(undefined);
         const store = JSON.parse(process.env.VTA_CORE_PROJECT_7_STORE);
@@ -88,7 +81,7 @@ describe("vta-engine", () => {
     delete process.env.VTA_ENV;
     process.env.NODE_ENV = "server";
     jest.resetModules();
-    return appRun({ silent: true, cwd: path.resolve(__dirname, "data/project-7") }).then(
+    return run({ silent: true, cwd: path.resolve(__dirname, "data/project-7") }).then(
       ({ error: err }) => {
         expect(err).toBe(undefined);
         const store = JSON.parse(process.env.VTA_CORE_PROJECT_7_STORE);

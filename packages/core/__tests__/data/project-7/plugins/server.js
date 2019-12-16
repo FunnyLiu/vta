@@ -4,6 +4,9 @@ module.exports = class ServerBuildPlugin {
   }
 
   apply(app) {
+    app.hooks.config.itemBaseStart("app", () => ({
+      dirs: app.config.dirs,
+    }));
     app.hooks.done.tap("build-plugin", ({ resolveConfig }) => {
       const appConfig = resolveConfig("app");
       process.env.VTA_CORE_PROJECT_7_STORE = JSON.stringify({

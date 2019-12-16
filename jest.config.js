@@ -9,5 +9,6 @@ module.exports = {
   coveragePathIgnorePatterns: ["/node_modules/", "/__tests__/"],
   moduleNameMapper: {
     "@vta/(.*)": "<rootDir>/packages/$1/src",
+    "^vta": "<rootDir>/packages/core/src",
   },
 };

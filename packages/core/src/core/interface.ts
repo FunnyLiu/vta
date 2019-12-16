@@ -63,11 +63,21 @@ export interface VtaConfig {
   env?: { [key: string]: VtaConfig };
 }
 
+export declare type AppConfig = Omit<VtaConfig, "plugins" | "env">;
+
 export declare interface App {
   /**
    * app hooks
    */
   hooks: Readonly<Hooks>;
+  /**
+   * current working directory
+   */
+  cwd: string;
+  /**
+   * app config. Omit<VtaConfig, "plugins" | "env">
+   */
+  config: AppConfig;
 }
 
 export declare interface Worker {

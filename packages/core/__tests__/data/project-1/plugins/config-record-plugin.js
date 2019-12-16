@@ -39,6 +39,9 @@ module.exports = class ConfigRecordPlugin {
     });
     app.hooks.config.itemBaseStart("app", () => {
       STORE.processOrder.push("hooks.config.app-base-start");
+      return {
+        dirs: app.config.dirs,
+      };
     });
     app.hooks.config.itemBaseDone("app", appConfig => {
       STORE.processOrder.push("hooks.config.app-base-done");
