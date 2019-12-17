@@ -8,6 +8,7 @@ module.exports = {
   collectCoverage: true,
   coveragePathIgnorePatterns: ["/node_modules/", "/__tests__/"],
   moduleNameMapper: {
+    "@vta/tsc": "<rootDir>/node_modules/@vta/tsc",
     "@vta/(.*)": "<rootDir>/packages/$1/src",
     "^vta": "<rootDir>/packages/core/src",
   },

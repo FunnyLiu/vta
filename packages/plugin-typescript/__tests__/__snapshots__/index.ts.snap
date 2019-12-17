@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin-typescript project-react: button 1`] = `
+"\\"use strict\\";
+
+var _interopRequireDefault = require(\\"@babel/runtime/helpers/interopRequireDefault\\");
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require(\\"react\\"));
+
+var _propTypes = _interopRequireDefault(require(\\"prop-types\\"));
+
+/* eslint-disable */
+const Button = ({
+  type,
+  children
+}) => {
+  return _react.default.createElement(\\"button\\", {
+    type: type
+  }, children);
+};
+
+Button.propTypes = {
+  type: _propTypes.default.oneOf([\\"button\\", \\"submit\\", \\"reset\\"]),
+  children: _propTypes.default.node.isRequired
+};
+var _default = Button;
+exports.default = _default;"
+`;
+
+exports[`plugin-typescript project-react: button.d 1`] = `
+"import React from \\"react\\";
+export declare type ButtonType = \\"button\\" | \\"submit\\" | \\"reset\\";
+export declare interface ButtonProps {
+    type?: ButtonType;
+    children: React.ReactNode;
+}
+declare const Button: React.FunctionComponent<ButtonProps>;
+export default Button;
+"
+`;
+
+exports[`plugin-typescript project-typescript: delay 1`] = `
+"\\"use strict\\";
+
+Object.defineProperty(exports, \\"__esModule\\", {
+  value: true
+});
+exports.default = delay;
+
+function delay(ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+}"
+`;
+
+exports[`plugin-typescript project-typescript: delay.d 1`] = `
+"export default function delay(ms: number): Promise<void>;
+"
+`;

@@ -1,0 +1,9 @@
+{
+  "include": ["src/*.tsx"],
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "jsx": "react"
+  }
+}
