@@ -4,6 +4,7 @@ import TscPlugin from "./plugins/TscPlugin";
 export declare interface Options {
   project?: string;
   exclude?: string[];
+  silent?: boolean;
 }
 
 export default class TypescriptPlugin extends Plugin {
@@ -21,6 +22,7 @@ export default class TypescriptPlugin extends Plugin {
       new TscPlugin({
         project: this.options.project,
         exclude: this.options.exclude,
+        silent: this.options.silent,
       }),
     );
   }

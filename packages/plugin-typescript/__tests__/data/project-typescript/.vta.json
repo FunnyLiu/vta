@@ -4,7 +4,8 @@
       "../../../src",
       {
         "project": "tsconfig.json",
-        "exclude": ["**/*.{spec,test}.ts"]
+        "exclude": ["**/*.{spec,test}.ts"],
+        "silent": true
       }
     ]
   ]

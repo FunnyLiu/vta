@@ -4,10 +4,11 @@ import tsc from "@vta/tsc";
 export interface Options {
   project?: string;
   exclude?: string[];
+  silent?: boolean;
 }
 
 export default class TscPlugin extends Plugin {
-  constructor(options: Options = {}) {
+  constructor(options: Options) {
     super("@vta/plugin-typescript/tsc");
     this.options = options;
   }
@@ -18,6 +19,7 @@ export default class TscPlugin extends Plugin {
     const features = {
       webpack: app.getFeature("webpack"),
       react: app.getFeature("react"),
+      vue: app.getFeature("vue"),
     };
     // only use @vta/tsc when not regist webpack plugin
     if (!features.webpack) {
@@ -28,9 +30,9 @@ export default class TscPlugin extends Plugin {
           outDir: app.config.dirs.build,
           project: this.options.project,
           exclude: this.options.exclude,
-          extTs: ["ts"].concat(features.react ? ["tsx"] : []).join(","),
-          extJs: ["js"].concat(features.react ? ["jsx"] : []).join(","),
-          silent: true,
+          extTs: ["ts"].concat(features.react || features.vue ? ["tsx"] : []).join(","),
+          extJs: ["js"].concat(features.react || features.vue ? ["jsx"] : []).join(","),
+          silent: this.options.silent,
         }).then(err => {
           if (err) {
             throw err;
