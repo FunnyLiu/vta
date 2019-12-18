@@ -18,6 +18,7 @@ for (let i = 0, len = pkgs.length; i < len; i += 1) {
         name: packageJson.name,
         dependencies: packageJson.dependencies,
         devDependencies: packageJson.devDependencies,
+        peerDependencies: packageJson.peerDependencies,
       });
     }
   }

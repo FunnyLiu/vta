@@ -1,42 +1,38 @@
-function getMin(values) {
-  if (Array.isArray(values) && values.length > 0) {
-    let min = values[0];
-    values.forEach(value => {
-      if (min > value) {
-        min = value;
-      }
-    });
-    return min;
+function insertIntoSorted(sorted, pkg) {
+  if (sorted.filter(p => p.name === pkg.name).length > 0) return;
+  let firstDepedIdx = -1;
+  for (let i = 0, len = sorted.length; i < len; i += 1) {
+    if (sorted[i].deps.filter(dep => dep === pkg.name).length > 0) {
+      firstDepedIdx = i;
+      break;
+    }
   }
-  return undefined;
+  if (firstDepedIdx >= 0) {
+    sorted.splice(firstDepedIdx, 0, pkg);
+  } else {
+    sorted.push(pkg);
+  }
+  pkg.depPkgs.forEach(p => {
+    insertIntoSorted(sorted, p);
+  });
 }
 
 module.exports = function packagesSortByDependencies(packages) {
   /* eslint-disable no-param-reassign */
-  packages.forEach((p, index) => {
-    p.order = index + 1;
-    p.deps = Object.keys(p.dependencies || {});
+  packages.forEach(p => {
+    p.deps = Object.keys(p.dependencies || {}).concat(Object.keys(p.peerDependencies || {}));
+    p.depPkgs = [];
   });
   packages.forEach(p => {
-    const firstDeped = getMin(
-      packages.filter(t => t.deps.filter(dep => dep === p.name).length > 0).map(t => t.order),
-    );
-    if (firstDeped !== undefined && p.order > firstDeped) {
-      packages.forEach(t => {
-        if (t.order < firstDeped) {
-          t.order -= 1;
-        }
-      });
-      p.order = firstDeped - 1;
-    }
+    packages.forEach(pkg => {
+      if (pkg.deps.filter(dep => dep === p.name).length > 0) {
+        pkg.depPkgs.push(p);
+      }
+    });
   });
-  return packages.sort((p1, p2) => {
-    if (p1.order < p2.order) {
-      return -1;
-    }
-    if (p1.order === p2.order) {
-      return 0;
-    }
-    return 1;
+  const sorted = [];
+  packages.forEach(p => {
+    insertIntoSorted(sorted, p);
   });
+  return sorted;
 };
