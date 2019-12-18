@@ -1,30 +1,30 @@
 import deepClone from "../deep-clone";
 
-function merge(source, target) {
+function merge(target, source) {
   if (
-    Object.prototype.toString.call(source) === "[object Object]" &&
+    Object.prototype.toString.call(target) === "[object Object]" &&
     Object.prototype.toString.call(source) === "[object Object]"
   ) {
-    const dest = deepClone(source);
-    Reflect.ownKeys(target).forEach(prop => {
-      dest[prop] = merge(source[prop], deepClone(target[prop]));
+    const dest = deepClone(target);
+    Reflect.ownKeys(source).forEach(prop => {
+      dest[prop] = merge(target[prop], deepClone(source[prop]));
     });
     return dest;
   }
-  return target;
+  return source;
 }
 
 /**
  * deep merge an object to another one
- * @param source the object that need to merged to
- * @param target the object that need to merged from
+ * @param target the object that need to merged to
+ * @param source the object that need to merged from
  */
-export default function deepMerge<S extends object, T extends object>(
-  source: S,
+export default function deepMerge<T extends object, S extends object>(
   target: T,
+  source: S,
   ...others: object[]
-): S & T {
-  let result = merge(source || {}, target || {});
+): T & S {
+  let result = merge(target || {}, source || {});
   others.forEach(other => {
     if (other) {
       result = merge(result, other);
