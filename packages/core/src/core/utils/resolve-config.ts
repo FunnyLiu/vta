@@ -4,7 +4,7 @@ import { loadModuleSync, clearRequireCache, deepMerge } from "@vta/helpers";
 import { Plugin, VtaConfig, AppConfig } from "../interface";
 import standardizeName from "./standardize-name";
 
-const configFiles = [".vta.config.js", ".vta.js", ".vta.json"];
+const configFiles = [".vta.config.js", ".vta.js", ".vta.config.json", ".vta.json"];
 
 function getConfigThroughEnv(config: VtaConfig): VtaConfig {
   const { env = {}, ...others } = config;

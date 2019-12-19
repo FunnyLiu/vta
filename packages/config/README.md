@@ -41,7 +41,22 @@ module.exports = useDeps("babel", babelConfig => {
 });
 ```
 
-you should write your config file in your registed config directory named like `[key].config.js`, the key is the config key passed to `resolveConfig`, the key can be anything. in this config file, you should return an object that will `deepMerged` into base config.you can use some [hooks](#Hooks) in other system.
+you should write your config file in your registed config directory named like `[key].config.js`, the key is the config key passed to `resolveConfig`, the key can be anything. in this config file, you should return an object that will `deepMerged` into base config.you can use some [hooks](#hooks) in other system.
+
+#### env support
+
+in your config file, you can use env system. it will match `process.env.VTA_ENV || process.env.NODE_ENV`. we will firstly `deepMerged` all un env specefic configs, then `deepMerged` the matched env configs.
+
+```javascript
+import { useBase } from "@vta/config";
+
+export default useBase(base => ({
+  env: {
+    development: { mode: `${base.appid}-development`, devMode: { active: true } },
+    production: { mode: `${base.appid}-production` },
+  },
+}));
+```
 
 ### resolve config
 
@@ -148,7 +163,7 @@ export default function useBase(cb) {
 
 ## Hooks
 
-you can use some hooks in the processing.
+you can use some hooks in the processing. in hooks, you can use any valid [helpers](#helpers)
 
 ```typescript
 export declare const hooks: {

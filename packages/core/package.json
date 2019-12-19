@@ -1,7 +1,7 @@
 {
   "name": "vta",
   "version": "1.0.0",
-  "description": "a Typescript/Javascript development framework",
+  "description": "a plugable Typescript/Javascript development framework",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {
@@ -26,7 +26,7 @@
     "@vta/config": "^1.0.0",
     "@vta/helpers": "^1.0.0",
     "chalk": "^3.0.0",
-    "chokidar": "3.3.0",
+    "chokidar": "^3.3.0",
     "commander": "^4.0.0",
     "core-js": "^3.0.0",
     "tapable": "^2.0.0-0"
