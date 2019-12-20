@@ -6,6 +6,9 @@ import ConfigEvents from "./events";
 export default class ConfigStore implements Store {
   constructor(helpers: Helpers) {
     this.helpers = helpers;
+    if (process.env.VTA_JEST_TEST) {
+      this.ext = "ts";
+    }
   }
 
   public ext = "js";
@@ -32,7 +35,10 @@ export default class ConfigStore implements Store {
   }
 
   public getItem(key: string) {
-    return this.config[key] || {};
+    if (!this.config[key]) {
+      this.config[key] = {};
+    }
+    return this.config[key];
   }
 
   private setItem(key: string, config: Config) {

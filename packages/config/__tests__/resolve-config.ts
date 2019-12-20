@@ -87,7 +87,7 @@ describe("config", () => {
 
   it("wait-deps", () => {
     const category = "wait-deps";
-    setStoreExt("ts", category);
+    process.env.VTA_JEST_TEST = "true";
     registDir(dir1, category);
     registDir(dir2, category);
     registDir(dir3, false, category);
