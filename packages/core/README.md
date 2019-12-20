@@ -2,7 +2,7 @@
 
 a plugable Typescript/Javascript development framework
 
-![npm](https://img.shields.io/npm/v/@vta/config) [![Build Status](https://travis-ci.com/vta-js/vta.svg?branch=master)](https://travis-ci.com/vta-js/vta)
+![npm](https://img.shields.io/npm/v/vta) [![Build Status](https://travis-ci.com/vta-js/vta.svg?branch=master)](https://travis-ci.com/vta-js/vta)
 
 ## Summary
 
