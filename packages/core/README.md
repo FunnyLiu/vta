@@ -8,6 +8,12 @@ a plugable Typescript/Javascript development framework
 
 vta is a plugable Typescript/Javascript development framework, through some built in plugins you can develop or build your app out of box. when development, if your config system has something changed, the app can automatic restart to apply your new config.
 
+## Install
+
+```bash
+yarn add vta --dev
+```
+
 ## Usage
 
 ```json

@@ -8,6 +8,12 @@ vta config system
 
 this config system support loading some configs from one config file named like `babel.config.js` in user's config directory and some registed base config directories. support config dependency, like `app.config.js` dependent some configs in `babel.config.js`
 
+## Install
+
+```bash
+yarn add @vta/config
+```
+
 ## Usage
 
 ### regist config directory

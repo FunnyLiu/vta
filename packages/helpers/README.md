@@ -4,6 +4,12 @@ some helpers to use
 
 ![npm](https://img.shields.io/npm/v/@vta/helpers) [![Build Status](https://travis-ci.com/vta-js/vta.svg?branch=master)](https://travis-ci.com/vta-js/vta)
 
+## Install
+
+```bash
+yarn add @vta/helpers
+```
+
 ## Helpers
 
 - [clearRequireCache](https://github.com/vta-js/vta/tree/master/packages/helpers/src/helpers/clear-require-cache): clear nodejs module system cache
