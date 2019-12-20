@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { run } from "vta";
+import { run, resolveConfig } from "vta";
 
 jest.setTimeout(100000);
 
@@ -71,6 +71,13 @@ describe("plugin-typescript", () => {
       .then(() => loadFileContent(path.join(__dirname, "./data/project-webpack/dist/delay.js")))
       .then(({ exists }) => {
         expect(exists).toBe(false);
+      })
+      .then(() => {
+        process.env.VTA_JEST_TEST = "true";
+        const babelConfig = resolveConfig("babel", path.join(__dirname, "./data/project-webpack"));
+        expect(babelConfig.presets[babelConfig.presets.length - 1][0]).toBe(
+          "@babel/preset-typescript",
+        );
       });
   });
 });

@@ -1,4 +1,5 @@
-import { Plugin, PrepareHelpers } from "vta";
+import path from "path";
+import { Plugin, PrepareHelpers, App } from "vta";
 import TscPlugin from "./plugins/TscPlugin";
 
 export declare interface Options {
@@ -25,5 +26,11 @@ export default class TypescriptPlugin extends Plugin {
         silent: this.options.silent,
       }),
     );
+  }
+
+  apply(app: App) {
+    app.hooks.config.init(registDir => {
+      registDir(path.resolve(__dirname, "./config"));
+    });
   }
 }

@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "module": "ES2015",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "resolveJsonModule": true,
+    "target": "ES2015"
+  }
+}

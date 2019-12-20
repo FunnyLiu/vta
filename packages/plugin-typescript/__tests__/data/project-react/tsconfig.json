@@ -1,9 +1,8 @@
 {
+  "extends": "../../../tsconfig",
   "include": ["src/*.tsx"],
+  "exclude": ["src/*.spec.tsx"],
   "compilerOptions": {
-    "declaration": true,
-    "esModuleInterop": true,
-    "moduleResolution": "node",
     "jsx": "react"
   }
 }
