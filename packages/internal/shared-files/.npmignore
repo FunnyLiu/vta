@@ -1,5 +1,5 @@
 /node_modules/
 /src/
-/__test__/
+/__tests__/
 tsconfig.build.json
 babel.config.js
