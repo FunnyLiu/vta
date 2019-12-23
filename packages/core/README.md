@@ -46,7 +46,8 @@ export interface VtaConfig {
     src: string; // default src
     build: string; // default dist
   };
-  plugins: Array<Plugin | [string, object]>;
+  presets: Array<[string, object?]>;
+  plugins: Array<Plugin | [string, object?]>;
   env?: { [key: string]: VtaConfig }; // support env system
 }
 ```
@@ -64,6 +65,33 @@ if the name of the package is prefixed with `vta-plugin-`, you can use a shortha
 - `vue` is equivalent to `vta-plugin-vue`.
 - `@vta/vue` is equivalent to `@vta/plugin-vue`.
 - `@others/vue` is equivalent to `@others/vta-plugin-vue`.
+
+### presets usage
+
+```typescript
+export declare type Preset = (
+  options?: object,
+) => {
+  presets?: Array<[string, object?]>;
+  plugins?: Array<Plugin | [string, object?]>;
+};
+```
+
+a preset is a function that receive optional options and return a plugins list or another presets list. the presets usage only support an array which first element is the preset name/path and the second element is the preset options.
+
+### preset shorthand
+
+if the name of the package is prefixed with `vta-preset-`, you can use a shorthand
+
+- `vue` is equivalent to `vta-preset-vue`.
+- `@vta/vue` is equivalent to `@vta/preset-vue`.
+- `@others/vue` is equivalent to `@others/vta-preset-vue`.
+
+### plugin/preset ordering
+
+- Presets run before Plugins.
+- Preset ordering is first to last.
+- Plugin ordering is first to last.
 
 ## Plugin Interface
 

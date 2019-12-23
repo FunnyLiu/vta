@@ -103,6 +103,22 @@ describe("vta-engine", () => {
       expect(features.react.names.css).toBe("[hash].js");
       expect(features.vue).toBe(null);
     }));
+
+  it("project-9-preset", () =>
+    run({ silent: true, cwd: path.resolve(__dirname, "data/project-9") }).then(({ error: err }) => {
+      expect(err).toBe(undefined);
+      expect(process.env.VTA_CORE_PROJECT_9_01_GUID).toBe("B5E8F28B-46F8-60B7-5FD3-8B741C034A08");
+      expect(process.env.VTA_CORE_PROJECT_9_02_GUID).toBe("910B0D72-0281-F757-C1C9-566BA46F5FE0");
+      expect(process.env.VTA_CORE_PROJECT_9_03_GUID).toBe("09CE5790-9CE8-8AD5-3FBC-6AC3BDED0697");
+    }));
+
+  it("project-10-invalid-preset", () =>
+    run({ silent: true, cwd: path.resolve(__dirname, "data/project-10") }).then(
+      ({ error: err }) => {
+        expect(!!err).toBe(true);
+        expect(err.message.indexOf("cannot load preset") >= 0).toBe(true);
+      },
+    ));
 });
 
 describe("resolve-config", () => {

@@ -18,11 +18,8 @@ yarn add vta --dev
 
 ```json
 {
-  "plugins": [
-    ["@vta/typescript", { "project": "tsconfig.build.json" }],
-    ["@vta/webpack"],
-    ["@vta/react", { "dynamicRoutes": true }]
-  ]
+  "presets": [["@vta/react", { "dynamicRoutes": true }]],
+  "plugins": [["@vta/typescript", { "project": "tsconfig.build.json" }], ["@vta/webpack"]]
 }
 ```
 
@@ -37,12 +34,19 @@ create a `.vta.json` to specific your used plugins and add some scripts to `pack
 }
 ```
 
+## Presets
+
+| name                                                                                            | version                                                  | description         |
+| ----------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------- |
+| [@vta/preset-webpack](https://github.com/vta-js/preset-webpack)                                 | ![npm](https://img.shields.io/npm/v/@vta/preset-webpack) | add Webpack support |
+| [@vta/preset-react](https://github.com/vta-js/preset-webpack/tree/master/packages/preset-react) | ![npm](https://img.shields.io/npm/v/@vta/preset-react)   | add React support   |
+
 ## Plugins
 
-| name                                                                                           | version                                                     | description            |
-| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------- |
-| [@vta/plugin-typescript](https://github.com/vta-js/vta/tree/master/packages/plugin-typescript) | ![npm](https://img.shields.io/npm/v/@vta/plugin-typescript) | add Typescript support |
-| [@vta/plugin-webpack](https://github.com/vta-js/plugin-webpack)                                | ![npm](https://img.shields.io/npm/v/@vta/plugin-webpack)    | add Webpack support    |
-| [@vta/plugin-react](https://github.com/vta-js/plugin-react)                                    | ![npm](https://img.shields.io/npm/v/@vta/plugin-react)      | add React support      |
+| name                                                                                                | version                                                     | description            |
+| --------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ---------------------- |
+| [@vta/plugin-typescript](https://github.com/vta-js/vta/tree/master/packages/plugin-typescript)      | ![npm](https://img.shields.io/npm/v/@vta/plugin-typescript) | add Typescript support |
+| [@vta/plugin-webpack](https://github.com/vta-js/preset-webpack/tree/master/packages/plugin-webpack) | ![npm](https://img.shields.io/npm/v/@vta/plugin-webpack)    | add Webpack support    |
+| [@vta/plugin-react](https://github.com/vta-js/preset-webpack/tree/master/packages/plugin-react)     | ![npm](https://img.shields.io/npm/v/@vta/plugin-react)      | add React support      |
 
 ## MIT License

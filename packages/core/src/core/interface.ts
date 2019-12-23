@@ -8,7 +8,7 @@ import { Config, Store } from "@vta/config";
 /* eslint-disable @typescript-eslint/no-empty-function */
 
 export declare interface Plugin {
-  (options: object): void;
+  (options?: object): void;
 }
 
 export class Plugin {
@@ -34,6 +34,13 @@ export class Plugin {
   public apply(app: App): void {}
 }
 
+export declare type Preset = (
+  options?: object,
+) => {
+  presets?: Array<[string, object?]>;
+  plugins?: Array<Plugin | [string, object?]>;
+};
+
 export interface VtaConfig {
   /**
    * some dirs
@@ -53,9 +60,13 @@ export interface VtaConfig {
     build?: string;
   };
   /**
+   * presets that used
+   */
+  presets?: Array<[string, object?]>;
+  /**
    * plugins that used
    */
-  plugins?: Array<Plugin | [string, object]>;
+  plugins?: Array<Plugin | [string, object?]>;
   /**
    * env config. process.env.VTA_ENV || process.env.NODE_ENV
    * deepMerge(others,envConfig);
@@ -63,7 +74,7 @@ export interface VtaConfig {
   env?: { [key: string]: VtaConfig };
 }
 
-export declare type AppConfig = Omit<VtaConfig, "plugins" | "env">;
+export declare type AppConfig = Omit<VtaConfig, "presets" | "plugins" | "env">;
 
 export interface FeatureOptions {
   [key: string]: any;

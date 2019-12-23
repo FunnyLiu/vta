@@ -1,0 +1,19 @@
+{
+  "presets": [
+    [
+      "./presets/01",
+      {
+        "guid1": "B5E8F28B-46F8-60B7-5FD3-8B741C034A08",
+        "guid2": "910B0D72-0281-F757-C1C9-566BA46F5FE0"
+      }
+    ],
+    [
+      "./presets/02",
+      {
+        "guid2": "A50A20E4-71A7-C206-98DE-8479300B7873",
+        "guid3": "09CE5790-9CE8-8AD5-3FBC-6AC3BDED0697"
+      }
+    ]
+  ],
+  "plugins": [["./plugins/03", { "guid": "8B6AEBBC-F23A-EAEE-0449-167790148C21" }]]
+}
