@@ -1,7 +1,7 @@
 {
   "name": "vta",
   "version": "1.0.0",
-  "description": "a plugable Typescript/Javascript development framework",
+  "description": "a pluggable Typescript/Javascript development framework",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "bin": {

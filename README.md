@@ -1,12 +1,12 @@
 # vta
 
-a plugable Typescript/Javascript development framework
+a pluggable Typescript/Javascript development framework
 
 ![npm](https://img.shields.io/npm/v/vta) [![Build Status](https://travis-ci.com/vta-js/vta.svg?branch=master)](https://travis-ci.com/vta-js/vta) [![codecov](https://codecov.io/gh/vta-js/vta/branch/master/graph/badge.svg)](https://codecov.io/gh/vta-js/vta)
 
 ## Summary
 
-vta is a plugable Typescript/Javascript development framework, through some built in plugins you can develop or build your app out of box. when development, if your config system has something changed, the app can automatic restart to apply your new config.
+vta is a pluggable Typescript/Javascript development framework, through some built in plugins you can develop or build your app out of box. when development, if your config system has something changed, the app can automatic restart to apply your new config.
 
 ## Install
 

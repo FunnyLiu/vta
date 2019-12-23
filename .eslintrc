@@ -6,7 +6,6 @@
       {
         "ignore": ["@vta/*", "vta"]
       }
-    ],
-    "import/extensions": ["error", { "js": "never", "ts": "never", "json": "always" }]
+    ]
   }
 }
