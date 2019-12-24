@@ -12,7 +12,7 @@ export function appRunSync(
   { cwd = process.cwd(), silent = false, dontRun = false }: Options = {},
   cb: (err: Error, resolveConfig?: <T = Config>(key: string) => T) => void,
 ): void {
-  new App({ cwd, dontRun }).run((err, resolveConfig) => {
+  new App({ cwd, silent, dontRun }).run((err, resolveConfig) => {
     try {
       if (err && !silent) {
         printError(err);

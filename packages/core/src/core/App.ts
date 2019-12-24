@@ -12,6 +12,7 @@ import ConfigPlugin from "./ConfigPlugin";
 
 interface VtaAppOptions {
   cwd?: string;
+  silent?: boolean;
   dontRun?: boolean;
 }
 
@@ -21,9 +22,12 @@ export default class VtaApp implements App {
   constructor(options: VtaAppOptions) {
     this.options = options;
     this.cwd = options.cwd;
+    this.silent = options.silent;
   }
 
   public cwd: Readonly<string>;
+
+  public silent: Readonly<boolean>;
 
   public config: Readonly<AppConfig>;
 
@@ -54,9 +58,9 @@ export default class VtaApp implements App {
     }
   }
 
-  public getFeature(feature: string): FeatureOptions {
+  public getFeature<T = FeatureOptions>(feature: string): T {
     if (this.features.has(feature)) {
-      return this.features.get(feature);
+      return this.features.get(feature) as T;
     }
     return null;
   }

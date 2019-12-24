@@ -4,7 +4,6 @@ import tsc from "@vta/tsc";
 export interface Options {
   project?: string;
   exclude?: string[];
-  silent?: boolean;
 }
 
 export default class TscPlugin extends Plugin {
@@ -32,7 +31,7 @@ export default class TscPlugin extends Plugin {
           exclude: this.options.exclude,
           extTs: ["ts"].concat(features.react || features.vue ? ["tsx"] : []).join(","),
           extJs: ["js"].concat(features.react || features.vue ? ["jsx"] : []).join(","),
-          silent: this.options.silent,
+          silent: app.silent,
         }).then(err => {
           if (err) {
             throw err;

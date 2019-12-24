@@ -90,6 +90,10 @@ export declare interface App {
    */
   cwd: Readonly<string>;
   /**
+   * dont print anything
+   */
+  silent: boolean;
+  /**
    * app config. Omit<VtaConfig, "plugins" | "env">
    */
   config: Readonly<AppConfig>;
@@ -97,7 +101,7 @@ export declare interface App {
    * get feature options. return null if not registed
    * @param feature feature
    */
-  getFeature(feature: string): FeatureOptions;
+  getFeature<T = FeatureOptions>(feature: string): T;
 }
 
 export declare interface Worker {
@@ -192,5 +196,5 @@ export declare interface PrepareHelpers {
    * @param feature feature
    * @param options feature options,will deep merge with the registed options, default {}
    */
-  registFeature(feature: string, options?: FeatureOptions): void;
+  registFeature<T = FeatureOptions>(feature: string, options?: T): void;
 }

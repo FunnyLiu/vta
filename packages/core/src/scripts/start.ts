@@ -10,7 +10,8 @@ export default function run(argv): Promise<Error> {
     .name("vta start")
     .usage("--env vta_env")
     .option("--env <env>", "vta environment, default development")
+    .option("--silent <silent>", "silent mode dont display anything, default false")
     .parse(argv);
 
-  return appRun().then(({ error }) => error);
+  return appRun({ silent: program.silent }).then(({ error }) => error);
 }

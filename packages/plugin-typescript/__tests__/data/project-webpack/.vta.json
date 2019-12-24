@@ -4,8 +4,7 @@
       "../../../src",
       {
         "project": "tsconfig.build.json",
-        "exclude": ["**/*.{spec,test}.ts"],
-        "silent": true
+        "exclude": ["**/*.{spec,test}.ts"]
       }
     ],
     ["./plugins/webpack"]

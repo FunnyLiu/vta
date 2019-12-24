@@ -30,7 +30,6 @@ yarn add @vta/plugin-typescript --dev
 export declare interface Options {
   project?: string;
   exclude?: string[];
-  silent?: boolean;
 }
 ```
 
@@ -42,11 +41,7 @@ typescript config file. default `tsconfig.json`
 
 the patterns of [glob](https://github.com/isaacs/node-glob) to exclude.
 
-### silent
-
-do not display any except error message. default `false`
-
-## Registed Feature
+## Registed Vta Feature
 
 regist feature `typescript` with nothing options. only tell other plugins that **typescript** is used.
 

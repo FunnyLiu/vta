@@ -24,7 +24,7 @@ function loadFileContent(file: string): Promise<{ exists: boolean; content?: str
 
 describe("plugin-typescript", () => {
   it("project-typescript", () => {
-    return run({ cwd: path.join(__dirname, "./data/project-typescript") })
+    return run({ cwd: path.join(__dirname, "./data/project-typescript"), silent: true })
       .then(({ error: err }) => {
         expect(err).toBe(undefined);
       })
@@ -48,7 +48,7 @@ describe("plugin-typescript", () => {
       });
   });
   it("project-react", () => {
-    return run({ cwd: path.join(__dirname, "./data/project-react") })
+    return run({ cwd: path.join(__dirname, "./data/project-react"), silent: true })
       .then(({ error: err }) => {
         expect(err).toBe(undefined);
       })
@@ -64,7 +64,7 @@ describe("plugin-typescript", () => {
       });
   });
   it("project-webpack", () => {
-    return run({ cwd: path.join(__dirname, "./data/project-webpack") })
+    return run({ cwd: path.join(__dirname, "./data/project-webpack"), silent: true })
       .then(({ error: err }) => {
         expect(err).toBe(undefined);
       })
