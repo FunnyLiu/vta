@@ -1,4 +1,4 @@
-import packagesSortByDependencies from "../scripts/utils/packages-sort-by-dependencies";
+import packagesSortByDependencies from "../src/utils/packages-sort-by-dependencies";
 
 describe("packages-sort", () => {
   it("common", () => {

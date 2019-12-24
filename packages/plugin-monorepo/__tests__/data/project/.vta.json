@@ -1,0 +1,29 @@
+{
+  "plugins": [
+    [
+      "../../../src",
+      {
+        "packages": "modules",
+        "filesToCopy": [{ "src": "./shared/guid.txt", "dest": "guid.txt" }]
+      }
+    ],
+    [
+      "./plugins/record",
+      {
+        "include": "module1",
+        "options": {
+          "guid": "e4eae524-3840-409d-9d50-080860a22c81"
+        }
+      }
+    ],
+    [
+      "./plugins/record",
+      {
+        "exclude": "module1",
+        "options": {
+          "guid": "02f838ea-df8e-4846-9469-5864a3546be1"
+        }
+      }
+    ]
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "version": "1.0.0",
+  "name": "module1",
+  "dependencies": {
+    "module2": "1.0.0"
+  }
+}

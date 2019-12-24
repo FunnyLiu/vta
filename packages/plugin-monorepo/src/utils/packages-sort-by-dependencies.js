@@ -17,6 +17,11 @@ function insertIntoSorted(sorted, pkg) {
   });
 }
 
+/**
+ * sort packages by dependencies
+ * @param packages Array<{name:string,dependencies:object,peerDependencies:object}>
+ * @returns sorted packages
+ */
 module.exports = function packagesSortByDependencies(packages) {
   /* eslint-disable no-param-reassign */
   packages.forEach(p => {

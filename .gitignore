@@ -4,7 +4,7 @@
 *.temp.*
 !/packages/**/__snapshots__/dist/
 *-error.log
-/packages/internal/__tests__/data/copy-files-test/packages/test-*
+/packages/**/__tests__/data/**/test-*
 /packages/*/.npmignore
 /packages/*/babel.config.js
 /packages/*/LICENSE
