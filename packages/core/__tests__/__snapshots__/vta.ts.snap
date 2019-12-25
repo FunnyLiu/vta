@@ -5,6 +5,7 @@ exports[`vta-engine project-1: config_record_plugin 1`] = `
   \\"processOrder\\": [
     \\"prepare\\",
     \\"apply\\",
+    \\"apply@after-test\\",
     \\"hooks.ready\\",
     \\"hooks.config.app-base-start\\",
     \\"hooks.config.app-base-done\\",
@@ -12,6 +13,7 @@ exports[`vta-engine project-1: config_record_plugin 1`] = `
     \\"hooks.config.app-user-done\\",
     \\"hooks.config.app-done\\",
     \\"hooks.run\\",
+    \\"hooks.run@after-test\\",
     \\"hooks.done\\"
   ],
   \\"appConfig\\": {

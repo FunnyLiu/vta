@@ -1,5 +1,6 @@
 const path = require("path"); // eslint-disable-line
 const AdditionalPlugin = require("./additional-plugin"); // eslint-disable-line
+const AfterTestPlugin = require("./after-test-plugin"); // eslint-disable-line
 
 module.exports = class ConfigRecordPlugin {
   constructor(options) {
@@ -19,8 +20,10 @@ module.exports = class ConfigRecordPlugin {
   }
 
   prepare(helpers) {
+    helpers.registFeature("config-record", { STORE: this.STORE });
     this.STORE.processOrder.push("prepare");
     helpers.registPlugin(new AdditionalPlugin({ guid: "31131534-5e68-4b8d-96fa-757fbc2cc9b1" }));
+    helpers.registPlugin(new AfterTestPlugin(), true);
   }
 
   apply(app) {

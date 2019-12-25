@@ -35,12 +35,28 @@ export default class VtaApp implements App {
 
   private plugins: Plugin[];
 
-  private registPlugin(plugin: Plugin): void {
+  private pluginsAfter: Map<string, Plugin[]>;
+
+  private registedPluginStack: string[];
+
+  private registPlugin(plugin: Plugin, after?: boolean): void {
+    if (after) {
+      this.pluginsAfter
+        .get(this.registedPluginStack[this.registedPluginStack.length - 1])
+        .push(plugin);
+      return;
+    }
     if (plugin && !this.getPlugin(plugin.name)) {
+      this.pluginsAfter.set(plugin.name, []);
+      this.registedPluginStack.push(plugin.name);
       if (typeof plugin.prepare === "function") {
         plugin.prepare(this.prepareHelpers);
       }
       this.plugins.push(plugin);
+      this.registedPluginStack.pop();
+      this.pluginsAfter.get(plugin.name).forEach(p => {
+        this.registPlugin(p);
+      });
     }
   }
 
@@ -132,6 +148,8 @@ export default class VtaApp implements App {
 
   private prepare(configCategory: string) {
     this.plugins = [];
+    this.pluginsAfter = new Map<string, Plugin[]>();
+    this.registedPluginStack = [];
     this.features = new Map<string, FeatureOptions>();
     this.preparePrepareHelpers();
     this.prepareHooks(configCategory);

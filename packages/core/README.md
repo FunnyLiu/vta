@@ -115,8 +115,9 @@ export declare interface PrepareHelpers {
   /**
    * regist another plugin
    * @param plugin another plugin
+   * @param after regist plugin after this plugin has registed. default false
    */
-  registPlugin(plugin: Plugin): void;
+  registPlugin(plugin: Plugin, after?: boolean): void;
   /**
    * get one plugin
    * @param name plugin name
