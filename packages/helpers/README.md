@@ -22,5 +22,6 @@ yarn add @vta/helpers
 - [parseJsonPath](https://github.com/vta-js/vta/tree/master/packages/helpers/src/helpers/parse-json-path): parse a string path like `names[3].plugins[id="runtime"][8].entry` to a JSON object
 - [readJsonValue](https://github.com/vta-js/vta/tree/master/packages/helpers/src/helpers/read-json-value): read json value from a string path like `names[3][8].entry`
 - [setJsonValue](https://github.com/vta-js/vta/tree/master/packages/helpers/src/helpers/set-json-value): set value to json by a string path like names[3][8].entry
+- [spawn](https://github.com/vta-js/vta/tree/master/packages/helpers/src/helpers/spawn): spawns a new process using the given command, with command line arguments in args.
 
 ## MIT License

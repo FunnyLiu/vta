@@ -9,3 +9,4 @@ export { default as loadModuleSync } from "./helpers/load-module-sync";
 export { default as parseJsonPath } from "./helpers/parse-json-path";
 export { default as readJsonValue } from "./helpers/read-json-value";
 export { default as setJsonValue, Mode as SetJsonValueMode } from "./helpers/set-json-value";
+export { default as spawn } from "./helpers/spawn";
