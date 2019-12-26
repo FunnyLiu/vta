@@ -8,7 +8,8 @@ a [vta](https://github.com/vta-js/vta) plugin for menorepo that powered by lerna
 
 - copy files to each package before building. [detail](#copy-files)
 - build source code for each package. [detail](#build-source-code)
-- delete all copied files after published. [detail](#delete-copied-files)
+- publish packages to npm. [detail](#publish-packages)
+- delete all copied files after processed done. [detail](#delete-copied-files)
 
 ## Install
 
@@ -30,7 +31,8 @@ yarn add @vta/plugin-monorepo --dev
 export declare interface Options {
   packages?: string;
   filesToCopy?: FileToCopy[];
-  noPublish?: boolean;
+  publish?: boolean;
+  version?: string;
   changelog?: boolean;
   release?: "github" | "gitlab";
   registry?: string;
@@ -49,13 +51,19 @@ the files that need to be copied to each package. default empty
 
 if `true`, we will publish to npm. default `true`
 
+### version
+
+semver bump keyword. default `patch`. [detail](https://github.com/lerna/lerna/tree/master/commands/version#semver-bump). you can also use `--mono-version version_or_keyword` to specific the bumped version.
+
 ### changelog
 
 if `true`, we will use the [Conventional Commits Specification](https://conventionalcommits.org/) to generate CHANGELOG.md files. default `true`. [detail](https://github.com/lerna/lerna/tree/master/commands/version#--conventional-commits)
 
 ### release
 
-if `true`, we will create an official GitHub or GitLab release based on the changed packages, requires `changelog` to be `true`. default `true`. [detail](https://github.com/lerna/lerna/tree/master/commands/version#--create-release-type)
+if specificed, we will create an official GitHub or GitLab release based on the changed packages, requires `changelog` to be `true`. default `undefined`. [detail](https://github.com/lerna/lerna/tree/master/commands/version#--create-release-type).
+
+> it need process.env.GH_TOKEN or process.env.GL_TOKEN. if you are using Windows, you can set it to your environment.
 
 ### registry
 
@@ -125,6 +133,14 @@ firstly, you should install a `monorepo-builder-` plugin. it will use the regist
   ]
 }
 ```
+
+## Publish Packages
+
+if you want to publish your packages to npm or other registry. you must specific the `publish` option to `true`. we will use [lerna publish command](https://github.com/lerna/lerna/tree/master/commands/publish) to publish all changed packages.
+
+### force publish
+
+if some packages has published failed, you can use `--mono-force-publish pkg1,pkg2` to force publish it. the `pkg1` is the package's directory name.if omit the packages, we will force publish all of current packages.
 
 ## Delete Copied Files
 

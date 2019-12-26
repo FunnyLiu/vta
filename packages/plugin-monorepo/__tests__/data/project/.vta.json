@@ -4,7 +4,8 @@
       "../../../src",
       {
         "packages": "modules",
-        "filesToCopy": [{ "src": "./shared/guid.txt", "dest": "guid.txt" }]
+        "filesToCopy": [{ "src": "./shared/guid.txt", "dest": "guid.txt" }],
+        "publish": false
       }
     ],
     [

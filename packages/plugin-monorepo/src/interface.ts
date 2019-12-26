@@ -12,7 +12,8 @@ export declare type FileToCopy =
 export declare interface Options {
   packages?: string;
   filesToCopy?: FileToCopy[];
-  noPublish?: boolean;
+  publish?: boolean;
+  version?: string;
   changelog?: boolean;
   release?: "github" | "gitlab";
   registry?: string;

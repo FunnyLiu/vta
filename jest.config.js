@@ -6,7 +6,11 @@ module.exports = {
   ],
   testPathIgnorePatterns: ["/node_modules/", "/__tests__/(.+/)?data/", "/__tests__/(.+/)?utils/"],
   collectCoverage: true,
-  coveragePathIgnorePatterns: ["/node_modules/", "/__tests__/"],
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/__tests__/",
+    "plugin-monorepo/.*/plugins/.*-publish.ts",
+  ],
   moduleNameMapper: {
     "@vta/tsc": "<rootDir>/node_modules/@vta/tsc",
     "@vta/(.*)": "<rootDir>/packages/$1/src",

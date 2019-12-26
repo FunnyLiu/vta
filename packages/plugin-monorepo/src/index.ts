@@ -5,6 +5,8 @@ import resolvePackages from "./lib/resolve-packages";
 import copyFiles from "./lib/copy-files";
 import build from "./lib/build";
 import testPkgMatched from "./utils/test-pkg-matched";
+import LernaPublishPlugin from "./plugins/lerna-publish";
+import ForcePublishPlugin from "./plugins/force-publish";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -26,6 +28,35 @@ export default class MonorepoPlugin extends Plugin {
     helpers.registFeature<FeatureOptions>("monorepo", {
       registBuilder: this.registBuilder.bind(this),
     });
+    const forcePublish = helpers.app.getArgument("mono-force-publish");
+    if (forcePublish) {
+      let forcePublishPkgs;
+      if (typeof forcePublish === "string") {
+        forcePublishPkgs = forcePublish.split(",");
+      } else {
+        forcePublishPkgs = resolvePackages(
+          path.resolve(helpers.app.cwd, this.options.packages || "packages"),
+        ).map(({ pkg }) => pkg);
+      }
+      helpers.registPlugin(
+        new ForcePublishPlugin({
+          pkgs: forcePublishPkgs.map(pkg =>
+            path.resolve(helpers.app.cwd, this.options.packages || "packages", pkg),
+          ),
+          registry: this.options.registry,
+        }),
+      );
+    } else if (this.options.publish !== false) {
+      helpers.registPlugin(
+        new LernaPublishPlugin({
+          version: (helpers.app.getArgument("mono-version") as string) || this.options.version,
+          changelog: this.options.changelog,
+          release: this.options.release,
+          registry: this.options.registry,
+        }),
+        true,
+      );
+    }
   }
 
   apply(app: App) {
@@ -66,15 +97,17 @@ export default class MonorepoPlugin extends Plugin {
               err => err,
             );
           } catch (err) {
-            return Promise.reject(err);
+            return Promise.resolve(err);
           }
         },
         app.silent,
       );
     });
-    app.hooks.done.tapPromise(`${this.name}-wipe-copied-files`, () => {
-      wipeCopiedFiles();
-      return Promise.resolve();
+    app.hooks.restart.tapPromise(`${this.name}-wipe-copied-files`, () => {
+      return wipeCopiedFiles();
+    });
+    app.hooks.exit.tapPromise(`${this.name}-wipe-copied-files`, () => {
+      return wipeCopiedFiles();
     });
   }
 }
