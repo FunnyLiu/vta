@@ -13,5 +13,5 @@ export default function run(argv): Promise<Error> {
     .option("--silent <silent>", "silent mode dont display anything, default false")
     .parse(argv);
 
-  return appRun({ silent: program.silent }).then(({ error }) => error);
+  return appRun({ silent: program.silent, arguments: argv }).then(({ error }) => error);
 }

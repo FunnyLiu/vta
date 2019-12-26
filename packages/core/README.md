@@ -111,7 +111,30 @@ a plugin is a class that has a `name` property and a `apply` function which can 
 ### prepare
 
 ```typescript
+export declare interface AppBase {
+  /**
+   * current working directory
+   */
+  cwd: Readonly<string>;
+  /**
+   * dont print anything
+   */
+  silent: boolean;
+  /**
+   * app config. Omit<VtaConfig, "plugins" | "env">
+   */
+  config: Readonly<AppConfig>;
+  /**
+   * get the argument passed by cli
+   * @param arg argument. eg preset for --preset,no-push for --no-push
+   */
+  getArgument(arg: string): string | boolean;
+}
 export declare interface PrepareHelpers {
+  /**
+   * app
+   */
+  app: AppBase;
   /**
    * regist another plugin
    * @param plugin another plugin
@@ -137,19 +160,11 @@ through `prepare` function,you can prepare something like regist other dependent
 ### apply
 
 ```typescript
-export declare interface App {
+export declare interface App extends AppBase {
   /**
    * app hooks
    */
   hooks: Readonly<Hooks>;
-  /**
-   * current working directory
-   */
-  cwd: Readonly<string>;
-  /**
-   * app config. Omit<VtaConfig, "plugins" | "env">
-   */
-  config: Readonly<AppConfig>;
   /**
    * get feature options. return null if not registed
    * @param feature feature

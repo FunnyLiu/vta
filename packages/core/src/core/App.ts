@@ -14,6 +14,7 @@ interface VtaAppOptions {
   cwd?: string;
   silent?: boolean;
   dontRun?: boolean;
+  arguments?: string[];
 }
 
 let idx = 0;
@@ -81,10 +82,42 @@ export default class VtaApp implements App {
     return null;
   }
 
+  /* eslint-disable class-methods-use-this */
+  public getArgument(arg: string): string | boolean {
+    const { arguments: args } = this.options;
+    let argIdx = -1;
+    for (let i = 0, len = args.length; i < len; i += 1) {
+      if (args[i] === `--${arg}`) {
+        argIdx = i;
+        break;
+      }
+    }
+    if (argIdx >= 0) {
+      const nextArg = args[argIdx + 1];
+      if (nextArg === undefined || nextArg.substr(0, 2) === "--") {
+        return true;
+      }
+      if (nextArg.toLowerCase() === "true") {
+        return true;
+      }
+      if (nextArg.toLowerCase() === "false") {
+        return false;
+      }
+      return nextArg;
+    }
+    return undefined;
+  }
+
   private prepareHelpers: Readonly<PrepareHelpers>;
 
   private preparePrepareHelpers() {
     this.prepareHelpers = Object.freeze<PrepareHelpers>({
+      app: {
+        cwd: this.cwd,
+        silent: this.silent,
+        config: this.config,
+        getArgument: this.getArgument.bind(this),
+      },
       registPlugin: this.registPlugin.bind(this),
       getPlugin: this.getPlugin.bind(this),
       registFeature: this.registFeature.bind(this),

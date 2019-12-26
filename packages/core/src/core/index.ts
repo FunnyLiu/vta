@@ -6,13 +6,14 @@ declare interface Options {
   cwd?: string;
   silent?: boolean;
   dontRun?: boolean;
+  arguments?: string[];
 }
 
 export function appRunSync(
-  { cwd = process.cwd(), silent = false, dontRun = false }: Options = {},
+  { cwd = process.cwd(), silent = false, dontRun = false, arguments: args = [] }: Options = {},
   cb: (err: Error, resolveConfig?: <T = Config>(key: string) => T) => void,
 ): void {
-  new App({ cwd, silent, dontRun }).run((err, resolveConfig) => {
+  new App({ cwd, silent, dontRun, arguments: args }).run((err, resolveConfig) => {
     try {
       if (err && !silent) {
         printError(err);

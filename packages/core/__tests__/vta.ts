@@ -6,7 +6,11 @@ import { run, runSync, resolveConfig } from "vta"; // eslint-disable-line
 describe("vta-engine", () => {
   it("project-1", () => {
     process.chdir(path.resolve(__dirname, "data/project-1"));
-    run().then(({ error: err }) => {
+    run({
+      arguments: "--no-push --bl-true TRUE --bl-false False --plugins @vta/typescript,@vta/react --color".split(
+        " ",
+      ),
+    }).then(({ error: err }) => {
       expect(err).toBe(undefined);
       expect(
         JSON.stringify(JSON.parse(process.env.VTA_CONFIG_RECORD_PLUGIN_STORE), null, 2),
@@ -15,6 +19,14 @@ describe("vta-engine", () => {
       expect(process.env.VTA_ADDITIONAL_PLUGIN_RECORD_GUID).toBe(
         "905365f0-e49b-49bc-afe7-7550e46297bb",
       );
+
+      const args = JSON.parse(process.env.VTA_ARGUMENT_RECORD_ARGS);
+      expect(args["no-push"]).toBe(true);
+      expect(args.unknown).toBe(undefined);
+      expect(args["bl-true"]).toBe(true);
+      expect(args["bl-false"]).toBe(false);
+      expect(args.plugins).toBe("@vta/typescript,@vta/react");
+      expect(args.color).toBe(true);
     });
   });
 

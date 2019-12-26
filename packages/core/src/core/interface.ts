@@ -80,11 +80,7 @@ export interface FeatureOptions {
   [key: string]: any;
 }
 
-export declare interface App {
-  /**
-   * app hooks
-   */
-  hooks: Readonly<Hooks>;
+export declare interface AppBase {
   /**
    * current working directory
    */
@@ -97,6 +93,18 @@ export declare interface App {
    * app config. Omit<VtaConfig, "plugins" | "env">
    */
   config: Readonly<AppConfig>;
+  /**
+   * get the argument passed by cli
+   * @param arg argument. eg preset for --preset,no-push for --no-push
+   */
+  getArgument(arg: string): string | boolean;
+}
+
+export declare interface App extends AppBase {
+  /**
+   * app hooks
+   */
+  hooks: Readonly<Hooks>;
   /**
    * get feature options. return null if not registed
    * @param feature feature
@@ -181,6 +189,10 @@ export declare interface Hooks {
 }
 
 export declare interface PrepareHelpers {
+  /**
+   * app
+   */
+  app: AppBase;
   /**
    * regist another plugin
    * @param plugin another plugin
