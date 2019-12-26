@@ -45,11 +45,11 @@ the packages directory. default `packages`
 
 ### filesToCopy
 
-the files that need to be copied to each package. default empty
+the files that need to be copied to each package. default empty. [detail](#copy-files)
 
 ### publish
 
-if `true`, we will publish to npm. default `true`
+if `true`, we will publish to npm. default `true`. [detail](#publish-packages)
 
 ### version
 

@@ -48,5 +48,6 @@ create a `.vta.json` to specific your used plugins and add some scripts to `pack
 | [@vta/plugin-typescript](https://github.com/vta-js/vta/tree/master/packages/plugin-typescript)      | ![npm](https://img.shields.io/npm/v/@vta/plugin-typescript) | add Typescript support |
 | [@vta/plugin-webpack](https://github.com/vta-js/preset-webpack/tree/master/packages/plugin-webpack) | ![npm](https://img.shields.io/npm/v/@vta/plugin-webpack)    | add Webpack support    |
 | [@vta/plugin-react](https://github.com/vta-js/preset-webpack/tree/master/packages/plugin-react)     | ![npm](https://img.shields.io/npm/v/@vta/plugin-react)      | add React support      |
+| [@vta/plugin-monorepo](https://github.com/vta-js/vta/tree/master/packages/plugin-monorepo)          | ![npm](https://img.shields.io/npm/v/@vta/plugin-monorepo)   | add Monorepo support   |
 
 ## MIT License
