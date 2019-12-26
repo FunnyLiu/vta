@@ -10,7 +10,8 @@ module.exports = class ExceptionPlugin {
     });
 
     app.hooks.exit.tap(this.name, err => {
-      process.env.VTA_PROJECT_5_ERROR = err.message;
+      process.env.VTA_PROJECT_5_ASYNC_ERROR = err.message;
+      throw new Error();
     });
   }
 };

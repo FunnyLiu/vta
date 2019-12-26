@@ -191,6 +191,7 @@ export declare interface Hooks {
   run: AsyncSeriesHook<[Worker]>;
   done: AsyncParallelHook<[Worker]>;
   restart: AsyncParallelHook<[Worker]>;
+  exit: AsyncParallelHook<[Error]>;
 }
 
 export declare interface Worker {

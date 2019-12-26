@@ -186,6 +186,11 @@ export declare interface Hooks {
    *   7. app.done
    */
   restart: AsyncParallelHook<[Worker]>;
+  /**
+   * app exit hook
+   * if all are processed successfully. the passed error argument will be undefined
+   */
+  exit: AsyncParallelHook<[Error]>;
 }
 
 export declare interface PrepareHelpers {

@@ -166,6 +166,7 @@ export default class VtaApp implements App {
       run: new AsyncSeriesHook<[Worker]>(["worker"]),
       done: new AsyncParallelHook<[Worker]>(["worker"]),
       restart: new AsyncParallelHook<[Worker]>(["worker"]),
+      exit: new AsyncParallelHook<[Error]>(["err"]),
     });
   }
 
@@ -228,15 +229,39 @@ export default class VtaApp implements App {
               });
             }
             return this.hooks.done.promise(worker).then(() => {
-              cb(undefined, worker.resolveConfig);
+              this.hooks.exit
+                .promise(undefined)
+                .then(
+                  () => undefined,
+                  () => undefined,
+                )
+                .then(() => {
+                  cb(undefined, worker.resolveConfig);
+                });
             });
           })
           .catch(err => {
-            cb(err);
+            this.hooks.exit
+              .promise(err)
+              .then(
+                () => undefined,
+                () => undefined,
+              )
+              .then(() => {
+                cb(err);
+              });
           });
       }
     } catch (err) {
-      cb(err);
+      this.hooks.exit
+        .promise(err)
+        .then(
+          () => undefined,
+          () => undefined,
+        )
+        .then(() => {
+          cb(err);
+        });
     }
   }
 }

@@ -6,7 +6,7 @@ import { run, runSync, resolveConfig } from "vta"; // eslint-disable-line
 describe("vta-engine", () => {
   it("project-1", () => {
     process.chdir(path.resolve(__dirname, "data/project-1"));
-    run({
+    return run({
       arguments: "--no-push --bl-true TRUE --bl-false False --plugins @vta/typescript,@vta/react --color".split(
         " ",
       ),
@@ -51,7 +51,26 @@ describe("vta-engine", () => {
     run({ silent: true, cwd: path.resolve(__dirname, "data/project-5") }).then(({ error: err }) => {
       expect(!!err).toBe(true);
       expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
+      expect(process.env.VTA_PROJECT_5_ERROR).toBe("Plugin Promise Exception");
     }));
+
+  it("project-5-async-plugin-exception", () =>
+    run({ silent: true, cwd: path.resolve(__dirname, "data/project-5-async") }).then(
+      ({ error: err }) => {
+        expect(!!err).toBe(true);
+        expect(err.message.indexOf("Plugin Promise Exception") >= 0).toBe(true);
+        expect(process.env.VTA_PROJECT_5_ASYNC_ERROR).toBe("Plugin Promise Exception");
+      },
+    ));
+
+  it("project-5-sync-plugin-exception", () =>
+    run({ silent: true, cwd: path.resolve(__dirname, "data/project-5-sync") }).then(
+      ({ error: err }) => {
+        expect(!!err).toBe(true);
+        expect(err.message.indexOf("Plugin Sync Exception") >= 0).toBe(true);
+        expect(process.env.VTA_PROJECT_5_SYNC_ERROR).toBe("Plugin Sync Exception");
+      },
+    ));
 
   it("project-6-restart", () => {
     process.env.NODE_ENV = "development";

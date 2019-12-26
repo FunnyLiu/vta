@@ -16,5 +16,8 @@ module.exports = class ServerBuildPlugin {
         buildDir: appConfig.dirs.build,
       });
     });
+    app.hooks.exit.tap(this.name, () => {
+      throw new Error();
+    });
   }
 };

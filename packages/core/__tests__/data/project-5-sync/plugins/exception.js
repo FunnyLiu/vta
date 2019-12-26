@@ -5,12 +5,13 @@ module.exports = class ExceptionPlugin {
 
   /* eslint-disable class-methods-use-this */
   apply(app) {
-    app.hooks.run.tap("exception", () => {
-      throw new Error("Plugin Promise Exception");
+    app.hooks.config.init(() => {
+      throw new Error("Plugin Sync Exception");
     });
 
     app.hooks.exit.tap(this.name, err => {
-      process.env.VTA_PROJECT_5_ERROR = err.message;
+      process.env.VTA_PROJECT_5_SYNC_ERROR = err.message;
+      throw new Error();
     });
   }
 };

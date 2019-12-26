@@ -31,9 +31,12 @@ module.exports = class Project6Plugin {
     });
     app.hooks.done.tap("done", () => {
       STORE.process.push("done");
+    });
+    app.hooks.exit.tap("exit", () => {
       process.env.VTA_CORE_PROJECT_6_STORE_VERSIONS = JSON.stringify(STORE.versions);
       STORE.versions = [];
       process.env.VTA_CORE_PROJECT_6_STORE = JSON.stringify(STORE);
+      throw new Error("project-6 exit error");
     });
   }
 };

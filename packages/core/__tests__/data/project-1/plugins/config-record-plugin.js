@@ -16,6 +16,7 @@ module.exports = class ConfigRecordPlugin {
         runGuid: "",
         doneGuid: "",
       },
+      exitErrorUndefined: false,
     };
   }
 
@@ -61,11 +62,15 @@ module.exports = class ConfigRecordPlugin {
     app.hooks.done.tap("done", ({ resolveConfig }) => {
       STORE.processOrder.push("hooks.done");
       STORE.appConfig.doneGuid = resolveConfig("app").guid;
-      process.env.VTA_CONFIG_RECORD_PLUGIN_STORE = JSON.stringify(STORE);
     });
     app.hooks.ready.tap("ready", ({ resolveConfig }) => {
       STORE.processOrder.push("hooks.ready");
       STORE.appConfig.value = resolveConfig("app");
+    });
+    app.hooks.exit.tap("exit", err => {
+      STORE.processOrder.push("exit");
+      STORE.exitErrorUndefined = err === undefined;
+      process.env.VTA_CONFIG_RECORD_PLUGIN_STORE = JSON.stringify(STORE);
     });
   }
 };
