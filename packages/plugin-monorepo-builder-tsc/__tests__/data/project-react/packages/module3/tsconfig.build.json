@@ -1,0 +1,7 @@
+{
+  "extends": "@vta/plugin-typescript/tsconfig",
+  "include": ["src/*.ts", "src/*.tsx"],
+  "compilerOptions": {
+    "jsx": "react"
+  }
+}

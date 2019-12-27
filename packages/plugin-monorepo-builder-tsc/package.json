@@ -1,0 +1,46 @@
+{
+  "name": "@vta/plugin-monorepo-builder-tsc",
+  "version": "1.0.0",
+  "description": "a monorepo builder that build typescript project",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "engines": {
+    "node": ">= 10.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vta-js/vta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vta-js/vta/issues"
+  },
+  "homepage": "https://github.com/vta-js/vta/blob/master/packages/plugin-monorepo-builder-tsc#readme",
+  "keywords": [],
+  "author": "vta@yhbit.net",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/runtime": "^7.7.0",
+    "@vta/tsc": "^1.1.0",
+    "core-js": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.0",
+    "@babel/plugin-transform-runtime": "^7.6.0",
+    "@babel/preset-env": "^7.7.0",
+    "@babel/preset-react": "^7.7.0",
+    "@types/prop-types": "^15.7.2",
+    "@types/react": "^16.9.10",
+    "@vta/helpers": "^1.0.0",
+    "@vta/internal": "^1.0.0",
+    "@vta/plugin-monorepo": "^1.0.0",
+    "vta": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@vta/plugin-monorepo": "^1.0.0",
+    "vta": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

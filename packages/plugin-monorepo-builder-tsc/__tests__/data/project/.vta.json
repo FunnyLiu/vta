@@ -1,0 +1,6 @@
+{
+  "plugins": [
+    ["../../../../plugin-monorepo/src", { "publish": false }],
+    ["../../../src", { "options": { "project": "tsconfig.build.json" } }]
+  ]
+}

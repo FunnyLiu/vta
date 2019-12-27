@@ -1,0 +1,1 @@
+{ "extends": "@vta/plugin-typescript/tsconfig", "include": ["src/*.ts"] }
