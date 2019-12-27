@@ -1,6 +1,6 @@
 {
   "name": "@vta/babel-preset",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "resolve user's babel config",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -24,8 +24,8 @@
     "core-js": "^3.0.0"
   },
   "devDependencies": {
-    "@vta/config": "^1.0.0",
-    "vta": "^1.0.0"
+    "@vta/config": "^1.0.1",
+    "vta": "^1.0.1"
   },
   "peerDependencies": {
     "vta": "^1.0.0"

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/vta-js/vta/compare/v1.0.0...v1.0.1) (2019-12-27)
+
+### Features
+
+- **babel-preset:** support env ([d221695](https://github.com/vta-js/vta/commit/d221695))
+- **core:** add exit hook ([659d1a5](https://github.com/vta-js/vta/commit/659d1a5))
+- **core:** export silent of app ([288aa14](https://github.com/vta-js/vta/commit/288aa14))
+- **core:** support get argument passed by cli ([3cf69e4](https://github.com/vta-js/vta/commit/3cf69e4))
+- **core:** support plugin registed after this plugin ([eab5acf](https://github.com/vta-js/vta/commit/eab5acf))
+- **core:** support presets ([114295e](https://github.com/vta-js/vta/commit/114295e))
+- **core:** use default env as development ([394d59e](https://github.com/vta-js/vta/commit/394d59e))
+- **helpers:** add spawn ([19006f8](https://github.com/vta-js/vta/commit/19006f8))
+- **plugin-monorepo:** export FeatureOptions and BuilderOptions ([7a67346](https://github.com/vta-js/vta/commit/7a67346))
+- **plugin-monorepo:** init ([a79389b](https://github.com/vta-js/vta/commit/a79389b))
+- **plugin-monorepo:** support publish ([b3edd7a](https://github.com/vta-js/vta/commit/b3edd7a))
+- **plugin-monorepo-builder-tsc:** init ([5eafbf2](https://github.com/vta-js/vta/commit/5eafbf2))
+
 # 1.0.0 (2019-12-20)
 
 ### Bug Fixes

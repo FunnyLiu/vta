@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/vta-js/vta/compare/v1.0.0...v1.0.1) (2019-12-27)
+
+### Features
+
+- **core:** add exit hook ([659d1a5](https://github.com/vta-js/vta/commit/659d1a5))
+- **core:** export silent of app ([288aa14](https://github.com/vta-js/vta/commit/288aa14))
+- **core:** support get argument passed by cli ([3cf69e4](https://github.com/vta-js/vta/commit/3cf69e4))
+- **core:** support plugin registed after this plugin ([eab5acf](https://github.com/vta-js/vta/commit/eab5acf))
+- **core:** support presets ([114295e](https://github.com/vta-js/vta/commit/114295e))
+- **core:** use default env as development ([394d59e](https://github.com/vta-js/vta/commit/394d59e))
+
 # 1.0.0 (2019-12-20)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "vta",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "a pluggable Typescript/Javascript development framework",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -23,8 +23,8 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.0",
-    "@vta/config": "^1.0.0",
-    "@vta/helpers": "^1.0.0",
+    "@vta/config": "^1.0.1",
+    "@vta/helpers": "^1.0.1",
     "chalk": "^3.0.0",
     "chokidar": "^3.3.0",
     "commander": "^4.0.0",
@@ -32,7 +32,7 @@
     "tapable": "^2.0.0-0"
   },
   "devDependencies": {
-    "@vta/internal": "^1.0.0"
+    "@vta/internal": "^1.0.1"
   },
   "publishConfig": {
     "access": "public"

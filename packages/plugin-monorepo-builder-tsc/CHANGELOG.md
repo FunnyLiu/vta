@@ -7,10 +7,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- **babel-preset:** support env ([d221695](https://github.com/vta-js/vta/commit/d221695))
-
-# 1.0.0 (2019-12-20)
-
-### Features
-
-- **babel-preset:** init ([d858a43](https://github.com/vta-js/vta/commit/d858a43))
+- **plugin-monorepo-builder-tsc:** init ([5eafbf2](https://github.com/vta-js/vta/commit/5eafbf2))
