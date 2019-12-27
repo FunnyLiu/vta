@@ -51,7 +51,7 @@ you should write your config file in your registed config directory named like `
 
 #### env support
 
-in your config file, you can use env system. it will match `process.env.VTA_ENV || process.env.NODE_ENV`. we will firstly `deepMerged` all un env specific configs, then `deepMerged` the matched env configs.
+in your config file, you can use env system. it will match `process.env.VTA_ENV || process.env.NODE_ENV || "development"`. we will firstly `deepMerged` all un env specific configs, then `deepMerged` the matched env configs.
 
 ```javascript
 import { useBase } from "@vta/config";
