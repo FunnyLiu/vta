@@ -1,5 +1,5 @@
 import path from "path";
-import babelPreset from "@vta/babel-preset"; // eslint-disable-line
+import { vtaBabelPreset as babelPreset } from "@vta/babel-preset"; // eslint-disable-line
 
 it("babel-preset", () => {
   process.chdir(path.resolve(__dirname, "./data/project"));
