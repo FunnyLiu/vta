@@ -134,6 +134,10 @@ firstly, you should install a `monorepo-builder-` plugin. it will use the regist
 }
 ```
 
+### some builders
+
+- [@vta/plugin-monorepo-builder-tsc](https://github.com/vta-js/vta/tree/master/packages/plugin-monorepo-builder-tsc): build packages written by Typescript using [@vta/tsc](https://github.com/vta-js/tsc).
+
 ## Publish Packages
 
 if you want to publish your packages to npm or other registry. you must specific the `publish` option to `true`. we will use [lerna publish command](https://github.com/lerna/lerna/tree/master/commands/publish) to publish all changed packages.
