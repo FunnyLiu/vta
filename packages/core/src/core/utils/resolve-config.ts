@@ -8,7 +8,10 @@ const configFiles = [".vta.config.js", ".vta.js", ".vta.config.json", ".vta.json
 
 function getConfigThroughEnv(config: VtaConfig): VtaConfig {
   const { env = {}, ...others } = config;
-  return deepMerge<VtaConfig, VtaConfig>(others, env[process.env.VTA_ENV || process.env.NODE_ENV]);
+  return deepMerge<VtaConfig, VtaConfig>(
+    others,
+    env[process.env.VTA_ENV || process.env.NODE_ENV || "development"],
+  );
 }
 
 function resolvePlugins(plugins: Array<Plugin | [string, object?]>, cwd: string): Plugin[] {
