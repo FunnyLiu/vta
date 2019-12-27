@@ -25,14 +25,14 @@ export declare interface Pkg {
   name: string;
 }
 
-export declare type Builder = (pkg: Pkg, options?: { [key: string]: any }) => Promise<Error>;
+export declare type Builder<T = { [key: string]: any }> = (pkg: Pkg, options?: T) => Promise<Error>;
 
-export declare interface BuilderOptions {
+export declare interface BuilderOptions<T = { [key: string]: any }> {
   include?: RegExp | string;
   exclude?: RegExp | string;
-  options?: { [key: string]: any };
+  options?: T;
 }
 
 export declare interface FeatureOptions {
-  registBuilder(builder: Builder, options?: BuilderOptions): void;
+  registBuilder<T = { [key: string]: any }>(builder: Builder<T>, options?: BuilderOptions<T>): void;
 }

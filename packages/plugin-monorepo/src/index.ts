@@ -10,6 +10,8 @@ import ForcePublishPlugin from "./plugins/force-publish";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+export { FeatureOptions, BuilderOptions };
+
 export default class MonorepoPlugin extends Plugin {
   constructor(options: Options = {}) {
     super("@vta/plugin-monorepo");
