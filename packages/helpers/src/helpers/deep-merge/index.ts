@@ -3,7 +3,9 @@ import deepClone from "../deep-clone";
 function merge(target, source) {
   if (
     Object.prototype.toString.call(target) === "[object Object]" &&
-    Object.prototype.toString.call(source) === "[object Object]"
+    target.constructor === {}.constructor &&
+    Object.prototype.toString.call(source) === "[object Object]" &&
+    source.constructor === {}.constructor
   ) {
     const dest = deepClone(target);
     Reflect.ownKeys(source).forEach(prop => {

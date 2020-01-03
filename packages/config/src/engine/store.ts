@@ -47,7 +47,10 @@ export default class ConfigStore implements Store {
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   private resolveValue(key: string, value, envContainer?: any[], matchEnv = false) {
-    if (Object.prototype.toString.call(value) === "[object Object]") {
+    if (
+      Object.prototype.toString.call(value) === "[object Object]" &&
+      value.constructor === {}.constructor
+    ) {
       if (typeof value.type === "symbol" && this.helpers.has(value.type)) {
         return this.resolveValue(
           key,

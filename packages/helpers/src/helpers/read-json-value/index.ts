@@ -73,7 +73,10 @@ export function getFiltedItems(items, jsonPath: JSONPath, indexes?: number[]) {
 function readValueByJsonPath(obj, jsonPath: JSONPath) {
   if (jsonPath) {
     if (jsonPath.type === "key") {
-      if (Object.prototype.toString.call(obj) === "[object Object]") {
+      if (
+        Object.prototype.toString.call(obj) === "[object Object]" &&
+        obj.constructor === {}.constructor
+      ) {
         return readValueByJsonPath(obj[jsonPath.value as string], jsonPath.children);
       }
       return undefined;

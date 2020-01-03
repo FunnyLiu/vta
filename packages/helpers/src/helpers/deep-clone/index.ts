@@ -1,5 +1,8 @@
 function clone(source) {
-  if (Object.prototype.toString.call(source) === "[object Object]") {
+  if (
+    Object.prototype.toString.call(source) === "[object Object]" &&
+    source.constructor === {}.constructor
+  ) {
     const dest = {};
     Reflect.ownKeys(source).forEach(prop => {
       dest[prop] = clone(source[prop]);
