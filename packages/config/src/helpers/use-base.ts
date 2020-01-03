@@ -12,6 +12,8 @@ registHelper<UseBasePayload>(TYPE, (store, key, payload) => {
  * use base config and return additional config by cb
  * @param cb receive config and return additional config
  */
-export default function useBase(cb: (config: Config) => Config): ConfigByHelper<UseBasePayload> {
+export default function useBase<T = Config, R = T>(
+  cb: (config: T) => R,
+): ConfigByHelper<UseBasePayload> {
   return { type: TYPE, payload: cb };
 }

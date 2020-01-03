@@ -19,15 +19,18 @@ registHelper<UseDepsPayload>(TYPE, (store, key, payload) => {
  * @param dep dependent key
  * @param cb receive config and return additional config
  */
-function useDeps(dep: string, cb?: (config: Config) => Config): ConfigByHelper<UseDepsPayload>;
+function useDeps<T = Config, R = Config>(
+  dep: string,
+  cb?: (config: T) => R,
+): ConfigByHelper<UseDepsPayload>;
 /**
  * use another key's config and return additional config by cb
  * @param deps dependent keys
  * @param cb  receive config and return additional config
  */
-function useDeps(
+function useDeps<T = Config[], R = Config>(
   deps: string[],
-  cb?: (configs: Config[]) => Config,
+  cb?: (configs: T) => R,
 ): ConfigByHelper<UseDepsPayload>;
 
 function useDeps(depOrDeps, cb) {

@@ -31,15 +31,18 @@ registHelper<UseValuePayload>(TYPE, (store, key, payload) => {
  * @param path one path of base or dependent
  * @param cb receive value and return additional config
  */
-function useValue(path: ValuePath, cb?: (value: any) => Config): ConfigByHelper<UseValuePayload>;
+function useValue<T, R = Config>(
+  path: ValuePath,
+  cb?: (value: T) => R,
+): ConfigByHelper<UseValuePayload>;
 /**
  * use value of base or dependent by path list and return additional config by cb
  * @param path list paths of base or dependent
  * @param cb  receive values and return additional config
  */
-function useValue(
+function useValue<T = any[], R = Config>(
   path: ValuePath[],
-  cb?: (values: any[]) => Config,
+  cb?: (values: T) => R,
 ): ConfigByHelper<UseValuePayload>;
 
 function useValue(path, cb) {

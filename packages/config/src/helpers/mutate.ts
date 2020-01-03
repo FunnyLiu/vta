@@ -28,18 +28,18 @@ registHelper<MutatePayload>(TYPE, (store, key, payload) => {
  * @param options one options that post to vta/helpers/setJsonValue
  * @param cb receive config and return additional config
  */
-function mutate(
+function mutate<T = Config, R = T>(
   options: MutateOptions,
-  cb?: (config: Config) => Config,
+  cb?: (config: T) => R,
 ): ConfigByHelper<MutatePayload>;
 /**
  * update the config by list of options and return additional config by cb
  * @param options  list of options that post to vta/helpers/setJsonValue
  * @param cb  receive config and return additional config
  */
-function mutate(
+function mutate<T = Config, R = T>(
   options: MutateOptions[],
-  cb?: (config: Config) => Config,
+  cb?: (config: T) => R,
 ): ConfigByHelper<MutatePayload>;
 
 function mutate(options, cb) {
