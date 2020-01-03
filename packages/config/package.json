@@ -1,6 +1,6 @@
 {
   "name": "@vta/config",
-  "version": "1.0.1",
+  "version": "1.0.4",
   "description": "vta config system",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.0",
-    "@vta/helpers": "^1.0.1",
+    "@vta/helpers": "^1.0.4",
     "core-js": "^3.0.0"
   },
   "devDependencies": {

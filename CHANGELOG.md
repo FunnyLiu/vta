@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/vta-js/vta/compare/v1.0.3...v1.0.4) (2020-01-03)
+
+### Bug Fixes
+
+- only merge json object ([c017e9d](https://github.com/vta-js/vta/commit/c017e9d))
+
+### Features
+
+- **config:** some helpers support generic ([f7d4d77](https://github.com/vta-js/vta/commit/f7d4d77))
+
 ## [1.0.3](https://github.com/vta-js/vta/compare/v1.0.2...v1.0.3) (2019-12-30)
 
 ### Bug Fixes

@@ -1,6 +1,6 @@
 {
   "name": "@vta/plugin-monorepo",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "plugin for menorepo that powered by lerna or yarn workspace",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -20,14 +20,14 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.7.0",
-    "@vta/helpers": "^1.0.1",
+    "@vta/helpers": "^1.0.4",
     "chalk": "^3.0.0",
     "core-js": "^3.0.0",
     "fs-extra": "^8.0.0"
   },
   "devDependencies": {
     "@vta/internal": "^1.0.1",
-    "vta": "^1.0.3"
+    "vta": "^1.0.4"
   },
   "peerDependencies": {
     "vta": "^1.0.0"
