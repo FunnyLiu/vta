@@ -25,6 +25,24 @@ yarn add vta --dev
 }
 ```
 
+## Cli Options
+
+### env
+
+vta environment, default **development** for `start`, **production** fro `build`.
+
+### silent
+
+silent mode dont display anything, default **false**
+
+### cwd
+
+woking directory relative to current working directory, default **.**
+
+### other options
+
+any other options can be used and plugins can get it by `prepareHelpers.getArgument`;
+
 ## Processiong Order
 
 1. load user's root config
