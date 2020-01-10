@@ -1,6 +1,6 @@
 {
   "name": "@vta/plugin-monorepo-builder-tsc",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "a monorepo builder that build typescript project",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -33,8 +33,8 @@
     "@types/react": "^16.9.10",
     "@vta/helpers": "^1.0.4",
     "@vta/internal": "^1.0.1",
-    "@vta/plugin-monorepo": "^1.0.4",
-    "vta": "^1.0.4"
+    "@vta/plugin-monorepo": "^1.0.5",
+    "vta": "^1.0.5"
   },
   "peerDependencies": {
     "@vta/plugin-monorepo": "^1.0.0",

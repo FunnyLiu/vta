@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.5](https://github.com/vta-js/vta/compare/v1.0.4...v1.0.5) (2020-01-10)
+
+### Features
+
+- **core:** add config option for cli usage ([09425cf](https://github.com/vta-js/vta/commit/09425cf))
+- **core:** add cwd option for cli usage ([f442724](https://github.com/vta-js/vta/commit/f442724))
+- **core:** add FsWatcherToRestartPlugin ([ab3c26c](https://github.com/vta-js/vta/commit/ab3c26c))
+
 ## [1.0.4](https://github.com/vta-js/vta/compare/v1.0.3...v1.0.4) (2020-01-03)
 
 ### Bug Fixes
