@@ -236,4 +236,26 @@ export default function vtaBabelPreset() {
 }
 ```
 
+## Builtins Plugins
+
+### FsWatcherToRestartPlugin
+
+watch some directories or files change, then restart the app. **Enabled when `NODE_ENV` is `development`**. Default we will watch user's config directory and the vta root config file.
+
+```typescript
+import path from "path";
+import { Plugin, FsWatcherToRestartPlugin } from "vta";
+
+export default class YourPlugin extends Plugin {
+  constructor() {
+    super("your-plugin-name");
+  }
+
+  apply(app: App) {
+    FsWatcherToRestartPlugin.watchDirectory(path.resolve(__dirname__, "../config"), app);
+    FsWatcherToRestartPlugin.watchFile(require.resolve("../theme"), app);
+  }
+}
+```
+
 ## MIT License

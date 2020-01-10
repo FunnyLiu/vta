@@ -95,6 +95,33 @@ describe("vta-engine", () => {
     );
   });
 
+  it("project-6-restart-root", () => {
+    process.env.NODE_ENV = "development";
+    fs.mkdirSync(path.resolve(__dirname, "data/project-6-root/dist"));
+    const writeRootConfig = guid => {
+      fs.writeFileSync(
+        path.resolve(__dirname, "data/project-6-root/dist/vta.js"),
+        `module.exports = {plugins:[["../plugins",{"guid":"${guid}"}]]};`,
+      );
+    };
+    writeRootConfig("994321ef-3a35-4b32-9baf-62420c9fb1e0");
+    setTimeout(() => {
+      writeRootConfig("f0cb95a3-5920-4f00-b460-13e8c4a57d1c");
+    }, 1000);
+    return run({
+      silent: true,
+      cwd: path.resolve(__dirname, "data/project-6-root"),
+      config: "./dist/vta.js",
+    }).then(({ error: err }) => {
+      expect(err).toBe(undefined);
+      const store = JSON.parse(process.env.VTA_CORE_6_ROOT_STORE);
+      expect(store.length).toBe(2);
+      expect(store[0].guid).toBe("994321ef-3a35-4b32-9baf-62420c9fb1e0");
+      expect(store[1].guid).toBe("f0cb95a3-5920-4f00-b460-13e8c4a57d1c");
+      expect(store[0].timestamp === store[1].timestamp).toBe(false);
+    });
+  });
+
   it("project-7-env-locale", () => {
     process.env.VTA_ENV = "locale";
     return run({ silent: true, cwd: path.resolve(__dirname, "data/project-7") }).then(

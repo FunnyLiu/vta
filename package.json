@@ -52,6 +52,7 @@
     "pre-commit": "yarn lint-staged",
     "prepack": "node packages/internal/scripts/prepack",
     "postpack": "node packages/internal/scripts/postpack",
+    "build": "yarn prepack && yarn postpack",
     "npm-publish": "lerna publish patch --conventional-commits --create-release github --registry https://registry.npmjs.org",
     "install": "vta-format-npm-yarn-lock",
     "bootstrap": "lerna bootstrap --force-local",

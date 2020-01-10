@@ -1,6 +1,6 @@
 import path from "path";
 import chalk from "chalk";
-import { loadModuleSync, clearRequireCache, deepMerge } from "@vta/helpers";
+import { loadModuleSync, deepMerge } from "@vta/helpers";
 import { Plugin, VtaConfig, AppConfig, Preset } from "../interface";
 import standardizeName from "./standardize-name";
 
@@ -23,7 +23,6 @@ function resolvePlugins(plugins: Array<Plugin | [string, object?]>, cwd: string)
         let LoadedPlugin;
         try {
           const file = require.resolve(standardizeName("plugin", name), { paths: [cwd] });
-          clearRequireCache(file);
           LoadedPlugin = loadModuleSync<Plugin>(file);
         } catch {} // eslint-disable-line
         if (!LoadedPlugin) {
@@ -47,7 +46,6 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
       let nextCwd = "";
       try {
         const file = require.resolve(standardizeName("preset", name), { paths: [cwd] });
-        clearRequireCache(file);
         nextCwd = path.resolve(file, "../");
         LoadedPreset = loadModuleSync<Preset>(file);
       } catch {} // eslint-disable-line
@@ -70,28 +68,32 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
 export default function resolveConfig(
   cwd: string,
   configFile?: string,
-): AppConfig & { plugins: Plugin[] } {
+): AppConfig & { plugins: Plugin[]; configFile: string } {
   const plugins: Plugin[] = [];
   let config: VtaConfig;
+  let targetConfigFile;
   if (configFile) {
     const file = path.resolve(cwd, configFile);
-    clearRequireCache(file);
     config = loadModuleSync<VtaConfig>(file);
+    targetConfigFile = file;
+    if (config) {
+      cwd = path.resolve(targetConfigFile, "../"); // eslint-disable-line
+    }
   } else {
     for (let i = 0, len = configFiles.length; i < len; i += 1) {
       const file = path.resolve(cwd, configFiles[i]);
-      clearRequireCache(file);
       config = loadModuleSync<VtaConfig>(file);
       if (config) {
+        targetConfigFile = file;
         break;
       }
     }
   }
   if (!config) {
     const file = path.resolve(cwd, "package.json");
-    clearRequireCache(file);
     const packageJson = loadModuleSync<{ vta?: VtaConfig }>(file, {});
     config = packageJson.vta;
+    targetConfigFile = file;
   }
   if (!config) {
     throw new Error("cannot load vta config file");
@@ -112,5 +114,6 @@ export default function resolveConfig(
       build: config.dirs?.build || "dist",
     },
     plugins,
+    configFile: targetConfigFile,
   };
 }

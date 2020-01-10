@@ -1204,9 +1204,9 @@
   integrity sha1-PcoOPzOyAPx9ETnAzZbBJoyt/Z0=
 
 "@types/node@*", "@types/node@^13.0.0":
-  version "13.1.5"
-  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-13.1.5.tgz#4d5efc52a1d3e45d13e5ec9f911cbc5b089ccaec"
-  integrity sha1-TV78UqHT5F0T5eyfkRy8Wwicyuw=
+  version "13.1.6"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-13.1.6.tgz#076028d0b0400be8105b89a0a55550c86684ffec"
+  integrity sha1-B2Ao0LBAC+gQW4mgpVVQyGaE/+w=
 
 "@types/node@^12.0.2":
   version "12.12.24"
@@ -2437,9 +2437,9 @@ ecc-jsbn@~0.1.1:
     safer-buffer "^2.1.0"
 
 electron-to-chromium@^1.3.322:
-  version "1.3.329"
-  resolved "https://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.3.329.tgz#ff3644fb216bdccc33b2063c36f679deb5316cde"
-  integrity sha1-/zZE+yFr3MwzsgY8NvZ53rUxbN4=
+  version "1.3.330"
+  resolved "https://registry.npm.taobao.org/electron-to-chromium/download/electron-to-chromium-1.3.330.tgz#c288aeb89fa2c15879c29f81a4362374132387fb"
+  integrity sha1-woiuuJ+iwVh5wp+BpDYjdBMjh/s=
 
 elegant-spinner@^1.0.1:
   version "1.0.1"
@@ -3283,9 +3283,9 @@ http-signature@~1.2.0:
     sshpk "^1.7.0"
 
 husky@^4.0.0:
-  version "4.0.3"
-  resolved "https://registry.npm.taobao.org/husky/download/husky-4.0.3.tgz#8a082455f8c76a602ec00f9a6a6f9f458860f49e"
-  integrity sha1-iggkVfjHamAuwA+aam+fRYhg9J4=
+  version "4.0.5"
+  resolved "https://registry.npm.taobao.org/husky/download/husky-4.0.5.tgz#c089bc249585b7c6ba54542e13b570402bae8d6f"
+  integrity sha1-wIm8JJWFt8a6VFQuE7VwQCuujW8=
   dependencies:
     chalk "^3.0.0"
     ci-info "^2.0.0"
