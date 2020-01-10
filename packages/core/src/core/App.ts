@@ -12,6 +12,7 @@ import ConfigPlugin from "./ConfigPlugin";
 
 interface VtaAppOptions {
   cwd?: string;
+  configFile?: string;
   silent?: boolean;
   dontRun?: boolean;
   arguments?: string[];
@@ -197,7 +198,7 @@ export default class VtaApp implements App {
 
       this.registPlugin(
         new ConfigPlugin(
-          { cwd: this.cwd },
+          { cwd: this.cwd, configFile: this.options.configFile },
           config => {
             this.config = Object.freeze<AppConfig>(config);
           },

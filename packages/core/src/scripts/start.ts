@@ -13,10 +13,12 @@ export default function run(argv): Promise<Error> {
     .option("--env <env>", "vta environment, default development")
     .option("--silent <silent>", "silent mode dont display anything, default false")
     .option("--cwd <cwd>", "woking directory relative to current working directory, default .")
+    .option("--config <config>", "root config file relative to working directory")
     .parse(argv);
 
   return appRun({
     cwd: path.resolve(process.cwd(), program.cwd || "."),
+    config: program.config,
     silent: program.silent,
     arguments: argv,
   }).then(({ error }) => error);

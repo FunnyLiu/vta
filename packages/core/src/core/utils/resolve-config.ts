@@ -67,15 +67,24 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
   return resolvedPlugins;
 }
 
-export default function resolveConfig(cwd: string): AppConfig & { plugins: Plugin[] } {
+export default function resolveConfig(
+  cwd: string,
+  configFile?: string,
+): AppConfig & { plugins: Plugin[] } {
   const plugins: Plugin[] = [];
   let config: VtaConfig;
-  for (let i = 0, len = configFiles.length; i < len; i += 1) {
-    const file = path.resolve(cwd, configFiles[i]);
+  if (configFile) {
+    const file = path.resolve(cwd, configFile);
     clearRequireCache(file);
     config = loadModuleSync<VtaConfig>(file);
-    if (config) {
-      break;
+  } else {
+    for (let i = 0, len = configFiles.length; i < len; i += 1) {
+      const file = path.resolve(cwd, configFiles[i]);
+      clearRequireCache(file);
+      config = loadModuleSync<VtaConfig>(file);
+      if (config) {
+        break;
+      }
     }
   }
   if (!config) {

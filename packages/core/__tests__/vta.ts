@@ -7,6 +7,7 @@ describe("vta-engine", () => {
   it("project-1", () => {
     process.chdir(path.resolve(__dirname, "data/project-1"));
     return run({
+      config: "./.vta.js",
       arguments: "--no-push --bl-true TRUE --bl-false False --plugins @vta/typescript,@vta/react --color".split(
         " ",
       ),

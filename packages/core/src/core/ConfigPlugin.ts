@@ -6,13 +6,13 @@ import resolveConfig from "./utils/resolve-config";
 
 export default class ConfigPlugin extends Plugin {
   constructor(
-    { cwd }: { cwd: string },
+    { cwd, configFile }: { cwd: string; configFile?: string },
     registConfig: (config: AppConfig) => void,
     registConfigDir: (dir: string) => void,
     needRestartHook: AsyncSeriesHook<[]>,
   ) {
     super("@vta/core/config");
-    const { plugins, ...config } = resolveConfig(cwd);
+    const { plugins, ...config } = resolveConfig(cwd, configFile);
     registConfig(config);
     this.plugins = plugins;
     registConfigDir(path.resolve(cwd, config.dirs.config));

@@ -39,6 +39,10 @@ silent mode dont display anything, default **false**
 
 woking directory relative to current working directory, default **.**
 
+### config
+
+vta root config file relative to [cwd](#cwd). default **undefined**. [detail](#config-system)
+
 ### other options
 
 any other options can be used and plugins can get it by `prepareHelpers.getArgument`;
@@ -70,7 +74,7 @@ export interface VtaConfig {
 }
 ```
 
-vta use [@vta/config](https://github.com/vta-js/vta/tree/master/packages/config) as a config system. firstly, you should create a root config file named `.vta{.config}.js{on}`, in this file you can regist used plugins, and optional specific `config/src/build` directory.
+vta use [@vta/config](https://github.com/vta-js/vta/tree/master/packages/config) as a config system. firstly, you should create a root config file named `.vta{.config}.js{on}` or specific the file path through [config](#config) option, in this file you can regist used plugins, and optional specific `config/src/build` directory.
 
 ### plugins usage
 
