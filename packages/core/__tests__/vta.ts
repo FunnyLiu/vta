@@ -1,5 +1,5 @@
 import path from "path";
-import fs from "fs";
+import fse from "fs-extra"; // eslint-disable-line
 import { run, runSync, resolveConfig } from "vta"; // eslint-disable-line
 
 /* eslint-disable */
@@ -76,7 +76,7 @@ describe("vta-engine", () => {
   it("project-6-restart", () => {
     process.env.NODE_ENV = "development";
     setTimeout(() => {
-      fs.writeFileSync(
+      fse.writeFileSync(
         path.resolve(__dirname, "data/project-6/config/01.temp.js"),
         "module.exports = {};",
       );
@@ -97,9 +97,9 @@ describe("vta-engine", () => {
 
   it("project-6-restart-root", () => {
     process.env.NODE_ENV = "development";
-    fs.mkdirSync(path.resolve(__dirname, "data/project-6-root/dist"));
+    fse.ensureDirSync(path.resolve(__dirname, "data/project-6-root/dist"));
     const writeRootConfig = guid => {
-      fs.writeFileSync(
+      fse.writeFileSync(
         path.resolve(__dirname, "data/project-6-root/dist/vta.js"),
         `module.exports = {plugins:[["../plugins",{"guid":"${guid}"}]]};`,
       );

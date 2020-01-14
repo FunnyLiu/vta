@@ -1,6 +1,6 @@
 import path from "path";
-import fs, { watch } from "fs";
-import chokidar, { FSWatcher } from "chokidar";
+import fs from "fs";
+import chokidar from "chokidar";
 import { clearRequireCache } from "@vta/helpers";
 import { Plugin, App } from "../core/interface";
 

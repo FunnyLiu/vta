@@ -19,9 +19,9 @@
   "author": "vta@yhbit.net",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.7.0",
+    "@babel/runtime": "^7.8.0",
     "@vta/helpers": "^1.0.4",
-    "core-js": "^3.0.0"
+    "core-js": "^3.6.0"
   },
   "devDependencies": {
     "@vta/internal": "^1.0.1"
