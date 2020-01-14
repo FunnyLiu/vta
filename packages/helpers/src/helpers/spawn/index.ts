@@ -27,7 +27,10 @@ function spawn(
       } else if (signal) {
         errorProcessor(new Error(`child_processor exit by signal ${chalk.yellow(signal)} `));
       } else {
-        const errMsg = p.stderr?.read()?.toString("utf-8");
+        let errMsg = p.stderr?.read()?.toString("utf-8");
+        if (!errMsg) {
+          errMsg = p.stdout?.read()?.toString("utf-8");
+        }
         errorProcessor(
           new Error(errMsg || `child_processor exit with code ${chalk.yellow(code.toString())}`),
         );
