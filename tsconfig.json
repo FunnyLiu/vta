@@ -3,7 +3,7 @@
   "inclue": ["packages/**/*.ts"],
   "exclude": ["packages/**/*.d.ts"],
   "compilerOptions": {
-    "target": "ES2020",
+    "target": "ES2019",
     "baseUrl": "./packages",
     "paths": {
       "@vta/*": ["*/src"],
