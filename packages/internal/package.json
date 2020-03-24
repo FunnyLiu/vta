@@ -20,7 +20,7 @@
   "dependencies": {
     "@vta/tsc": "^1.1.0",
     "chalk": "^3.0.0",
-    "fs-extra": "^8.0.0"
+    "fs-extra": "^9.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.0",

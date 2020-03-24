@@ -23,7 +23,7 @@
     "@vta/helpers": "^1.0.4",
     "chalk": "^3.0.0",
     "core-js": "^3.6.0",
-    "fs-extra": "^8.0.0"
+    "fs-extra": "^9.0.0"
   },
   "devDependencies": {
     "@vta/internal": "^1.0.1",
