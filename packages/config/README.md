@@ -38,7 +38,7 @@ this config system has some [built in helpers](#built-in-helpers), if these help
 // webapck.config.js
 const { useDeps } = require("@vta/config");
 
-module.exports = useDeps("babel", babelConfig => {
+module.exports = useDeps("babel", (babelConfig) => {
   return {
     module: {
       rules: [{ type: /\.jsx$/, loader: "babel-loader", options: babelConfig }],
@@ -56,7 +56,7 @@ in your config file, you can use env system. it will match `process.env.VTA_ENV 
 ```javascript
 import { useBase } from "@vta/config";
 
-export default useBase(base => ({
+export default useBase((base) => ({
   env: {
     development: { mode: `${base.appid}-development`, devMode: { active: true } },
     production: { mode: `${base.appid}-production` },

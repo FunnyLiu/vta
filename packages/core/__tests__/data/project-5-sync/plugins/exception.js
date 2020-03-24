@@ -9,7 +9,7 @@ module.exports = class ExceptionPlugin {
       throw new Error("Plugin Sync Exception");
     });
 
-    app.hooks.exit.tap(this.name, err => {
+    app.hooks.exit.tap(this.name, (err) => {
       process.env.VTA_PROJECT_5_SYNC_ERROR = err.message;
       throw new Error();
     });

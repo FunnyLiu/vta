@@ -61,7 +61,7 @@ export default class ConfigStore implements Store {
       }
 
       /* eslint-disable no-param-reassign */
-      Reflect.ownKeys(value).forEach(prop => {
+      Reflect.ownKeys(value).forEach((prop) => {
         if (matchEnv) {
           if (prop === (process.env.VTA_ENV || process.env.NODE_ENV || "development")) {
             envContainer.push(this.resolveValue(key, value[prop]));
@@ -76,7 +76,7 @@ export default class ConfigStore implements Store {
       });
     }
     if (Array.isArray(value)) {
-      return value.map(v => this.resolveValue(key, v));
+      return value.map((v) => this.resolveValue(key, v));
     }
     return value;
   }

@@ -42,7 +42,7 @@ export default class MonorepoPlugin extends Plugin {
       }
       helpers.registPlugin(
         new ForcePublishPlugin({
-          pkgs: forcePublishPkgs.map(pkg =>
+          pkgs: forcePublishPkgs.map((pkg) =>
             path.resolve(helpers.app.cwd, this.options.packages || "packages", pkg),
           ),
           registry: this.options.registry,
@@ -70,7 +70,7 @@ export default class MonorepoPlugin extends Plugin {
     let wipeCopiedFiles;
     app.hooks.run.tapPromise(`${this.name}-copy-files`, () => {
       const { filesToCopy = [] } = this.options;
-      return copyFiles(packages, filesToCopy, app.cwd).then(store => {
+      return copyFiles(packages, filesToCopy, app.cwd).then((store) => {
         wipeCopiedFiles = store.wipe;
       });
     });
@@ -79,7 +79,7 @@ export default class MonorepoPlugin extends Plugin {
         string,
         Array<{ builder: Builder; options: { [key: string]: any } }>
       >();
-      packages.forEach(p => {
+      packages.forEach((p) => {
         buildOptions.set(p.pkg, []);
         this.builders.forEach((options, builder) => {
           if (testPkgMatched(options?.include, options?.exclude, p.pkg)) {
@@ -89,14 +89,14 @@ export default class MonorepoPlugin extends Plugin {
       });
       return build(
         packages,
-        p => {
+        (p) => {
           try {
             /* eslint-disable @typescript-eslint/no-empty-function */
             return Promise.all(
-              buildOptions.get(p.pkg).map(item => Promise.resolve(item.builder(p, item.options))),
+              buildOptions.get(p.pkg).map((item) => Promise.resolve(item.builder(p, item.options))),
             ).then(
               () => {},
-              err => err,
+              (err) => err,
             );
           } catch (err) {
             return Promise.resolve(err);

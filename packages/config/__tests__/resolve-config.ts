@@ -16,7 +16,7 @@ describe("config", () => {
     registDir(dir3, false);
 
     const processRecords = [];
-    ["app", "env", "webpack", "webpack-server"].forEach(key => {
+    ["app", "env", "webpack", "webpack-server"].forEach((key) => {
       hooks.onConfigBaseStart(
         key,
         () => {
@@ -150,7 +150,7 @@ describe("config", () => {
     );
     hooks.onConfigUserDone(
       "hooks",
-      c => {
+      (c) => {
         expect(c.enableHooks.length).toBe(5);
         return mutate({ path: "enableHooks", value: "user-done", mode: "push" });
       },
@@ -158,7 +158,7 @@ describe("config", () => {
     );
     hooks.onConfigDone(
       "hooks",
-      c => {
+      (c) => {
         expect(c.enableHooks.length).toBe(6);
         c.enableHooks.push("done");
         return mutate({ path: "enableHooks", value: "done", mode: "push" });
@@ -167,7 +167,7 @@ describe("config", () => {
     );
     hooks.onConfigBaseStart(
       "hooks",
-      store => {
+      (store) => {
         expect(store.getItem("hooks").enableHooks).toBe(undefined);
         return {
           env: {
@@ -180,7 +180,7 @@ describe("config", () => {
     );
     hooks.onConfigBaseDone(
       "hooks",
-      c => {
+      (c) => {
         expect(c.enableHooks.length).toBe(2);
         c.enableHooks.push("base-done");
       },
@@ -228,7 +228,7 @@ describe("config", () => {
     expect(config1.version.indexOf("20191212-1")).toBe(0);
     expect(config1.name).toBe("reset-test");
     reset(category);
-    return new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+    return new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
       registDir(dir1, category);
       registDir(dir2, category);
       registDir(dir3, false, category);

@@ -32,7 +32,7 @@ describe("vta-engine", () => {
   });
 
   it("project-2-invalid-vta-config", () =>
-    runSync({ silent: true, cwd: path.resolve(__dirname, "data/project-2") }, err => {
+    runSync({ silent: true, cwd: path.resolve(__dirname, "data/project-2") }, (err) => {
       expect(!!err).toBe(true);
       expect(err.message.indexOf("cannot load vta config file") >= 0).toBe(true);
     }));
@@ -98,7 +98,7 @@ describe("vta-engine", () => {
   it("project-6-restart-root", () => {
     process.env.NODE_ENV = "development";
     fse.ensureDirSync(path.resolve(__dirname, "data/project-6-root/dist"));
-    const writeRootConfig = guid => {
+    const writeRootConfig = (guid) => {
       fse.writeFileSync(
         path.resolve(__dirname, "data/project-6-root/dist/vta.js"),
         `module.exports = {plugins:[["../plugins",{"guid":"${guid}"}]]};`,

@@ -17,7 +17,7 @@ import { fileExists } from "@vta/helpers";
 function test() {
   const file = path.resolve(__dirname, "./config/babel.config.js");
 
-  fileExists(file).then(exists => {
+  fileExists(file).then((exists) => {
     console.log(exists);
   });
 }

@@ -7,13 +7,13 @@ jest.setTimeout(200000);
 const cwd = path.resolve(__dirname, "data/copy-files-test");
 
 function fileExists(dest) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     fse.exists(dest, resolve);
   });
 }
 
 function readContent(dest) {
-  return fileExists(dest).then(exists => {
+  return fileExists(dest).then((exists) => {
     if (exists) {
       return fse.readFile(dest, "utf8");
     }
@@ -22,16 +22,16 @@ function readContent(dest) {
 }
 
 function readFileCount(dest) {
-  return fse.readdir(dest).then(files => {
+  return fse.readdir(dest).then((files) => {
     return Promise.all(
-      files.map(file => {
+      files.map((file) => {
         const target = path.resolve(dest, file);
         if (fse.statSync(target).isDirectory()) {
           return readFileCount(target);
         }
         return 1;
       }),
-    ).then(fileCounts => fileCounts.reduce((sum, fileCount) => sum + fileCount, 0));
+    ).then((fileCounts) => fileCounts.reduce((sum, fileCount) => sum + fileCount, 0));
   });
 }
 
@@ -40,7 +40,7 @@ const packages = [
   "test-files-copy-001",
   "test-files-copy-002",
   "test-files-copy-011",
-].map(pkg => ({ cwd: path.resolve(cwd, "packages", pkg), pkg }));
+].map((pkg) => ({ cwd: path.resolve(cwd, "packages", pkg), pkg }));
 const filesCopyToPackages = [
   "LICENSE",
   { src: "files/guid.txt", dest: "guid.txt" },
@@ -62,7 +62,7 @@ const CONTENTS = {
 };
 
 it("readFileCount", () =>
-  readFileCount(path.resolve(cwd, "files")).then(fileCount => {
+  readFileCount(path.resolve(cwd, "files")).then((fileCount) => {
     expect(fileCount).toBe(4);
   }));
 
@@ -79,26 +79,26 @@ it("copy-files-success", () => {
         wipeCopiedFiles = wipe;
       })
       .then(() =>
-        readContent(path.resolve(cwd, "packages/delay/guid.txt")).then(content => {
+        readContent(path.resolve(cwd, "packages/delay/guid.txt")).then((content) => {
           // `delay` has its `guid.txt`, donnot copy and test origin content
           expect(content).toBe(CONTENTS.delayGuid);
         }),
       )
       .then(() =>
-        fileExists(path.resolve(cwd, "packages/delay/LICENSE")).then(exists => {
+        fileExists(path.resolve(cwd, "packages/delay/LICENSE")).then((exists) => {
           // expect copy `LICENSE` to package `delay`
           expect(exists).toBe(true);
         }),
       )
       .then(() =>
-        readContent(path.resolve(cwd, "packages/test-files-copy-001/guid.txt")).then(content => {
+        readContent(path.resolve(cwd, "packages/test-files-copy-001/guid.txt")).then((content) => {
           // expect copy `guid.txt` to package `test-files-copy-001`
           expect(content).toBe(CONTENTS.guid);
         }),
       )
       .then(() =>
         fileExists(path.resolve(cwd, "packages/test-files-copy-001/docs/verify-001.txt")).then(
-          exists => {
+          (exists) => {
             // expect donnot copy `verify.txt` to package `test-files-copy-001`
             expect(exists).toBe(false);
           },
@@ -106,7 +106,7 @@ it("copy-files-success", () => {
       )
       .then(() =>
         fileExists(path.resolve(cwd, "packages/test-files-copy-001/docs/verify-002.txt")).then(
-          exists => {
+          (exists) => {
             // expect donnot copy `verify.txt` to package `test-files-copy-002`
             expect(exists).toBe(false);
           },
@@ -114,7 +114,7 @@ it("copy-files-success", () => {
       )
       .then(() =>
         readContent(path.resolve(cwd, "packages/test-files-copy-011/docs/verify-011.txt")).then(
-          content => {
+          (content) => {
             // expect copy `verify.txt` to package `test-files-copy-011`
             expect(content).toBe(CONTENTS.verify);
           },
@@ -123,11 +123,11 @@ it("copy-files-success", () => {
       .then(() => wipeCopiedFiles())
       .then(() =>
         Promise.all([
-          readContent(path.resolve(cwd, "packages/delay/guid.txt")).then(content => {
+          readContent(path.resolve(cwd, "packages/delay/guid.txt")).then((content) => {
             // `delay` has its `guid.txt`, donnot wipe and change it
             expect(content).toBe(CONTENTS.delayGuid);
           }),
-          fileExists(path.resolve(cwd, "packages/delay/LICENSE")).then(exists => {
+          fileExists(path.resolve(cwd, "packages/delay/LICENSE")).then((exists) => {
             // `LICENSE` is copied to package `delay`, wipe it
             expect(exists).toBe(false);
           }),
@@ -138,7 +138,7 @@ it("copy-files-success", () => {
           packages
             .filter(({ pkg }) => /^test-/.test(pkg))
             .map(({ pkg }) => readFileCount(path.resolve(cwd, "packages", pkg))),
-        ).then(fileLengths => {
+        ).then((fileLengths) => {
           // all packages `test-*` should have no files
           expect(JSON.stringify(fileLengths)).toBe("[0,0,0]");
         }),
@@ -155,22 +155,22 @@ it("copy-files-failed", () => {
     )
       .then(
         () =>
-          fileExists(path.resolve(cwd, "packages/test-files-copy-404/404.html")).then(exists => {
+          fileExists(path.resolve(cwd, "packages/test-files-copy-404/404.html")).then((exists) => {
             // `LICENSE` is copied to package `delay`, wipe it
             expect(exists).toBe(false);
           }),
-        err => {
+        (err) => {
           expect(/file cannot find/.test(err.message)).toBe(true);
         },
       )
       .then(
         () =>
-          new Promise(resolve => {
+          new Promise((resolve) => {
             setTimeout(resolve, 3000);
           }),
       )
       .then(() =>
-        fileExists(path.resolve(cwd, "packages/test-files-copy-404/LICENSE")).then(exists => {
+        fileExists(path.resolve(cwd, "packages/test-files-copy-404/LICENSE")).then((exists) => {
           // when copied failed,should remove all copied files
           expect(exists).toBe(false);
         }),

@@ -32,7 +32,7 @@ export default class TscPlugin extends Plugin {
           extTs: ["ts"].concat(features.react || features.vue ? ["tsx"] : []).join(","),
           extJs: ["js"].concat(features.react || features.vue ? ["jsx"] : []).join(","),
           silent: app.silent,
-        }).then(err => {
+        }).then((err) => {
           if (err) {
             throw err;
           }

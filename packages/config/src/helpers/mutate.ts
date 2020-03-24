@@ -17,7 +17,7 @@ export declare interface MutatePayload {
 }
 
 registHelper<MutatePayload>(TYPE, (store, key, payload) => {
-  payload.items.forEach(item => {
+  payload.items.forEach((item) => {
     setJsonValue(store.getItem(key), item.path, item.value, item.mode);
   });
   return typeof payload.cb === "function" ? payload.cb(store.getItem(key)) : undefined;

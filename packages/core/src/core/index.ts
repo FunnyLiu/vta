@@ -35,7 +35,7 @@ export function appRunSync(
 export default function appRun(
   options?: Options,
 ): Promise<{ error: Error; resolveConfig?: <T = Config>(key: string) => T }> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     appRunSync(options, (err, resolveConfig) => {
       resolve({ error: err, resolveConfig });
     });

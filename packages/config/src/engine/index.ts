@@ -70,7 +70,7 @@ export const hooks = {
    */
   onConfigBaseStart(key: string, cb: (store: Store) => void | Config, category?: string) {
     const store = getStore(category);
-    store.events.on(`config-${key}-base-start`, mergeConfig => {
+    store.events.on(`config-${key}-base-start`, (mergeConfig) => {
       mergeConfig(cb(store));
     });
   },
@@ -130,7 +130,7 @@ export const hooks = {
    */
   onConfigDone(key: string, cb: (config: Config, store: Store) => void, category?: string) {
     const store = getStore(category);
-    store.events.on(`config-${key}-done`, config => {
+    store.events.on(`config-${key}-done`, (config) => {
       cb(config, store);
     });
   },

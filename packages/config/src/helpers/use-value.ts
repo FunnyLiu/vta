@@ -14,7 +14,7 @@ export declare interface UseValuePayload {
 
 registHelper<UseValuePayload>(TYPE, (store, key, payload) => {
   const values = [];
-  payload.paths.forEach(path => {
+  payload.paths.forEach((path) => {
     if (typeof path === "string") {
       values.push(readJsonValue(store.getItem(key), path));
     } else {

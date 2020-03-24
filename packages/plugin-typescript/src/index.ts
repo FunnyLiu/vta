@@ -27,7 +27,7 @@ export default class TypescriptPlugin extends Plugin {
   }
 
   apply(app: App) {
-    app.hooks.config.init(registDir => {
+    app.hooks.config.init((registDir) => {
       registDir(path.resolve(__dirname, "./config"));
     });
   }

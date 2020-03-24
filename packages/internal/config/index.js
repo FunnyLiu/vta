@@ -12,7 +12,7 @@ module.exports = {
    *   exclude: the regexp to test the pkg to exclude
    */
   filesCopyToPackages: ["LICENSE"].concat(
-    [".npmignore", "tsconfig.build.json", "babel.config.js"].map(src => ({
+    [".npmignore", "tsconfig.build.json", "babel.config.js"].map((src) => ({
       src: `./packages/internal/shared-files/${src}`,
       dest: src,
     })),

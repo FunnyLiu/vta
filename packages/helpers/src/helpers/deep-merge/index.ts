@@ -8,7 +8,7 @@ function merge(target, source) {
     source.constructor === {}.constructor
   ) {
     const dest = deepClone(target);
-    Reflect.ownKeys(source).forEach(prop => {
+    Reflect.ownKeys(source).forEach((prop) => {
       dest[prop] = merge(target[prop], deepClone(source[prop]));
     });
     return dest;
@@ -27,7 +27,7 @@ export default function deepMerge<T extends object, S extends object>(
   ...others: object[]
 ): T & S {
   let result = merge(target || {}, source || {});
-  others.forEach(other => {
+  others.forEach((other) => {
     if (other) {
       result = merge(result, other);
     }

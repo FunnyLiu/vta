@@ -3,7 +3,7 @@ const fse = require("fs-extra");
 const chalk = require("chalk");
 
 function fileExists(dest) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     fse.exists(dest, resolve);
   });
 }
@@ -12,9 +12,9 @@ function copyFiles(files, copiedFiles, cwd) {
   if (files.length === 0) return Promise.resolve();
   const { src, dest } = files[0];
   return fileExists(dest)
-    .then(destExists => {
+    .then((destExists) => {
       if (!destExists) {
-        return fileExists(src).then(srcExists => {
+        return fileExists(src).then((srcExists) => {
           if (srcExists) {
             return fse
               .ensureDir(dest.replace(/[^/\\]+?$/, ""))
@@ -33,7 +33,7 @@ function copyFiles(files, copiedFiles, cwd) {
       }
       return { src, dest, copied: false };
     })
-    .then(file => {
+    .then((file) => {
       copiedFiles.push(file);
       return copyFiles(files.slice(1), copiedFiles, cwd);
     });
@@ -77,7 +77,7 @@ module.exports = class CopiedFilesStore {
           ),
         );
       },
-      err => {
+      (err) => {
         return Promise.all(
           copiedFiles.filter(({ copied }) => copied).map(({ dest }) => fse.remove(dest)),
         ).then(() => {
@@ -88,12 +88,12 @@ module.exports = class CopiedFilesStore {
   }
 
   wipe() {
-    return fileExists(this.savePath).then(exists => {
+    return fileExists(this.savePath).then((exists) => {
       if (exists) {
         return fse
           .readFile(this.savePath, { encoding: "utf8" })
-          .then(content => JSON.parse(content))
-          .then(files => Promise.all(files.map(dest => fse.remove(dest))))
+          .then((content) => JSON.parse(content))
+          .then((files) => Promise.all(files.map((dest) => fse.remove(dest))))
           .then(() => fse.remove(this.savePath));
       }
       return Promise.resolve();

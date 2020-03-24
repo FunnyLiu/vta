@@ -19,12 +19,12 @@ process.env.VTA_VERSION = packageJson.version;
 
 const script = program.args[0];
 const scriptPath = path.resolve(__dirname, `../scripts/${script}.js`);
-fs.exists(scriptPath, exists => {
+fs.exists(scriptPath, (exists) => {
   if (exists) {
     /* eslint-disable global-require,import/no-dynamic-require */
     const run = require(scriptPath).default;
     process.env.VTA_ENV = program.env || process.env.NODE_ENV;
-    run(process.argv.slice(1), packageJson.version).then(err => {
+    run(process.argv.slice(1), packageJson.version).then((err) => {
       if (err) {
         process.exit(1);
       }

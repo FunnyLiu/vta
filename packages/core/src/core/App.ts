@@ -56,14 +56,14 @@ export default class VtaApp implements App {
       }
       this.plugins.push(plugin);
       this.registedPluginStack.pop();
-      this.pluginsAfter.get(plugin.name).forEach(p => {
+      this.pluginsAfter.get(plugin.name).forEach((p) => {
         this.registPlugin(p);
       });
     }
   }
 
   private getPlugin<P extends Plugin>(name: string): P {
-    return this.plugins.filter(plugin => plugin.name === name)[0] as P;
+    return this.plugins.filter((plugin) => plugin.name === name)[0] as P;
   }
 
   private features: Map<string, FeatureOptions>;
@@ -142,7 +142,7 @@ export default class VtaApp implements App {
       config: {
         init(cb: (registDir: (dir: string) => void) => void): void {
           configInit.tap("regist-dir", () => {
-            cb(dir => {
+            cb((dir) => {
               configRegistDir(dir, true, configCategory);
             });
           });
@@ -199,16 +199,16 @@ export default class VtaApp implements App {
       this.registPlugin(
         new ConfigPlugin(
           { cwd: this.cwd, configFile: this.options.configFile },
-          config => {
+          (config) => {
             this.config = Object.freeze<AppConfig>(config);
           },
-          dir => {
+          (dir) => {
             configRegistDir(dir, false, configCategory);
           },
           this.privateHooks.needRestart,
         ),
       );
-      this.plugins.forEach(plugin => {
+      this.plugins.forEach((plugin) => {
         plugin.apply(this);
       });
 
@@ -223,7 +223,7 @@ export default class VtaApp implements App {
           this.hooks.run.promise(worker).then(() => "run"),
           this.privateHooks.needRestart.promise().then(() => "restart"),
         ])
-          .then(mode => {
+          .then((mode) => {
             if (mode === "restart") {
               return this.hooks.restart.promise(this.worker).then(() => {
                 this.run(cb);
@@ -241,7 +241,7 @@ export default class VtaApp implements App {
                 });
             });
           })
-          .catch(err => {
+          .catch((err) => {
             this.hooks.exit
               .promise(err)
               .then(

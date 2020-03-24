@@ -10,7 +10,7 @@ import fileExists from "../file-exists";
  * @param def default value when file not exists
  */
 export default function loadModule<T>(file: string, def?: T): Promise<T> {
-  return fileExists(file).then(exists => {
+  return fileExists(file).then((exists) => {
     if (!exists) return def;
     const mod = require(file);
     return mod && mod.__esModule ? mod.default : mod;

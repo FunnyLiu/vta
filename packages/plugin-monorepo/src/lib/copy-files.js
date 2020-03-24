@@ -12,7 +12,7 @@ const testPkgMatched = require("../utils/test-pkg-matched");
  */
 module.exports = function copyFiles(packages, filesCopyToPackages, cwd, savePath) {
   const copiedFilesStore = new CopiedFilesStore(cwd, savePath);
-  filesCopyToPackages.forEach(fileOrOptions => {
+  filesCopyToPackages.forEach((fileOrOptions) => {
     const options = typeof fileOrOptions === "string" ? { src: fileOrOptions } : fileOrOptions;
     packages.forEach(({ pkg, cwd: pCwd }) => {
       if (testPkgMatched(options.include, options.exclude, pkg)) {
@@ -28,7 +28,7 @@ module.exports = function copyFiles(packages, filesCopyToPackages, cwd, savePath
   });
   return copiedFilesStore.commit().then(
     () => copiedFilesStore,
-    err => {
+    (err) => {
       return copiedFilesStore.wipe().then(() => {
         throw err;
       });

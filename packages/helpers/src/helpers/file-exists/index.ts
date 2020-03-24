@@ -5,8 +5,8 @@ import fse from "fs-extra";
  * @param file A path to a file or directory
  */
 export default function fileExists(file: string): Promise<boolean> {
-  return new Promise(resolve => {
-    fse.exists(file, exists => {
+  return new Promise((resolve) => {
+    fse.exists(file, (exists) => {
       resolve(exists);
     });
   });

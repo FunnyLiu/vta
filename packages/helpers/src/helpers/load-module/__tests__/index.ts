@@ -15,34 +15,34 @@ declare interface Config {
 
 describe("load-module", () => {
   it("load-module-js", () =>
-    loadModule<Config>(path.resolve(__dirname, "./data/config.js")).then(config => {
+    loadModule<Config>(path.resolve(__dirname, "./data/config.js")).then((config) => {
       expect(config.appid).toBe(DATA.js);
     }));
 
   it("load-module-es", () =>
-    loadModule<Config>(path.resolve(__dirname, "./data/config.module.ts")).then(config => {
+    loadModule<Config>(path.resolve(__dirname, "./data/config.module.ts")).then((config) => {
       expect(config.appid).toBe(DATA.es);
     }));
 
   it("load-module-json", () =>
-    loadModule<Config>(path.resolve(__dirname, "./data/config.json")).then(config => {
+    loadModule<Config>(path.resolve(__dirname, "./data/config.json")).then((config) => {
       expect(config.appid).toBe(DATA.json);
     }));
 
   it("load-module-in-sub", () =>
-    loadModule<Config>(path.resolve(__dirname, "./data/config-in-sub")).then(config => {
+    loadModule<Config>(path.resolve(__dirname, "./data/config-in-sub")).then((config) => {
       expect(config.appid).toBe(DATA.inSub);
     }));
 
   it("load-module-404", () =>
-    loadModule<Config>(path.resolve(__dirname, "./data/config.404.js")).then(config => {
+    loadModule<Config>(path.resolve(__dirname, "./data/config.404.js")).then((config) => {
       expect(config).toBe(undefined);
     }));
 
   it("load-module-404-default", () =>
     loadModule<Config>(path.resolve(__dirname, "./data/config.404.js"), {
       appid: DATA.def404,
-    }).then(config => {
+    }).then((config) => {
       expect(config.appid).toBe(DATA.def404);
     }));
 });

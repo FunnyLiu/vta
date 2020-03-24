@@ -31,7 +31,7 @@ export default class LernaPublishPlugin extends Plugin {
       return spawn("lerna", args, {
         cwd: app.cwd,
         stdio: [process.stdin, process.stdout, "pipe"],
-      }).then(err => {
+      }).then((err) => {
         if (err) {
           throw err;
         }

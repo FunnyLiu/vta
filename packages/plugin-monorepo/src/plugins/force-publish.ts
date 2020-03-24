@@ -11,7 +11,7 @@ function publishOneByOne(
   publishor: (pkg: string) => Promise<Error>,
 ): Promise<void> {
   if (!item) return Promise.resolve();
-  return publishor(item).then(err => {
+  return publishor(item).then((err) => {
     if (err) {
       throw err;
     }
@@ -32,7 +32,7 @@ export default class ForcePublishPlugin extends Plugin {
       const args = ["publish", "--access", "public"];
       args.push("--registry");
       args.push(this.options.registry || "https://registry.npmjs.org");
-      return publishOneByOne(this.options.pkgs, pkg =>
+      return publishOneByOne(this.options.pkgs, (pkg) =>
         spawn("npm", args, {
           cwd: pkg,
           stdio: [process.stdin, process.stdout, "pipe"],

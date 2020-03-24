@@ -25,7 +25,7 @@ module.exports = class RecordPlugin {
       return Promise.resolve();
     });
     app.hooks.exit.tapPromise(this.name, () => {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(resolve, 1500);
       }).then(() => {
         store.doneExists.module1 = fs.existsSync(path.resolve(app.cwd, "modules/module1/guid.txt"));

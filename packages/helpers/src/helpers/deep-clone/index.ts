@@ -4,13 +4,13 @@ function clone(source) {
     source.constructor === {}.constructor
   ) {
     const dest = {};
-    Reflect.ownKeys(source).forEach(prop => {
+    Reflect.ownKeys(source).forEach((prop) => {
       dest[prop] = clone(source[prop]);
     });
     return dest;
   }
   if (Array.isArray(source)) {
-    return source.map(item => clone(item));
+    return source.map((item) => clone(item));
   }
   return source;
 }

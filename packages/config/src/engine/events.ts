@@ -19,7 +19,7 @@ export default class ConfigEvents implements Events {
   public emit<T>(type: string, ...args) {
     const listeners = this.listeners[type];
     if (listeners) {
-      listeners.forEach(listener => {
+      listeners.forEach((listener) => {
         listener(...args);
       });
     }

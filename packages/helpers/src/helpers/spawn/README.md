@@ -15,7 +15,7 @@ function spawn(command: string, args?: string[], options?: SpawnOptions): Promis
 import { spawn } from "@vta/helpers";
 
 export default function tsc() {
-  spawn("tsc", ["-p", "tsconfig.build.json"], { cwd: process.cwd() }).then(err => {
+  spawn("tsc", ["-p", "tsconfig.build.json"], { cwd: process.cwd() }).then((err) => {
     if (err) {
       console.log("typescript build failed");
     } else {

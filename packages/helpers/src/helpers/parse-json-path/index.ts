@@ -104,7 +104,7 @@ function parseJsonPath(path: string): JSONPath {
             return `${c}${v.replace(/,/g, comma)}${c}`;
           })
           .split(",")
-          .map(filter => parseFilter(filter.replace(new RegExp(comma, "g"), ","))),
+          .map((filter) => parseFilter(filter.replace(new RegExp(comma, "g"), ","))),
         children: parseJsonPath(matches[2]),
       };
     }

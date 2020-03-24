@@ -17,7 +17,9 @@ describe("packages-sort", () => {
       { name: "pk6" },
     ]);
 
-    expect(JSON.stringify(packages.map(p => p.name))).toBe('["pk1","pk4","pk5","pk6","pk3","pk2"]');
+    expect(JSON.stringify(packages.map((p) => p.name))).toBe(
+      '["pk1","pk4","pk5","pk6","pk3","pk2"]',
+    );
   });
 
   it("circle-deps", () => {
@@ -36,7 +38,9 @@ describe("packages-sort", () => {
       { name: "pk6" },
     ]);
 
-    expect(JSON.stringify(packages.map(p => p.name))).toBe('["pk1","pk4","pk5","pk6","pk3","pk2"]');
+    expect(JSON.stringify(packages.map((p) => p.name))).toBe(
+      '["pk1","pk4","pk5","pk6","pk3","pk2"]',
+    );
   });
 
   it("peer-dependencies", () => {
@@ -58,7 +62,7 @@ describe("packages-sort", () => {
       },
     ]);
 
-    expect(JSON.stringify(packages.map(p => p.name))).toBe(
+    expect(JSON.stringify(packages.map((p) => p.name))).toBe(
       '["@vta/helpers","@vta/config","vta","@vta/babel-preset","@vta/plugin-typescript"]',
     );
   });

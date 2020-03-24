@@ -32,7 +32,7 @@ export default class ConfigPlugin extends Plugin {
       return Promise.race(checkors).catch(() => new Promise(() => undefined));
     });
     helpers.registPlugin(new FsWatcherToRestartPlugin(checkors));
-    this.plugins.forEach(plugin => {
+    this.plugins.forEach((plugin) => {
       helpers.registPlugin(plugin, true);
     });
   }

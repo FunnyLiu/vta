@@ -5,11 +5,11 @@ import { run, resolveConfig } from "vta";
 jest.setTimeout(100000);
 
 function loadFileContent(file: string): Promise<{ exists: boolean; content?: string }> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     fs.exists(file, resolve);
-  }).then(exists => {
+  }).then((exists) => {
     if (exists) {
-      return new Promise(contentResolve => {
+      return new Promise((contentResolve) => {
         fs.readFile(file, "utf-8", (err, content) => {
           if (!err) {
             contentResolve({ exists: true, content });

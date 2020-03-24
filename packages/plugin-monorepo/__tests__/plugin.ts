@@ -14,7 +14,7 @@ it("resolve-packages", () => {
 
 it("plugin-monorepo", () => {
   return Promise.all(
-    ["module1", "module2"].map(pkg => fse.remove(path.resolve(cwd, `modules/${pkg}/guid.txt`))),
+    ["module1", "module2"].map((pkg) => fse.remove(path.resolve(cwd, `modules/${pkg}/guid.txt`))),
   )
     .then(() => run({ cwd, silent: true }))
     .then(({ error: err }) => {

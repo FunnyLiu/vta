@@ -30,13 +30,13 @@ module.exports = class ConfigRecordPlugin {
   apply(app) {
     const { STORE } = this;
     STORE.processOrder.push("apply");
-    app.hooks.config.init(registDir => {
+    app.hooks.config.init((registDir) => {
       registDir(path.resolve(__dirname, "../config-base"));
     });
     app.hooks.config.itemUserStart("app", () => {
       STORE.processOrder.push("hooks.config.app-user-start");
     });
-    app.hooks.config.itemUserDone("app", appConfig => {
+    app.hooks.config.itemUserDone("app", (appConfig) => {
       STORE.processOrder.push("hooks.config.app-user-done");
       STORE.appConfig.userGuid = appConfig.guid;
       return { guid: this.options.guid };
@@ -47,7 +47,7 @@ module.exports = class ConfigRecordPlugin {
         dirs: app.config.dirs,
       };
     });
-    app.hooks.config.itemBaseDone("app", appConfig => {
+    app.hooks.config.itemBaseDone("app", (appConfig) => {
       STORE.processOrder.push("hooks.config.app-base-done");
       STORE.appConfig.baseValue = appConfig;
     });
@@ -67,7 +67,7 @@ module.exports = class ConfigRecordPlugin {
       STORE.processOrder.push("hooks.ready");
       STORE.appConfig.value = resolveConfig("app");
     });
-    app.hooks.exit.tap("exit", err => {
+    app.hooks.exit.tap("exit", (err) => {
       STORE.processOrder.push("exit");
       STORE.exitErrorUndefined = err === undefined;
       process.env.VTA_CONFIG_RECORD_PLUGIN_STORE = JSON.stringify(STORE);

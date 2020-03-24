@@ -1,6 +1,6 @@
 import { useValue, mutate, useBase } from "@vta/config";
 
-export default useValue("info.date", date =>
+export default useValue("info.date", (date) =>
   useValue(
     [
       { path: "version", key: "app" },
@@ -10,7 +10,7 @@ export default useValue("info.date", date =>
       baseDate: date,
       version,
       pluginName,
-      env: useBase(base => ({
+      env: useBase((base) => ({
         development: mutate({ path: "plugins", value: "typescript", mode: "push" }, () => ({
           envBaseDate: `${base.baseDate}-dev`,
         })),

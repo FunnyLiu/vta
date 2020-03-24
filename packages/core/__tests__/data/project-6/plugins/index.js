@@ -21,7 +21,7 @@ module.exports = class Project6Plugin {
     });
     app.hooks.run.tapPromise("run", () => {
       STORE.process.push("run");
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(resolve, 3000);
       });
     });

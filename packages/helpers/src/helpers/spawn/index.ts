@@ -10,7 +10,7 @@ function spawn(
   options: SpawnOptions = {},
 ): Promise<Error> {
   const args = Array.isArray(argsOrOptions) ? argsOrOptions : [];
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const p = crossSpawn(command, args, Array.isArray(argsOrOptions) ? options : argsOrOptions);
 
     let errorProcessed = false;
@@ -36,7 +36,7 @@ function spawn(
         );
       }
     });
-    p.on("error", err => {
+    p.on("error", (err) => {
       errorProcessor(err);
     });
   });

@@ -1,6 +1,6 @@
 import { useValue } from "@vta/config";
 
-export default useValue("info.date", date =>
+export default useValue("info.date", (date) =>
   useValue(
     [
       { path: "version", key: "app" },

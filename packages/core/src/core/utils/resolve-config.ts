@@ -17,7 +17,7 @@ function getConfigThroughEnv(config: VtaConfig): VtaConfig {
 function resolvePlugins(plugins: Array<Plugin | [string, object?]>, cwd: string): Plugin[] {
   const resolvedPlugins: Plugin[] = [];
   if (plugins) {
-    plugins.forEach(plugin => {
+    plugins.forEach((plugin) => {
       if (Array.isArray(plugin)) {
         const [name, options] = plugin;
         let LoadedPlugin;
@@ -40,7 +40,7 @@ function resolvePlugins(plugins: Array<Plugin | [string, object?]>, cwd: string)
 function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[] {
   const resolvedPlugins: Plugin[] = [];
   if (presets) {
-    presets.forEach(preset => {
+    presets.forEach((preset) => {
       const [name, options] = preset;
       let LoadedPreset: Preset;
       let nextCwd = "";
@@ -53,10 +53,10 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
         throw new Error(`cannot load preset ${chalk.yellow(name)}`);
       } else {
         const { presets: nextPresets, plugins } = LoadedPreset(options);
-        resolvePresets(nextPresets, nextCwd).forEach(plugin => {
+        resolvePresets(nextPresets, nextCwd).forEach((plugin) => {
           resolvedPlugins.push(plugin);
         });
-        resolvePlugins(plugins, nextCwd).forEach(plugin => {
+        resolvePlugins(plugins, nextCwd).forEach((plugin) => {
           resolvedPlugins.push(plugin);
         });
       }
@@ -100,10 +100,10 @@ export default function resolveConfig(
   }
   config = getConfigThroughEnv(config);
 
-  resolvePresets(config.presets, cwd).forEach(plugin => {
+  resolvePresets(config.presets, cwd).forEach((plugin) => {
     plugins.push(plugin);
   });
-  resolvePlugins(config.plugins, cwd).forEach(plugin => {
+  resolvePlugins(config.plugins, cwd).forEach((plugin) => {
     plugins.push(plugin);
   });
 

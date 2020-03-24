@@ -7,7 +7,7 @@ import { Plugin, App } from "../core/interface";
 function clearRequireCacheOfDirectory(dir) {
   try {
     const files = fs.readdirSync(dir);
-    files.forEach(file => {
+    files.forEach((file) => {
       const target = path.resolve(dir, file);
       if (fs.statSync(target).isDirectory()) {
         clearRequireCacheOfDirectory(target);
@@ -50,7 +50,7 @@ export default class FsWatcherToRestartPlugin extends Plugin {
     });
 
     this.checkors.push(
-      new Promise(resolve => {
+      new Promise((resolve) => {
         watcher.on("all", () => {
           if (isDir) {
             clearRequireCacheOfDirectory(target);

@@ -43,7 +43,7 @@ function setValue(obj, key: string | number, value, mode: Mode) {
       Object.prototype.toString.call(value) === "[object Object]" &&
       value.constructor === {}.constructor
     ) {
-      Reflect.ownKeys(value).forEach(k => {
+      Reflect.ownKeys(value).forEach((k) => {
         obj[key][k] = value[k];
       });
     }

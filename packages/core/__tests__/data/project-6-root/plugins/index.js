@@ -8,7 +8,7 @@ module.exports = class Plugin01 {
     const STORE = JSON.parse(process.env.VTA_CORE_6_ROOT_STORE || "[]");
     app.hooks.run.tapPromise(this.name, ({ resolveConfig }) => {
       STORE.push({ guid: this.options.guid, timestamp: resolveConfig("timestamp").timestamp });
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(resolve, 3000);
       });
     });

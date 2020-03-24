@@ -17,7 +17,7 @@ import { loadModule } from "@vta/helpers";
 function test() {
   const file = path.resolve(__dirname, "./config/babel.config.js");
 
-  loadModule(file, {}).then(config => {
+  loadModule(file, {}).then((config) => {
     console.log(config);
   });
 }

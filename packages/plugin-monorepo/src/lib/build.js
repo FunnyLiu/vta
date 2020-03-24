@@ -6,7 +6,7 @@ function buildOneByOne([item, ...items], builder, silent) {
   if (!silent) {
     console.log(`\nbuilding ${chalk.yellow(path.relative(process.cwd(), item.cwd))}`);
   }
-  return builder(item).then(err => {
+  return builder(item).then((err) => {
     if (err) {
       throw err;
     }
