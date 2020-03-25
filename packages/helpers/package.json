@@ -1,6 +1,6 @@
 {
   "name": "@vta/helpers",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "some helpers to use",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@types/cross-spawn": "^6.0.0",
-    "@vta/internal": "^1.0.1"
+    "@vta/internal": "^1.0.6"
   },
   "publishConfig": {
     "access": "public"

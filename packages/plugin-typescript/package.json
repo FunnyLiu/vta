@@ -1,6 +1,6 @@
 {
   "name": "@vta/plugin-typescript",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "typescript plugin",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.8.0",
-    "@vta/config": "^1.0.4",
+    "@vta/config": "^1.0.6",
     "@vta/tsc": "^1.1.0",
     "core-js": "^3.0.0"
   },
@@ -32,8 +32,8 @@
     "@babel/preset-react": "^7.8.0",
     "@types/prop-types": "^15.7.2",
     "@types/react": "^16.9.10",
-    "@vta/internal": "^1.0.1",
-    "vta": "^1.0.5"
+    "@vta/internal": "^1.0.6",
+    "vta": "^1.0.6"
   },
   "peerDependencies": {
     "vta": "^1.0.0"

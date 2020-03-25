@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.6](https://github.com/vta-js/vta/compare/v1.0.5...v1.0.6) (2020-03-25)
+
+### Bug Fixes
+
+- **helpers:** spawn should get err message from stdout when stderr fail ([ddd9f82](https://github.com/vta-js/vta/commit/ddd9f82))
+
+### Features
+
+- **deps:** **vta** bump commander to 5.0.0 ([0efc66b](https://github.com/vta-js/vta/commit/0efc66b))
+- **deps:** bump fs-extra to 9.0.0 ([28158d2](https://github.com/vta-js/vta/commit/28158d2))
+
 ## [1.0.5](https://github.com/vta-js/vta/compare/v1.0.4...v1.0.5) (2020-01-10)
 
 ### Features
