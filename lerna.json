@@ -7,7 +7,7 @@
       "npmClientArgs": ["--silent", "--force"]
     },
     "publish": {
-      "ignoreChanges": ["**/__tests__/", "*.*ignore"],
+      "ignoreChanges": ["**/__tests__/**/*.*", "**/*.*ignore", "**/*.md"],
       "message": "refactor(release): release %v"
     }
   }
