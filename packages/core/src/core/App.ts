@@ -31,7 +31,7 @@ export default class VtaApp implements App {
 
   public silent: Readonly<boolean>;
 
-  public config: Readonly<AppConfig>;
+  public config: Readonly<Required<AppConfig>>;
 
   private options: VtaAppOptions;
 
@@ -200,7 +200,7 @@ export default class VtaApp implements App {
         new ConfigPlugin(
           { cwd: this.cwd, configFile: this.options.configFile },
           (config) => {
-            this.config = Object.freeze<AppConfig>(config);
+            this.config = Object.freeze<Required<AppConfig>>(config);
           },
           (dir) => {
             configRegistDir(dir, false, configCategory);

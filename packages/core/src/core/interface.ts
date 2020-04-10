@@ -60,6 +60,10 @@ export interface VtaConfig {
     build?: string;
   };
   /**
+   * these config can be used by plugins
+   */
+  config?: { [plugin: string]: { [key: string]: any } };
+  /**
    * presets that used
    */
   presets?: Array<[string, object?]>;
@@ -92,7 +96,7 @@ export declare interface AppBase {
   /**
    * app config. Omit<VtaConfig, "plugins" | "env">
    */
-  config: Readonly<AppConfig>;
+  config: Readonly<Required<AppConfig>>;
   /**
    * get the argument passed by cli
    * @param arg argument. eg preset for --preset,no-push for --no-push

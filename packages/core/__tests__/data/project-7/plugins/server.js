@@ -14,6 +14,8 @@ module.exports = class ServerBuildPlugin {
         appName: appConfig.name,
         srcDir: appConfig.dirs.src,
         buildDir: appConfig.dirs.build,
+        esnextModules: app.config.config.esnext.modules,
+        typescriptJsx: app.config.config.typescript.jsx,
       });
     });
     app.hooks.exit.tap(this.name, () => {

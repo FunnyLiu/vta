@@ -132,6 +132,8 @@ describe("vta-engine", () => {
         expect(store.appName).toBe("app-name-locale");
         expect(store.srcDir).toBe("source-code");
         expect(store.buildDir).toBe("dist-locale");
+        expect(store.esnextModules).toBe(false);
+        expect(store.typescriptJsx).toBe(true);
       },
     );
   });
@@ -148,6 +150,8 @@ describe("vta-engine", () => {
         expect(store.appName).toBe("app-name-server");
         expect(store.srcDir).toBe("source-code");
         expect(store.buildDir).toBe("dist-server");
+        expect(store.esnextModules).toBe("commonjs");
+        expect(store.typescriptJsx).toBe(false);
       },
     );
   });

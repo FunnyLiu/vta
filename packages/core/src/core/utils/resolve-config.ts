@@ -68,7 +68,7 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
 export default function resolveConfig(
   cwd: string,
   configFile?: string,
-): AppConfig & { plugins: Plugin[]; configFile: string } {
+): Required<AppConfig> & { plugins: Plugin[]; configFile: string } {
   const plugins: Plugin[] = [];
   let config: VtaConfig;
   let targetConfigFile;
@@ -113,6 +113,7 @@ export default function resolveConfig(
       src: config.dirs?.src || "src",
       build: config.dirs?.build || "dist",
     },
+    config: config.config,
     plugins,
     configFile: targetConfigFile,
   };

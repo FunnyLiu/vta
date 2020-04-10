@@ -7,7 +7,7 @@ import FsWatcherToRestartPlugin from "../plugins/fs-watcher-to-restart-plugin";
 export default class ConfigPlugin extends Plugin {
   constructor(
     { cwd, configFile }: { cwd: string; configFile?: string },
-    registConfig: (config: AppConfig) => void,
+    registConfig: (config: Required<AppConfig>) => void,
     registConfigDir: (dir: string) => void,
     needRestartHook: AsyncSeriesHook<[]>,
   ) {

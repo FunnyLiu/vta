@@ -3,10 +3,23 @@
     "dirs": {
       "src": "source-code"
     },
+    "config": {
+      "esnext": {
+        "modules": false
+      },
+      "typescript": {
+        "jsx": false
+      }
+    },
     "env": {
       "locale": {
         "dirs": {
           "build": "dist-locale"
+        },
+        "config": {
+          "typescript": {
+            "jsx": true
+          }
         },
         "plugins": [
           [
@@ -17,6 +30,11 @@
       "server": {
         "dirs": {
           "build": "dist-server"
+        },
+        "config": {
+          "esnext": {
+            "modules": "commonjs"
+          }
         },
         "plugins": [
           [
