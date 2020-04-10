@@ -113,7 +113,7 @@ export default function resolveConfig(
       src: config.dirs?.src || "src",
       build: config.dirs?.build || "dist",
     },
-    config: config.config,
+    config: config.config || {},
     plugins,
     configFile: targetConfigFile,
   };
