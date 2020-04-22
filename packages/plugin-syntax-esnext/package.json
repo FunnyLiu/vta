@@ -1,0 +1,39 @@
+{
+  "name": "@vta/plugin-syntax-esnext",
+  "version": "1.0.6",
+  "description": "Enable writing code use the latest ECMAScript",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "engines": {
+    "node": ">= 10.16.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vta-js/vta.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vta-js/vta/issues"
+  },
+  "homepage": "https://github.com/vta-js/vta/blob/master/packages/plugin-syntax-esnext#readme",
+  "keywords": [],
+  "author": "vta@yhbit.net",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.8.0",
+    "@babel/preset-env": "^7.8.0",
+    "@babel/runtime": "^7.8.0",
+    "@vta/config": "^1.0.6",
+    "@vta/helpers": "^1.0.0",
+    "core-js": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vta/internal": "^1.0.6",
+    "vta": "^1.0.6"
+  },
+  "peerDependencies": {
+    "vta": "^1.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

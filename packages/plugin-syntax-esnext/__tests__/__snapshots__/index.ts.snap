@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`plugin-syntax-esnext node 1`] = `
+"{
+  \\"presets\\": [
+    [
+      \\"..\\\\\\\\..\\\\\\\\..\\\\\\\\node_modules\\\\\\\\@babel\\\\\\\\preset-env\\\\\\\\lib\\\\\\\\index.js\\",
+      {
+        \\"modules\\": \\"commonjs\\",
+        \\"useBuiltIns\\": \\"usage\\",
+        \\"corejs\\": 3
+      }
+    ]
+  ],
+  \\"plugins\\": []
+}"
+`;
+
+exports[`plugin-syntax-esnext webpack 1`] = `
+"{
+  \\"presets\\": [
+    [
+      \\"..\\\\\\\\..\\\\\\\\..\\\\\\\\node_modules\\\\\\\\@babel\\\\\\\\preset-env\\\\\\\\lib\\\\\\\\index.js\\",
+      {
+        \\"modules\\": false,
+        \\"useBuiltIns\\": false
+      }
+    ]
+  ],
+  \\"plugins\\": [
+    [
+      \\"..\\\\\\\\..\\\\\\\\..\\\\\\\\node_modules\\\\\\\\@babel\\\\\\\\plugin-transform-runtime\\\\\\\\lib\\\\\\\\index.js\\",
+      {
+        \\"useESModules\\": true,
+        \\"corejs\\": 3,
+        \\"version\\": \\"7.8.0\\"
+      }
+    ]
+  ]
+}"
+`;

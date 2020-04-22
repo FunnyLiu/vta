@@ -1,0 +1,13 @@
+{
+  "name": "plugin-syntax-esnext-test-webpack",
+  "vta": {
+    "plugins": [
+      [
+        "../../../../src"
+      ]
+    ]
+  },
+  "dependencies": {
+    "@babel/runtime-corejs3": "^7.8.0"
+  }
+}

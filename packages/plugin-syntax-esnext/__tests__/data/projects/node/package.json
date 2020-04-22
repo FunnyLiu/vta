@@ -1,0 +1,18 @@
+{
+  "name": "plugin-syntax-esnext-test-node",
+  "vta": {
+    "config": {
+      "@vta/syntax-esnext": {
+        "modules": "commonjs"
+      }
+    },
+    "plugins": [
+      [
+        "../../../../src"
+      ]
+    ]
+  },
+  "dependencies": {
+    "core-js": "^3.6.0"
+  }
+}

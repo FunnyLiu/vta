@@ -1,0 +1,6 @@
+{
+  "name": "plugin-syntax-esnext-resolve-babel-runtime-no-runtime-corejs3",
+  "dependencies": {
+    "core-js": "^3.6.0"
+  }
+}

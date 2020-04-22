@@ -1,0 +1,6 @@
+{
+  "name": "plugin-syntax-esnext-resolve-babel-runtime-runtime",
+  "dependencies": {
+    "@babel/runtime": "^7.8.0"
+  }
+}
