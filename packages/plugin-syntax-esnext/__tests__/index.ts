@@ -4,7 +4,7 @@ import { resolveConfig } from "vta";
 /* eslint-disable no-param-reassign */
 function formatBabelPluginOrPreset(p) {
   if (typeof p === "string") {
-    return path.relative(__dirname, p);
+    return path.relative(__dirname, p).replace(/\\/g, "/");
   }
   if (Array.isArray(p)) {
     p[0] = formatBabelPluginOrPreset(p[0]);
