@@ -22,17 +22,17 @@ function publishOneByOne(
 export default class ForcePublishPlugin extends Plugin {
   constructor(options: ForcePublishOptions) {
     super("@vta/plugin-monorepo/force-publish");
-    this.options = options;
+    this.#options = options;
   }
 
-  private options: ForcePublishOptions;
+  #options: ForcePublishOptions;
 
   apply(app: App) {
     app.hooks.run.tapPromise(this.name, () => {
       const args = ["publish", "--access", "public"];
       args.push("--registry");
-      args.push(this.options.registry || "https://registry.npmjs.org");
-      return publishOneByOne(this.options.pkgs, (pkg) =>
+      args.push(this.#options.registry || "https://registry.npmjs.org");
+      return publishOneByOne(this.#options.pkgs, (pkg) =>
         spawn("npm", args, {
           cwd: pkg,
           stdio: [process.stdin, process.stdout, "pipe"],

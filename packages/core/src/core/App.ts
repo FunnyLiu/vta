@@ -30,7 +30,7 @@ let idx = 0;
 
 export default class VtaApp implements App {
   constructor(options: VtaAppOptions) {
-    this.options = options;
+    this.#options = options;
     this.cwd = options.cwd;
     this.silent = options.silent;
   }
@@ -41,59 +41,59 @@ export default class VtaApp implements App {
 
   public config: Readonly<Required<AppConfigInternal>>;
 
-  private options: VtaAppOptions;
+  #options: VtaAppOptions;
 
-  private plugins: Plugin[];
+  #plugins: Plugin[];
 
-  private pluginsAfter: Map<string, Plugin[]>;
+  #pluginsAfter: Map<string, Plugin[]>;
 
-  private registedPluginStack: string[];
+  #registedPluginStack: string[];
 
-  private registPlugin(plugin: Plugin, after?: boolean): void {
+  #registPlugin = (plugin: Plugin, after?: boolean): void => {
     if (after) {
-      this.pluginsAfter
-        .get(this.registedPluginStack[this.registedPluginStack.length - 1])
+      this.#pluginsAfter
+        .get(this.#registedPluginStack[this.#registedPluginStack.length - 1])
         .push(plugin);
       return;
     }
-    if (plugin && !this.getPlugin(plugin.name)) {
-      this.pluginsAfter.set(plugin.name, []);
-      this.registedPluginStack.push(plugin.name);
+    if (plugin && !this.#getPlugin(plugin.name)) {
+      this.#pluginsAfter.set(plugin.name, []);
+      this.#registedPluginStack.push(plugin.name);
       if (typeof plugin.prepare === "function") {
-        plugin.prepare(this.prepareHelpers);
+        plugin.prepare(this.#prepareHelpers);
       }
-      this.plugins.push(plugin);
-      this.registedPluginStack.pop();
-      this.pluginsAfter.get(plugin.name).forEach((p) => {
-        this.registPlugin(p);
+      this.#plugins.push(plugin);
+      this.#registedPluginStack.pop();
+      this.#pluginsAfter.get(plugin.name).forEach((p) => {
+        this.#registPlugin(p);
       });
     }
-  }
+  };
 
-  private getPlugin<P extends Plugin>(name: string): P {
-    return this.plugins.filter((plugin) => plugin.name === name)[0] as P;
-  }
+  #getPlugin = <P extends Plugin>(name: string): P => {
+    return this.#plugins.filter((plugin) => plugin.name === name)[0] as P;
+  };
 
-  private features: Map<string, FeatureOptions>;
+  #features: Map<string, FeatureOptions>;
 
-  private registFeature(feature: string, options: FeatureOptions = {}) {
-    if (this.features.has(feature)) {
-      this.features.set(feature, deepMerge(this.features.get(feature), options));
+  #registFeature = (feature: string, options: FeatureOptions = {}) => {
+    if (this.#features.has(feature)) {
+      this.#features.set(feature, deepMerge(this.#features.get(feature), options));
     } else {
-      this.features.set(feature, options);
+      this.#features.set(feature, options);
     }
-  }
+  };
 
   public getFeature<T = FeatureOptions>(feature: string): T {
-    if (this.features.has(feature)) {
-      return this.features.get(feature) as T;
+    if (this.#features.has(feature)) {
+      return this.#features.get(feature) as T;
     }
     return null;
   }
 
   /* eslint-disable class-methods-use-this */
   public getArgument(arg: string): string | boolean {
-    const { arguments: args } = this.options;
+    const { arguments: args } = this.#options;
     let argIdx = -1;
     for (let i = 0, len = args.length; i < len; i += 1) {
       if (args[i] === `--${arg}`) {
@@ -126,10 +126,10 @@ export default class VtaApp implements App {
     return deepMerge<object, T>({}, defaultOptions, this.config.config[plugin.name], pluginOptions);
   }
 
-  private prepareHelpers: Readonly<PrepareHelpers>;
+  #prepareHelpers: Readonly<PrepareHelpers>;
 
-  private preparePrepareHelpers() {
-    this.prepareHelpers = Object.freeze<PrepareHelpers>({
+  #preparePrepareHelpers = () => {
+    this.#prepareHelpers = Object.freeze<PrepareHelpers>({
       app: {
         cwd: this.cwd,
         silent: this.silent,
@@ -137,22 +137,22 @@ export default class VtaApp implements App {
         getArgument: this.getArgument.bind(this),
         resolvePluginOptions: this.resolvePluginOptions.bind(this),
       },
-      registPlugin: this.registPlugin.bind(this),
-      getPlugin: this.getPlugin.bind(this),
-      registFeature: this.registFeature.bind(this),
+      registPlugin: this.#registPlugin,
+      getPlugin: this.#getPlugin,
+      registFeature: this.#registFeature,
     });
-  }
+  };
 
-  private privateHooks: {
+  #privateHooks: {
     configInit: SyncHook<[]>;
     needRestart: AsyncSeriesHook<[]>;
   };
 
   public hooks: Readonly<Hooks>;
 
-  private prepareHooks(configCategory) {
+  #prepareHooks = (configCategory) => {
     const configInit = new SyncHook<[]>();
-    this.privateHooks = {
+    this.#privateHooks = {
       configInit,
       needRestart: new AsyncSeriesHook<[]>(),
     };
@@ -187,63 +187,63 @@ export default class VtaApp implements App {
       restart: new AsyncParallelHook<[Worker]>(["worker"]),
       exit: new AsyncParallelHook<[Error]>(["err"]),
     });
-  }
+  };
 
-  private worker: Readonly<Worker>;
+  #worker: Readonly<Worker>;
 
-  private prepareWorker(configCategory) {
-    this.worker = Object.freeze<Worker>({
+  #prepareWorker = (configCategory) => {
+    this.#worker = Object.freeze<Worker>({
       resolveConfig<T = Config>(key: string): T {
         return configResolveConfig<T>(key, configCategory);
       },
     });
-  }
+  };
 
-  private prepare(configCategory: string) {
-    this.plugins = [];
-    this.pluginsAfter = new Map<string, Plugin[]>();
-    this.registedPluginStack = [];
-    this.features = new Map<string, FeatureOptions>();
-    this.preparePrepareHelpers();
-    this.prepareHooks(configCategory);
-    this.prepareWorker(configCategory);
-  }
+  #prepare = (configCategory: string) => {
+    this.#plugins = [];
+    this.#pluginsAfter = new Map<string, Plugin[]>();
+    this.#registedPluginStack = [];
+    this.#features = new Map<string, FeatureOptions>();
+    this.#preparePrepareHelpers();
+    this.#prepareHooks(configCategory);
+    this.#prepareWorker(configCategory);
+  };
 
   public run(cb: (err: Error, resolveConfig?: <T = Config>(key: string) => T) => void) {
     try {
       const configCategory = `vta-${(idx += 1)}`;
-      this.prepare(configCategory);
+      this.#prepare(configCategory);
 
-      this.registPlugin(
+      this.#registPlugin(
         new ConfigPlugin(
-          { cwd: this.cwd, configFile: this.options.configFile },
+          { cwd: this.cwd, configFile: this.#options.configFile },
           (config) => {
             this.config = Object.freeze<Required<AppConfigInternal>>(config);
           },
           (dir) => {
             configRegistDir(dir, false, configCategory);
           },
-          this.privateHooks.needRestart,
+          this.#privateHooks.needRestart,
         ),
       );
-      this.plugins.forEach((plugin) => {
+      this.#plugins.forEach((plugin) => {
         plugin.apply(this);
       });
 
-      this.privateHooks.configInit.call();
+      this.#privateHooks.configInit.call();
 
-      const { worker } = this;
+      const worker = this.#worker;
       this.hooks.ready.call(worker);
-      if (this.options.dontRun) {
+      if (this.#options.dontRun) {
         cb(undefined, worker.resolveConfig);
       } else {
         Promise.race([
           this.hooks.run.promise(worker).then(() => "run"),
-          this.privateHooks.needRestart.promise().then(() => "restart"),
+          this.#privateHooks.needRestart.promise().then(() => "restart"),
         ])
           .then((mode) => {
             if (mode === "restart") {
-              return this.hooks.restart.promise(this.worker).then(() => {
+              return this.hooks.restart.promise(this.#worker).then(() => {
                 this.run(cb);
               });
             }

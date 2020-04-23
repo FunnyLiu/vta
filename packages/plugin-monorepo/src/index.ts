@@ -15,20 +15,23 @@ export { FeatureOptions, BuilderOptions };
 export default class MonorepoPlugin extends Plugin {
   constructor(options: Options = {}) {
     super("@vta/plugin-monorepo");
-    this.options = options;
+    this.#options = options;
   }
 
-  private options: Options;
+  #options: Options;
 
-  private builders: Map<Builder, BuilderOptions> = new Map<Builder, BuilderOptions>();
+  #builders: Map<Builder, BuilderOptions> = new Map<Builder, BuilderOptions>();
 
-  private registBuilder(builder: Builder, options: BuilderOptions) {
-    this.builders.set(builder, options);
-  }
+  #registBuilder = <T = { [key: string]: any }>(
+    builder: Builder<T>,
+    options?: BuilderOptions<T>,
+  ): void => {
+    this.#builders.set(builder, options);
+  };
 
   prepare(helpers: PrepareHelpers) {
     helpers.registFeature<FeatureOptions>("monorepo", {
-      registBuilder: this.registBuilder.bind(this),
+      registBuilder: this.#registBuilder,
     });
     const forcePublish = helpers.app.getArgument("mono-force-publish");
     if (forcePublish) {
@@ -37,24 +40,24 @@ export default class MonorepoPlugin extends Plugin {
         forcePublishPkgs = forcePublish.split(",");
       } else {
         forcePublishPkgs = resolvePackages(
-          path.resolve(helpers.app.cwd, this.options.packages || "packages"),
+          path.resolve(helpers.app.cwd, this.#options.packages || "packages"),
         ).map(({ pkg }) => pkg);
       }
       helpers.registPlugin(
         new ForcePublishPlugin({
           pkgs: forcePublishPkgs.map((pkg) =>
-            path.resolve(helpers.app.cwd, this.options.packages || "packages", pkg),
+            path.resolve(helpers.app.cwd, this.#options.packages || "packages", pkg),
           ),
-          registry: this.options.registry,
+          registry: this.#options.registry,
         }),
       );
-    } else if (this.options.publish !== false) {
+    } else if (this.#options.publish !== false) {
       helpers.registPlugin(
         new LernaPublishPlugin({
-          version: (helpers.app.getArgument("mono-version") as string) || this.options.version,
-          changelog: this.options.changelog,
-          release: this.options.release,
-          registry: this.options.registry,
+          version: (helpers.app.getArgument("mono-version") as string) || this.#options.version,
+          changelog: this.#options.changelog,
+          release: this.#options.release,
+          registry: this.#options.registry,
         }),
         true,
       );
@@ -64,12 +67,12 @@ export default class MonorepoPlugin extends Plugin {
   apply(app: App) {
     let packages: Pkg[];
     app.hooks.run.tapPromise(`${this.name}-resolve-packages`, () => {
-      packages = resolvePackages(path.resolve(app.cwd, this.options.packages || "packages"));
+      packages = resolvePackages(path.resolve(app.cwd, this.#options.packages || "packages"));
       return Promise.resolve();
     });
     let wipeCopiedFiles;
     app.hooks.run.tapPromise(`${this.name}-copy-files`, () => {
-      const { filesToCopy = [] } = this.options;
+      const { filesToCopy = [] } = this.#options;
       return copyFiles(packages, filesToCopy, app.cwd).then((store) => {
         wipeCopiedFiles = store.wipe;
       });
@@ -81,7 +84,7 @@ export default class MonorepoPlugin extends Plugin {
       >();
       packages.forEach((p) => {
         buildOptions.set(p.pkg, []);
-        this.builders.forEach((options, builder) => {
+        this.#builders.forEach((options, builder) => {
           if (testPkgMatched(options?.include, options?.exclude, p.pkg)) {
             buildOptions.get(p.pkg).push({ builder, options: options?.options });
           }

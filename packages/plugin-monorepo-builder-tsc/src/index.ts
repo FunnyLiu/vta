@@ -13,10 +13,10 @@ export declare interface Options {
 export default class MonorepoBuilderTscPlugin extends Plugin {
   constructor(options?: BuilderOptions<Options>) {
     super("@vta/plugin-monorepo-builder-tsc");
-    this.options = options;
+    this.#options = options;
   }
 
-  private options: BuilderOptions<Options>;
+  #options: BuilderOptions<Options>;
 
   apply(app: App) {
     const features = {
@@ -37,6 +37,6 @@ export default class MonorepoBuilderTscPlugin extends Plugin {
         extJs: ["js"].concat(features.react || features.vue ? ["jsx"] : []).join(","),
         silent: app.silent,
       });
-    }, this.options);
+    }, this.#options);
   }
 }

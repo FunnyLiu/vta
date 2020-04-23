@@ -14,36 +14,36 @@ export default class ConfigPlugin extends Plugin {
     super("@vta/core/config");
     const { plugins, configFile: targetConfigFile, ...config } = resolveConfig(cwd, configFile);
     registConfig(config);
-    this.plugins = plugins;
-    this.configFile = targetConfigFile;
-    this.configDir = path.resolve(cwd, config.dirs.config);
-    registConfigDir(this.configDir);
+    this.#plugins = plugins;
+    this.#configFile = targetConfigFile;
+    this.#configDir = path.resolve(cwd, config.dirs.config);
+    registConfigDir(this.#configDir);
 
-    this.needRestartHook = needRestartHook;
+    this.#needRestartHook = needRestartHook;
   }
 
-  private plugins: Plugin[];
+  #plugins: Plugin[];
 
-  private configFile: string;
+  #configFile: string;
 
-  private configDir: string;
+  #configDir: string;
 
-  private needRestartHook: AsyncSeriesHook<[]>;
+  #needRestartHook: AsyncSeriesHook<[]>;
 
   prepare(helpers: PrepareHelpers) {
     const checkors = [];
-    this.needRestartHook.tapPromise(this.name, () => {
+    this.#needRestartHook.tapPromise(this.name, () => {
       return Promise.race(checkors).catch(() => new Promise(() => undefined));
     });
     helpers.registPlugin(new FsWatcherToRestartPlugin(checkors));
-    this.plugins.forEach((plugin) => {
+    this.#plugins.forEach((plugin) => {
       helpers.registPlugin(plugin, true);
     });
   }
 
   /* eslint-disable class-methods-use-this */
   apply(app: App) {
-    FsWatcherToRestartPlugin.watchDirectory(this.configDir, app);
-    FsWatcherToRestartPlugin.watchFile(this.configFile, app);
+    FsWatcherToRestartPlugin.watchDirectory(this.#configDir, app);
+    FsWatcherToRestartPlugin.watchFile(this.#configFile, app);
   }
 }
