@@ -4,11 +4,13 @@
       "src": "source-code"
     },
     "config": {
-      "esnext": {
-        "modules": false
-      },
-      "typescript": {
-        "jsx": false
+      "build-plugin": {
+        "esnext": {
+          "modules": false
+        },
+        "typescript": {
+          "jsx": false
+        }
       }
     },
     "env": {
@@ -17,8 +19,10 @@
           "build": "dist-locale"
         },
         "config": {
-          "typescript": {
-            "jsx": true
+          "build-plugin": {
+            "typescript": {
+              "jsx": true
+            }
           }
         },
         "plugins": [
@@ -32,8 +36,10 @@
           "build": "dist-server"
         },
         "config": {
-          "esnext": {
-            "modules": "commonjs"
+          "build-plugin": {
+            "esnext": {
+              "modules": "commonjs"
+            }
           }
         },
         "plugins": [

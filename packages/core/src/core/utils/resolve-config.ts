@@ -1,7 +1,7 @@
 import path from "path";
 import chalk from "chalk";
 import { loadModuleSync, deepMerge } from "@vta/helpers";
-import { Plugin, VtaConfig, AppConfig, Preset } from "../interface";
+import { Plugin, VtaConfig, AppConfigInternal, Preset } from "../interface";
 import standardizeName from "./standardize-name";
 
 const configFiles = [".vta.config.js", ".vta.js", ".vta.config.json", ".vta.json"];
@@ -68,7 +68,7 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
 export default function resolveConfig(
   cwd: string,
   configFile?: string,
-): Required<AppConfig> & { plugins: Plugin[]; configFile: string } {
+): Required<AppConfigInternal> & { plugins: Plugin[]; configFile: string } {
   const plugins: Plugin[] = [];
   let config: VtaConfig;
   let targetConfigFile;

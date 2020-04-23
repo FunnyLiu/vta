@@ -68,8 +68,9 @@ export interface VtaConfig {
     src: string; // default src
     build: string; // default dist
   };
-  presets: Array<[string, object?]>;
-  plugins: Array<Plugin | [string, object?]>;
+  config?: { [plugin: string]: { [key: string]: any } };
+  presets?: Array<[string, object?]>;
+  plugins?: Array<Plugin | [string, object?]>;
   env?: { [key: string]: VtaConfig }; // support env system
 }
 ```
@@ -87,6 +88,26 @@ if the name of the package is prefixed with `vta-plugin-`, you can use a shortha
 - `vue` is equivalent to `vta-plugin-vue`.
 - `@vta/vue` is equivalent to `@vta/plugin-vue`.
 - `@others/vue` is equivalent to `@others/vta-plugin-vue`.
+
+### plugin options
+
+there are two methods to pass options to the plugin.
+
+- [**recommend**] specific the options in `plugins` 's second element.
+- specific the options in `config`, you must named the **plugin's name** as the options key, **NO SHORTHAND SUPPORT**
+
+> the priority of `plugins` is higher than `config`，so if you specific the same option in `plugins` and `config`, then the `plugins` will override `config` option
+
+```json
+{
+  "config": {
+    "@vta/plugin-syntax-esnext": {
+      "modules": "commonjs"
+    }
+  },
+  "plugins": [["@vta/syntax-esnext", { "modules": false }]]
+}
+```
 
 ### presets usage
 
@@ -128,7 +149,7 @@ class Plugin {
 }
 ```
 
-a plugin is a class that has a `name` property and a `apply` function which can process the app processing. each name only run once. you can extends `Plugin` to make your own plugin
+a plugin is a class that has a `name` property and a `apply` function which can process the app processing. each name only run once. you can extends `Plugin` to make your own plugin. if you want to get the options passed to the plugin, please use `resolvePluginOptions` in `prepare` or `apply` function.
 
 ### prepare
 
@@ -143,7 +164,7 @@ export declare interface AppBase {
    */
   silent: boolean;
   /**
-   * app config. Omit<VtaConfig, "plugins" | "env">
+   * app config. Pick<VtaConfig, "dirs">
    */
   config: Readonly<AppConfig>;
   /**
@@ -151,6 +172,18 @@ export declare interface AppBase {
    * @param arg argument. eg preset for --preset,no-push for --no-push
    */
   getArgument(arg: string): string | boolean;
+  /**
+   * resolve the options of plugin with default options and options passed through config and options passed through plugin
+   * @param plugin the vta plugin
+   * @param defaultOptions the default options
+   * @param pluginOptions the options passed through plugin
+   * @returns the resolved options
+   */
+  resolvePluginOptions<T extends object = { [key: string]: any }>(
+    plugin: Plugin,
+    defaultOptions?: T,
+    pluginOptions?: T,
+  ): T;
 }
 export declare interface PrepareHelpers {
   /**

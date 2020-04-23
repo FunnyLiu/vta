@@ -7,7 +7,15 @@ import {
   Store,
 } from "@vta/config";
 import { deepMerge } from "@vta/helpers";
-import { App, AppConfig, Hooks, PrepareHelpers, Worker, Plugin, FeatureOptions } from "./interface";
+import {
+  App,
+  AppConfigInternal,
+  Hooks,
+  PrepareHelpers,
+  Worker,
+  Plugin,
+  FeatureOptions,
+} from "./interface";
 import ConfigPlugin from "./ConfigPlugin";
 
 interface VtaAppOptions {
@@ -31,7 +39,7 @@ export default class VtaApp implements App {
 
   public silent: Readonly<boolean>;
 
-  public config: Readonly<Required<AppConfig>>;
+  public config: Readonly<Required<AppConfigInternal>>;
 
   private options: VtaAppOptions;
 
@@ -109,6 +117,15 @@ export default class VtaApp implements App {
     return undefined;
   }
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  public resolvePluginOptions<T extends object = { [key: string]: any }>(
+    plugin: Plugin,
+    defaultOptions?: T,
+    pluginOptions?: T,
+  ): T {
+    return deepMerge<object, T>({}, defaultOptions, this.config.config[plugin.name], pluginOptions);
+  }
+
   private prepareHelpers: Readonly<PrepareHelpers>;
 
   private preparePrepareHelpers() {
@@ -118,6 +135,7 @@ export default class VtaApp implements App {
         silent: this.silent,
         config: this.config,
         getArgument: this.getArgument.bind(this),
+        resolvePluginOptions: this.resolvePluginOptions.bind(this),
       },
       registPlugin: this.registPlugin.bind(this),
       getPlugin: this.getPlugin.bind(this),
@@ -200,7 +218,7 @@ export default class VtaApp implements App {
         new ConfigPlugin(
           { cwd: this.cwd, configFile: this.options.configFile },
           (config) => {
-            this.config = Object.freeze<Required<AppConfig>>(config);
+            this.config = Object.freeze<Required<AppConfigInternal>>(config);
           },
           (dir) => {
             configRegistDir(dir, false, configCategory);

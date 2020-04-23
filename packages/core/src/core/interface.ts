@@ -78,7 +78,9 @@ export interface VtaConfig {
   env?: { [key: string]: VtaConfig };
 }
 
-export declare type AppConfig = Omit<VtaConfig, "presets" | "plugins" | "env">;
+export declare type AppConfig = Pick<VtaConfig, "dirs">;
+
+export declare type AppConfigInternal = Pick<VtaConfig, "dirs" | "config">;
 
 export interface FeatureOptions {
   [key: string]: any;
@@ -94,7 +96,7 @@ export declare interface AppBase {
    */
   silent: boolean;
   /**
-   * app config. Omit<VtaConfig, "plugins" | "env">
+   * app config. Pick<VtaConfig, "dirs">
    */
   config: Readonly<Required<AppConfig>>;
   /**
@@ -102,6 +104,18 @@ export declare interface AppBase {
    * @param arg argument. eg preset for --preset,no-push for --no-push
    */
   getArgument(arg: string): string | boolean;
+  /**
+   * resolve the options of plugin with default options and options passed through config and options passed through plugin
+   * @param plugin the vta plugin
+   * @param defaultOptions the default options
+   * @param pluginOptions the options passed through plugin
+   * @returns the resolved options
+   */
+  resolvePluginOptions<T extends object = { [key: string]: any }>(
+    plugin: Plugin,
+    defaultOptions?: T,
+    pluginOptions?: T,
+  ): T;
 }
 
 export declare interface App extends AppBase {
@@ -183,7 +197,7 @@ export declare interface Hooks {
    * when processed success,app will restart and call in this order:
    *   1. reload plugins
    *   2. plugin.apply
-   *   3. app.config.init
+   *   3. AppConfigInternal.init
    *   4. app.ready
    *   5. app.run
    *   6. optional app.restart
