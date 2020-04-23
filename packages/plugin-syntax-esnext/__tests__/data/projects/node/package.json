@@ -2,7 +2,7 @@
   "name": "plugin-syntax-esnext-test-node",
   "vta": {
     "config": {
-      "@vta/syntax-esnext": {
+      "@vta/plugin-syntax-esnext": {
         "modules": "commonjs"
       }
     },
