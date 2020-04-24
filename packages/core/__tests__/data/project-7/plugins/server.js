@@ -1,6 +1,7 @@
 module.exports = class ServerBuildPlugin {
-  constructor() {
+  constructor(options) {
     this.name = "build-plugin";
+    this.options = options;
   }
 
   apply(app) {

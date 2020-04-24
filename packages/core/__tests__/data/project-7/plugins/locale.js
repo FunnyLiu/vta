@@ -1,10 +1,11 @@
 module.exports = class LocaleBuildPlugin {
-  constructor() {
+  constructor(options) {
     this.name = "build-plugin";
+    this.options = options;
   }
 
   apply(app) {
-    const options = app.resolvePluginOptions(this);
+    const options = app.resolvePluginOptions(this, {}, this.options);
     app.hooks.config.itemBaseStart("app", () => ({
       dirs: app.config.dirs,
     }));

@@ -123,7 +123,7 @@ export default class VtaApp implements App {
     defaultOptions?: T,
     pluginOptions?: T,
   ): T {
-    return deepMerge<object, T>({}, defaultOptions, this.config.config[plugin.name], pluginOptions);
+    return deepMerge<object, T>({}, defaultOptions, pluginOptions, this.config.config[plugin.name]);
   }
 
   #prepareHelpers: Readonly<PrepareHelpers>;

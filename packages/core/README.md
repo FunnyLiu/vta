@@ -96,7 +96,7 @@ there are two methods to pass options to the plugin.
 - [**recommend**] specific the options in `plugins` 's second element.
 - specific the options in `config`, you must named the **plugin's name** as the options key, **NO SHORTHAND SUPPORT**
 
-> the priority of `plugins` is higher than `config`，so if you specific the same option in `plugins` and `config`, then the `plugins` will override `config` option
+> the priority of `config` is higher than `plugins`，so if you specific the same option in `plugins` and `config`, then the `config` will override `plugins` option. for the below config, @vta/syntax-esnext will get `modules` option to be `commonjs`
 
 ```json
 {
