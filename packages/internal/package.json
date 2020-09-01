@@ -27,7 +27,7 @@
     "@babel/core": "^7.8.0",
     "@babel/plugin-proposal-class-properties": "^7.8.0",
     "@babel/plugin-transform-runtime": "^7.8.0",
-    "@babel/preset-env": "^7.8.0"
+    "@babel/preset-env": "^7.11.5"
   },
   "private": true
 }
