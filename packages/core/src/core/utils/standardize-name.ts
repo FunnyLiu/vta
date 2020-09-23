@@ -8,7 +8,7 @@ const VTA_PRESET_ORG_RE = /^(@vta\/)(?!preset-|[^/]+\/)/;
 const OTHER_PLUGIN_ORG_RE = /^(@(?!vta\/)[^/]+\/)(?![^/]*vta-plugin(?:-|\/|$)|[^/]+\/)/;
 const OTHER_PRESET_ORG_RE = /^(@(?!vta\/)[^/]+\/)(?![^/]*vta-preset(?:-|\/|$)|[^/]+\/)/;
 const OTHER_ORG_DEFAULT_RE = /^(@(?!vta$)[^/]+)$/;
-
+// 按照规约找到插件和预设的名称
 export default function standardizeName(type: "plugin" | "preset", name): string {
   if (path.isAbsolute(name) || name[0] === ".") return name;
   const isPreset = type === "preset";

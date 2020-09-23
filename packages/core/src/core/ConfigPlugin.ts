@@ -12,6 +12,7 @@ export default class ConfigPlugin extends Plugin {
     needRestartHook: AsyncSeriesHook<[]>,
   ) {
     super("@vta/core/config");
+    // 取得配置
     const { plugins, configFile: targetConfigFile, ...config } = resolveConfig(cwd, configFile);
     registConfig(config);
     this.#plugins = plugins;

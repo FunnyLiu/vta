@@ -36,7 +36,7 @@ function resolvePlugins(plugins: Array<Plugin | [string, object?]>, cwd: string)
   }
   return resolvedPlugins;
 }
-
+// 获取预设中的插件
 function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[] {
   const resolvedPlugins: Plugin[] = [];
   if (presets) {
@@ -45,6 +45,7 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
       let LoadedPreset: Preset;
       let nextCwd = "";
       try {
+        // 找到文件
         const file = require.resolve(standardizeName("preset", name), { paths: [cwd] });
         nextCwd = path.resolve(file, "../");
         LoadedPreset = loadModuleSync<Preset>(file);
@@ -64,7 +65,7 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
   }
   return resolvedPlugins;
 }
-
+// 获取配置
 export default function resolveConfig(
   cwd: string,
   configFile?: string,
@@ -99,7 +100,7 @@ export default function resolveConfig(
     throw new Error("cannot load vta config file");
   }
   config = getConfigThroughEnv(config);
-
+  // 获取预设
   resolvePresets(config.presets, cwd).forEach((plugin) => {
     plugins.push(plugin);
   });

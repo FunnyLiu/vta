@@ -9,6 +9,7 @@ import fileExistsSync from "../file-exists-sync";
  * @param file A path to a file or directory
  * @param def default value when file not exists
  */
+// 加载模块
 export default function loadModuleSync<T>(file: string, def?: T): T {
   const exists = fileExistsSync(file);
   if (!exists) return def;
