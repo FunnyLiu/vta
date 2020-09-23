@@ -18,7 +18,9 @@ export default class TypescriptPlugin extends Plugin {
   /* eslint-disable class-methods-use-this */
   prepare(helpers: PrepareHelpers) {
     helpers.registFeature("typescript");
+    // A插件套用B插件
     helpers.registPlugin(
+      // TscPlugin也是一个插件
       new TscPlugin({
         project: this.#options.project,
         exclude: this.#options.exclude,

@@ -26,7 +26,7 @@ export default class ForcePublishPlugin extends Plugin {
   }
 
   #options: ForcePublishOptions;
-
+  // 注册子插件
   apply(app: App) {
     app.hooks.run.tapPromise(this.name, () => {
       const args = ["publish", "--access", "public"];

@@ -10,7 +10,7 @@ import { Config, Store } from "@vta/config";
 export declare interface Plugin {
   (options?: object): void;
 }
-
+// 插件基类
 export class Plugin {
   constructor(name: string) {
     this.name = name;

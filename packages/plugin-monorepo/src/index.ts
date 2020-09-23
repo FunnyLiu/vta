@@ -43,6 +43,7 @@ export default class MonorepoPlugin extends Plugin {
           path.resolve(helpers.app.cwd, this.#options.packages || "packages"),
         ).map(({ pkg }) => pkg);
       }
+      // 注册两个子插件
       helpers.registPlugin(
         new ForcePublishPlugin({
           pkgs: forcePublishPkgs.map((pkg) =>
@@ -66,17 +67,22 @@ export default class MonorepoPlugin extends Plugin {
 
   apply(app: App) {
     let packages: Pkg[];
+    //run生命周期做一些事情
     app.hooks.run.tapPromise(`${this.name}-resolve-packages`, () => {
       packages = resolvePackages(path.resolve(app.cwd, this.#options.packages || "packages"));
       return Promise.resolve();
     });
     let wipeCopiedFiles;
+    //run生命周期做一些事情
+
     app.hooks.run.tapPromise(`${this.name}-copy-files`, () => {
       const { filesToCopy = [] } = this.#options;
       return copyFiles(packages, filesToCopy, app.cwd).then((store) => {
         wipeCopiedFiles = store.wipe;
       });
     });
+    //run生命周期做一些事情
+
     app.hooks.run.tapPromise(`${this.name}-build`, () => {
       const buildOptions = new Map<
         string,
@@ -108,9 +114,13 @@ export default class MonorepoPlugin extends Plugin {
         app.silent,
       );
     });
+    //restart生命周期做一些事情
+    
     app.hooks.restart.tapPromise(`${this.name}-wipe-copied-files`, () => {
       return wipeCopiedFiles();
     });
+    //restart生命周期做一些事情
+
     app.hooks.exit.tapPromise(`${this.name}-wipe-copied-files`, () => {
       return wipeCopiedFiles();
     });

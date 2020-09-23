@@ -22,6 +22,7 @@ const pluginMap = new Map<App, FsWatcherToRestartPlugin>();
 
 export default class FsWatcherToRestartPlugin extends Plugin {
   constructor(checkors: Array<Promise<void>>) {
+    // 插件名称
     super("@vta/core/restart-file-watchor");
     this.#checkors = checkors;
     checkors.push(new Promise(() => undefined));
@@ -61,7 +62,7 @@ export default class FsWatcherToRestartPlugin extends Plugin {
         });
       }),
     );
-
+    //在生命周期的某些阶段，做一些事情
     app.hooks.restart.tapPromise(this.name, () => {
       return watcher.close();
     });
@@ -70,7 +71,7 @@ export default class FsWatcherToRestartPlugin extends Plugin {
       return watcher.close();
     });
   };
-
+  // 提供apply方法
   apply(app: App) {
     if (process.env.NODE_ENV === "development") {
       pluginMap.set(app, this);

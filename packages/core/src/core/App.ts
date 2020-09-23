@@ -48,7 +48,7 @@ export default class VtaApp implements App {
   #pluginsAfter: Map<string, Plugin[]>;
 
   #registedPluginStack: string[];
-
+  // 注册插件，改方法同样被传入helper中，用于插件来注册插件
   #registPlugin = (plugin: Plugin, after?: boolean): void => {
     if (after) {
       this.#pluginsAfter
@@ -59,9 +59,11 @@ export default class VtaApp implements App {
     if (plugin && !this.#getPlugin(plugin.name)) {
       this.#pluginsAfter.set(plugin.name, []);
       this.#registedPluginStack.push(plugin.name);
+      // 注册插件时调用prepare
       if (typeof plugin.prepare === "function") {
         plugin.prepare(this.#prepareHelpers);
       }
+      // 推入插件到this.#plugins中
       this.#plugins.push(plugin);
       this.#registedPluginStack.pop();
       this.#pluginsAfter.get(plugin.name).forEach((p) => {
@@ -127,7 +129,7 @@ export default class VtaApp implements App {
   }
 
   #prepareHelpers: Readonly<PrepareHelpers>;
-
+  //初始化helper，冻结
   #preparePrepareHelpers = () => {
     this.#prepareHelpers = Object.freeze<PrepareHelpers>({
       app: {
@@ -156,6 +158,7 @@ export default class VtaApp implements App {
       configInit,
       needRestart: new AsyncSeriesHook<[]>(),
     };
+    // 定义生命周期
     this.hooks = Object.freeze<Hooks>({
       config: {
         init(cb: (registDir: (dir: string) => void) => void): void {
@@ -204,7 +207,9 @@ export default class VtaApp implements App {
     this.#pluginsAfter = new Map<string, Plugin[]>();
     this.#registedPluginStack = [];
     this.#features = new Map<string, FeatureOptions>();
+    // 初始化不可变的helper
     this.#preparePrepareHelpers();
+    // 初始化生命周期
     this.#prepareHooks(configCategory);
     this.#prepareWorker(configCategory);
   };
@@ -212,8 +217,9 @@ export default class VtaApp implements App {
   public run(cb: (err: Error, resolveConfig?: <T = Config>(key: string) => T) => void) {
     try {
       const configCategory = `vta-${(idx += 1)}`;
+      //进行一些列初始化操作
       this.#prepare(configCategory);
-
+      // 注册插件
       this.#registPlugin(
         new ConfigPlugin(
           { cwd: this.cwd, configFile: this.#options.configFile },
@@ -226,18 +232,21 @@ export default class VtaApp implements App {
           this.#privateHooks.needRestart,
         ),
       );
+      //运用插件
       this.#plugins.forEach((plugin) => {
         plugin.apply(this);
       });
-
+      // 调用configInit生命周期
       this.#privateHooks.configInit.call();
 
       const worker = this.#worker;
+      // 调用ready生命周期
       this.hooks.ready.call(worker);
       if (this.#options.dontRun) {
         cb(undefined, worker.resolveConfig);
       } else {
         Promise.race([
+          // 调用run生命周期
           this.hooks.run.promise(worker).then(() => "run"),
           this.#privateHooks.needRestart.promise().then(() => "restart"),
         ])
@@ -247,7 +256,9 @@ export default class VtaApp implements App {
                 this.run(cb);
               });
             }
+            // 调用done生命周期
             return this.hooks.done.promise(worker).then(() => {
+              //调用exit生命周期
               this.hooks.exit
                 .promise(undefined)
                 .then(
