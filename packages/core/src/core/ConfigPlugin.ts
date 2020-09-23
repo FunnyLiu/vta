@@ -3,7 +3,7 @@ import path from "path";
 import { Plugin, App, AppConfigInternal, PrepareHelpers } from "./interface";
 import resolveConfig from "./utils/resolve-config";
 import FsWatcherToRestartPlugin from "../plugins/fs-watcher-to-restart-plugin";
-
+// 定义一个插件，专门管理配置
 export default class ConfigPlugin extends Plugin {
   constructor(
     { cwd, configFile }: { cwd: string; configFile?: string },
@@ -13,9 +13,11 @@ export default class ConfigPlugin extends Plugin {
   ) {
     super("@vta/core/config");
     // 取得配置
+    // resolveConfig很关键，用来在配置文件只读取配置
     const { plugins, configFile: targetConfigFile, ...config } = resolveConfig(cwd, configFile);
     registConfig(config);
     this.#plugins = plugins;
+    // cli传入的--config配置文件
     this.#configFile = targetConfigFile;
     this.#configDir = path.resolve(cwd, config.dirs.config);
     registConfigDir(this.#configDir);
@@ -44,6 +46,7 @@ export default class ConfigPlugin extends Plugin {
 
   /* eslint-disable class-methods-use-this */
   apply(app: App) {
+    // 监听配置文件的变化
     FsWatcherToRestartPlugin.watchDirectory(this.#configDir, app);
     FsWatcherToRestartPlugin.watchFile(this.#configFile, app);
   }

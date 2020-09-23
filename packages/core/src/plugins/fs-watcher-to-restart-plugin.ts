@@ -63,6 +63,7 @@ export default class FsWatcherToRestartPlugin extends Plugin {
       }),
     );
     //在生命周期的某些阶段，做一些事情
+    // 关闭的时候，记得对应的监听回收掉
     app.hooks.restart.tapPromise(this.name, () => {
       return watcher.close();
     });

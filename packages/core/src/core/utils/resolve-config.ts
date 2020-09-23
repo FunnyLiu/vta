@@ -47,6 +47,7 @@ function resolvePresets(presets: Array<[string, object?]>, cwd: string): Plugin[
       try {
         // 找到文件
         const file = require.resolve(standardizeName("preset", name), { paths: [cwd] });
+        // 一层层递归往上找
         nextCwd = path.resolve(file, "../");
         LoadedPreset = loadModuleSync<Preset>(file);
       } catch {} // eslint-disable-line
@@ -90,9 +91,11 @@ export default function resolveConfig(
       }
     }
   }
+  //如果没有配置文件
   if (!config) {
     const file = path.resolve(cwd, "package.json");
     const packageJson = loadModuleSync<{ vta?: VtaConfig }>(file, {});
+    //从package.json中拿
     config = packageJson.vta;
     targetConfigFile = file;
   }

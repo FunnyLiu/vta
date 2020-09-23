@@ -220,6 +220,7 @@ export default class VtaApp implements App {
       //进行一些列初始化操作
       this.#prepare(configCategory);
       // 注册插件
+      // 注册专门用来管理配置的配置插件
       this.#registPlugin(
         new ConfigPlugin(
           { cwd: this.cwd, configFile: this.#options.configFile },
